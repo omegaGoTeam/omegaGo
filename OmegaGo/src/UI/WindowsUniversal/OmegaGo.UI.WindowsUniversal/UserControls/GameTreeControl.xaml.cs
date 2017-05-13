@@ -38,7 +38,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         private static readonly Color HighlightNodeColor = Colors.Tomato;
         private static readonly Color LineColor = Colors.Gray;
         
-        private int _GameTreeDepth;
+        private int _gameTreeVerticalSize;
 
         private Dictionary<string, CanvasTextLayout> _textLayoutCache;
         private CanvasTextFormat _textFormat;
@@ -138,9 +138,10 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 GameTreeControl.PointerEntered += GameTreeControl.GameTreeControl_PointerEntered;
                 GameTreeControl.PointerExited += GameTreeControl.GameTreeControl_PointerExited;
                 GameTreeControl.PointerWheelChanged += GameTreeControl.GameTreeControl_PointerWheelChanged;
-                // Arrows
-                GameTreeControl.PointerReleased += GameTreeControl.GameTreeControl_FocusHack;
-                GameTreeControl.KeyUp += GameTreeControl.GameTreeControl_KeyUp;
+
+                // Arrows handling
+                // This control has public methods to navigate using arrow keys.
+                // These methods are being called by owning view.
 
                 // Drawing
                 GameTreeControl.canvas.Draw += GameTreeControl.Canvas_Draw;
@@ -154,6 +155,46 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 GameTreeControl.canvas.Invalidate();
             }
         }
+
+        //////
+        // Public methods for manipulating selected node
+        //////
+
+        /// <summary>
+        /// Switches selected node in the game tree to the node at the same move index in previous branch.
+        /// </summary>
+        public void GoToPreviousLevelNode()
+        {
+            SwitchToPreviousLevelNode();
+        }
+
+        /// <summary>
+        /// Switches selected node in the game tree to the node at the same move index in next branch.
+        /// </summary>
+        public void GoToNextLevelNode()
+        {
+            SwitchToNextLevelNode();
+        }
+
+        /// <summary>
+        /// Switches selected node in the game tree to the first child node of the current node.
+        /// </summary>
+        public void GoToFirstChildNode()
+        {
+            SwitchToFirstChildNode();
+        }
+
+        /// <summary>
+        /// Switches selected node in the game tree to the parent node of the current node.
+        /// </summary>
+        public void GoToParentNode()
+        {
+            SwitchToParentNode();
+        }
+
+        //////
+        // handlers
+        //////
 
         private void GameTreeControl_PointerExited(object sender, PointerRoutedEventArgs e)
         {
@@ -355,7 +396,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             WalkGameTree(node, 0, ref resultVerticalOffset, 0, 
                 (currentNode, horizontalOffset, verticalOffset, parentVerticalOffset) => 
                 {
-                    _GameTreeDepth = Math.Max(_GameTreeDepth, horizontalOffset);
+                    _gameTreeVerticalSize = Math.Max(_gameTreeVerticalSize, horizontalOffset);
                     return GameTreeNodeCallbackResultBehavior.Continue;
                 });
 
@@ -402,38 +443,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         //////
         // Keyboard arrows handling
         //////
-
-        private void GameTreeControl_FocusHack(object sender, PointerRoutedEventArgs e)
-        {
-            // Hack around UWP XAML Focus WTFiness
-            Task.Run(
-                async () =>
-                {
-                    await Task.Delay(100);
-                    var task = this.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () => this.Focus(FocusState.Programmatic));
-                });
-        }
-
-        private void GameTreeControl_KeyUp(object sender, KeyRoutedEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case VirtualKey.Left:
-                    SwitchToParentNode();
-                    break;
-                case VirtualKey.Right:
-                    SwitchToFirstChildNode();
-                    break;
-                case VirtualKey.Up:
-                    SwitchToPreviousMoveNumberNode();
-                    break;
-                case VirtualKey.Down:
-                    SwitchToNextMoveNumberNode();
-                    break;
-            }
-        }
         
-        private void SwitchToPreviousMoveNumberNode()
+        private void SwitchToPreviousLevelNode()
         {
             GameTreeNode node = ViewModel.SelectedGameTreeNode;
             GameTreeNode nodeParent = ViewModel.SelectedGameTreeNode.Parent;
@@ -447,7 +458,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 // Search previous siblings
                 for (int i = nodeBranchIndex - 1; i >= 0; i--)
                 {
-                    GameTreeNode searchNode = SwitchToPreviousMoveNumberNodeDFS(nodeParent.Branches[i], searchMoveNumber, targetMoveNumber);
+                    GameTreeNode searchNode = SwitchToPreviousLevelNodeDFS(nodeParent.Branches[i], searchMoveNumber, targetMoveNumber);
 
                     if(searchNode != null)
                     {
@@ -462,7 +473,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             }
         }
 
-        private GameTreeNode SwitchToPreviousMoveNumberNodeDFS(GameTreeNode node, int currentMoveIndex, int targetMoveIndex)
+        private GameTreeNode SwitchToPreviousLevelNodeDFS(GameTreeNode node, int currentMoveIndex, int targetMoveIndex)
         {
             if (currentMoveIndex == targetMoveIndex)
                 return node;
@@ -471,7 +482,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
             for (int i = nodeChildrenCount - 1; i >= 0; i--)
             {
-                GameTreeNode searchNode = SwitchToPreviousMoveNumberNodeDFS(node.Branches[i], currentMoveIndex + 1, targetMoveIndex);
+                GameTreeNode searchNode = SwitchToPreviousLevelNodeDFS(node.Branches[i], currentMoveIndex + 1, targetMoveIndex);
 
                 if (searchNode != null)
                     return searchNode;
@@ -480,7 +491,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             return null;
         }
 
-        private void SwitchToNextMoveNumberNode()
+        private void SwitchToNextLevelNode()
         {
             GameTreeNode node = ViewModel.SelectedGameTreeNode;
             GameTreeNode nodeParent = ViewModel.SelectedGameTreeNode.Parent;
@@ -494,7 +505,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 // Search previous siblings
                 for (int i = nodeBranchIndex + 1; i < nodeParent.Branches.Count; i++)
                 {
-                    GameTreeNode searchNode = SwitchToNextMoveNumberNodeDFS(nodeParent.Branches[i], searchMoveNumber, targetMoveNumber);
+                    GameTreeNode searchNode = SwitchToNextLevelNodeDFS(nodeParent.Branches[i], searchMoveNumber, targetMoveNumber);
 
                     if (searchNode != null)
                     {
@@ -509,7 +520,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             }
         }
 
-        private GameTreeNode SwitchToNextMoveNumberNodeDFS(GameTreeNode node, int currentMoveIndex, int targetMoveIndex)
+        private GameTreeNode SwitchToNextLevelNodeDFS(GameTreeNode node, int currentMoveIndex, int targetMoveIndex)
         {
             if (currentMoveIndex == targetMoveIndex)
                 return node;
@@ -518,7 +529,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
             for (int i = 0; i < nodeChildrenCount; i++)
             {
-                GameTreeNode searchNode = SwitchToNextMoveNumberNodeDFS(node.Branches[i], currentMoveIndex + 1, targetMoveIndex);
+                GameTreeNode searchNode = SwitchToNextLevelNodeDFS(node.Branches[i], currentMoveIndex + 1, targetMoveIndex);
 
                 if (searchNode != null)
                     return searchNode;
@@ -562,8 +573,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                             (requiredHeight - 1) * NODESPACING +
                             2 * NODEHIGHLIGHTSTROKE;        // Add node elliptical stroke for top and bottom
 
-            double width = (_GameTreeDepth + 1) * NODESIZE +
-                            (_GameTreeDepth + 1) * NODESPACING +
+            double width = (_gameTreeVerticalSize + 1) * NODESIZE +
+                            (_gameTreeVerticalSize + 1) * NODESPACING +
                             2 * NODEHIGHLIGHTSTROKE;        // Add node elliptical stroke for left and right
 
             GameTreeHeight = height - canvas.ActualHeight;  // Subtract from the entire required height what we can display
@@ -664,7 +675,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                             verticalDiff = GameTreeVerticalOffset;
                         else if (verticalDiff > GameTreeVerticalOffset)
                             // We are located on the right side of Viewport
-                            verticalDiff = GameTreeVerticalOffset + (verticalDiff - GameTreeVerticalOffset - canvas.ActualHeight + (NODESIZE + NODESPACING + NODEHIGHLIGHTSTROKE));
+                            verticalDiff = GameTreeVerticalOffset + (verticalDiff - GameTreeVerticalOffset - canvas.ActualHeight + NODECOMBINEDSIZE);
 
                         // Make sure we are not behing bounds (could happen when branch get deleted)
                         SetScrollOffset(

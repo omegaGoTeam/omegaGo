@@ -36,6 +36,9 @@ namespace OmegaGo.Core.Online.Kgs
 #pragma warning disable CS0067 // KGS does not have a command for declining undos. To decline an undo, you're supposed to just ignore it.
         public event EventHandler<GameInfo> UndoDeclined;
 #pragma warning restore CS0067
+        public event Action SomethingChanged;
+        public event Action<KgsChannel> ChannelJoined;
+        public event Action<KgsChannel> ChannelUnjoined;
 
         internal void RaiseChallengeJoined(KgsChallenge createdChallenge)
         {
@@ -98,6 +101,20 @@ namespace OmegaGo.Core.Online.Kgs
         internal void RaiseUndoRequestReceived(KgsGame kgsGame)
         {
             UndoRequestReceived?.Invoke(this, kgsGame.Info);
+        }
+
+        internal void RaiseSomethingChanged()
+        {
+            SomethingChanged?.Invoke();
+        }
+
+        internal void RaiseChannelJoined(KgsChannel channel)
+        {
+            ChannelJoined?.Invoke(channel);
+        }
+        internal void RaiseChannelUnjoined(KgsChannel channel)
+        {
+            ChannelUnjoined?.Invoke(channel);
         }
     }
 }

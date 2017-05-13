@@ -171,7 +171,7 @@
                                     Margin="10">
                             <controls:AnalyzeControl  x:Name="analyzeControl"
                                                       ViewModel="{x:Bind VM.AnalyzeViewModel}" />
-                            <controls:GameTreeControl x:Name="timelineControl"
+                            <controls:GameTreeControl x:Name="gameTreeControl"
                                                       HorizontalAlignment="Stretch"
                                                       Height="200"
                                                       ViewModel="{x:Bind VM.GameTreeViewModel}" />

@@ -17,6 +17,8 @@ using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Quests;
 using OmegaGo.Core.AI;
 using System.Threading.Tasks;
+using OmegaGo.UI.Localization;
+
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -46,7 +48,8 @@ namespace OmegaGo.UI.ViewModels
             : base (gameSettings, questsManager, dialogService)
         {
             Game.Controller.MoveUndone += Controller_MoveUndone;
-            
+
+            TimelineChanged += (s, e) => UpdateCanPassAndUndo();
 
             // AI Assistant Service 
             _assistant = new Assistant(gameSettings, UiConnector, Game.Controller, Game.Info);
@@ -170,6 +173,9 @@ namespace OmegaGo.UI.ViewModels
             }
 
             // Otherwise do a normal move
+            if (IsTimelineInPast)
+                return;
+
             if (Game?.Controller.Phase.Type == GamePhaseType.LifeDeathDetermination)
             {
                 UiConnector.RequestLifeDeathKillGroup(position);
@@ -233,6 +239,13 @@ namespace OmegaGo.UI.ViewModels
 
         protected void UpdateCanPassAndUndo()
         {
+            if(IsTimelineInPast)
+            {
+                CanUndo = false;
+                CanPass = false;
+                return;
+            }
+
             CanPass = (this.Game?.Controller?.TurnPlayer?.IsHuman ?? false) ? true : false;
             // TODO Petr this allows to undo before the beginning of the game and causes exception
             if (this.Game?.Controller?.GameTree == null)
@@ -328,18 +341,18 @@ namespace OmegaGo.UI.ViewModels
                 switch (hint.Kind)
                 {
                     case AgentDecisionKind.Resign:
-                        title = "You should resign.";
-                        content = "The assistant recommends you to resign.\n\nExplanation: " + hint.Explanation;
+                        title = LocalizedStrings.YouShouldResign;
+                        content = LocalizedStrings.ResignExplanation.Replace("\\n", Environment.NewLine) + " " + hint.Explanation;
                         break;
                     case AgentDecisionKind.Move:
                         title = hint.Move.ToString();
                         if (hint.Move.Kind == MoveKind.Pass)
                         {
-                            content = "You should pass.\n\nExplanation: " + hint.Explanation;
+                            content = LocalizedStrings.YouShouldPassExplanation.Replace("\\n", Environment.NewLine) + " " + hint.Explanation;
                         }
                         else
                         {
-                            content = "You should place a stone at " + hint.Move.Coordinates + ".\n\nExplanation: " +
+                            content = String.Format(LocalizedStrings.YouShouldPlayExplanation.Replace("\\n", Environment.NewLine), hint.Move.Coordinates) + " " +
                                       hint.Explanation;
                         }
                         break;
@@ -347,8 +360,8 @@ namespace OmegaGo.UI.ViewModels
             }
             else
             {
-                title = "Hint unavailable";
-                content = "Hint cannot be given because Fuego is occupied elsewhere.";
+                title = LocalizedStrings.HintUnavailable;
+                content = LocalizedStrings.HintUnavailableExplanation;
             }
             await DialogService.ShowAsync(content, title);
             

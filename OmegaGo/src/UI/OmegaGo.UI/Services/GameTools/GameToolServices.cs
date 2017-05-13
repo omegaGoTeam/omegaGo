@@ -1,11 +1,17 @@
 ﻿using System;
 using OmegaGo.Core.Game.Tools;
 using OmegaGo.Core.Rules;
+using OmegaGo.Core.Game;
+using OmegaGo.UI.Services.Dialogs;
+using System.Threading.Tasks;
+using OmegaGo.UI.Services.Localization;
 
-namespace OmegaGo.Core.Game
+namespace OmegaGo.UI.Services.GameTools
 {
     public sealed class GameToolServices : IToolServices
     {
+        private readonly Localizer _localizer;
+        private readonly IDialogService _dialogService;
         private readonly IRuleset _ruleset;
         private readonly GameTree _gameTree;
 
@@ -17,10 +23,13 @@ namespace OmegaGo.Core.Game
         /// </summary>
         /// <param name="ruleset">a ruleset that should be used for providing ruleset services</param>
         /// <param name="gameTree">a game tree representing the current game</param>
-        public GameToolServices(IRuleset ruleset, GameTree gameTree)
+        public GameToolServices(Localizer localizer, IDialogService dialogService, IRuleset ruleset, GameTree gameTree)
         {
+            _localizer = localizer;
+            _dialogService = dialogService;
+
             if (ruleset == null)
-                ruleset = Rules.Ruleset.Create(RulesetType.Chinese, gameTree.BoardSize);
+                ruleset = OmegaGo.Core.Rules.Ruleset.Create(RulesetType.Chinese, gameTree.BoardSize);
 
             _ruleset = ruleset;
             _gameTree = gameTree;
@@ -106,6 +115,21 @@ namespace OmegaGo.Core.Game
             {
                 StonePlacementShouldBePlayed?.Invoke(this, EventArgs.Empty);
             }
+        }
+
+        public async Task<ToolConfirmationResult> ShowMessage(ToolMessage message)
+        {
+            switch(message)
+            {
+                case ToolMessage.BranchDeletionConfirmation:
+                    bool result = await _dialogService.ShowConfirmationDialogAsync(_localizer.BranchDeletionConfirmationText, _localizer.BranchDeletionConfirmationTitle, _localizer.Delete, _localizer.No);
+                    return result ? ToolConfirmationResult.Ok : ToolConfirmationResult.Cancel;
+                case ToolMessage.BranchDeletionError:
+                    var task = _dialogService.ShowAsync(_localizer.BranchDeletionErrorText, _localizer.BranchDeletionErrorTitle);
+                    return ToolConfirmationResult.Ok;
+            }
+
+            return ToolConfirmationResult.Ok;
         }
     }
 }

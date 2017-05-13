@@ -38,7 +38,8 @@ namespace OmegaGo.Core.Online.Kgs
     /// <seealso cref="OmegaGo.Core.Online.Common.IServerConnection" />
     public class KgsConnection : IServerConnection
     {
-        private const string Uri = "https://metakgs.org/api/access";
+        private const string Uri = "https://gokgs.com/json/access";
+        private const string SecondaryUri = "https://metakgs.org/api/access";
         private string _username;
         private bool _getLoopRunning;
         private readonly HttpClient _httpClient;
@@ -198,6 +199,7 @@ namespace OmegaGo.Core.Online.Kgs
             }
             Events.RaiseLoginPhaseChanged(KgsLoginPhase.MakingLoginRequest);
             Debug.WriteLine("Making login request");
+          
             if (!await MakeUnattendedRequestAsync("LOGIN", new
             {
                 Name = name,
@@ -205,6 +207,15 @@ namespace OmegaGo.Core.Online.Kgs
                 Locale = "en_US"
             }))
             {
+                LoggingIn = false;
+                Events.RaiseLoginComplete(LoginResult.FailureBadConnection);
+            }
+            if (!await MakeUnattendedRequestAsync("SYNC_REQUEST", new
+            {
+                CallbackKey = 7
+            }))
+            {
+
                 LoggingIn = false;
                 Events.RaiseLoginComplete(LoginResult.FailureBadConnection);
             }
@@ -216,7 +227,6 @@ namespace OmegaGo.Core.Online.Kgs
             {
                 var jsonContent = new StringContent(jsonContents,
                 Encoding.UTF8, "application/json");
-                Debug.WriteLine("Posting...");
                 var result = await _httpClient.PostAsync(Uri, jsonContent);
                 Debug.WriteLine("Post result content: " + await result.Content.ReadAsStringAsync());
                 if (!result.IsSuccessStatusCode)
@@ -248,6 +258,7 @@ namespace OmegaGo.Core.Online.Kgs
             jo.Add("type", type.ToUpper());
             string contents = jo.ToString();
             Events.RaiseOutgoingRequest(contents);
+            Debug.WriteLine("Post: " + type);
             PostRequestResult postResult = await SendPostRequest(contents);
             return postResult.Successful;
         }

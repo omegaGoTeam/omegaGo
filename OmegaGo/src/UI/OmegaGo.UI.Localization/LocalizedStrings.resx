@@ -1514,14 +1514,134 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="KgsConnectionFailure" xml:space="preserve">
     <value>Connection failure. Check your internet connection and try again.</value>
   </data>
+  <data name="AGameWithFuegoAlreadyOpen" xml:space="preserve">
+    <value>A game with Fuego is already open.</value>
+  </data>
+  <data name="ChallengeIsBeingCreated" xml:space="preserve">
+    <value>Requesting challenge creation...</value>
+  </data>
+  <data name="ChallengeToXSent" xml:space="preserve">
+    <value>Challenge to {0} sent.</value>
+  </data>
+  <data name="HintUnavailable" xml:space="preserve">
+    <value>Hint unavailable</value>
+  </data>
+  <data name="HintUnavailableExplanation" xml:space="preserve">
+    <value>Hint cannot be given because Fuego is occupied elsewhere.</value>
+  </data>
+  <data name="HyphenOutgoingChallenge" xml:space="preserve">
+    <value>- outgoing challenge</value>
+  </data>
+  <data name="KGSAlert" xml:space="preserve">
+    <value>KGS Message</value>
+  </data>
+  <data name="KGSChannelAlreadyJoined" xml:space="preserve">
+    <value>You are already in that game or challenge.</value>
+  </data>
+  <data name="KGSReconnect" xml:space="preserve">
+    <value>You have just logged in elsewhere.</value>
+  </data>
+  <data name="KGSTechnicalMessage" xml:space="preserve">
+    <value>KGS Technical Message</value>
+  </data>
+  <data name="KGSYouCantPlayTwice" xml:space="preserve">
+    <value>You cannot play two KGS games at a time.</value>
+  </data>
+  <data name="PandanetError" xml:space="preserve">
+    <value>Pandanet Error</value>
+  </data>
+  <data name="ResignExplanation" xml:space="preserve">
+    <value>The assistant recommends you to resign.\n\nExplanation:</value>
+    <comment>translate as The assistant recommends you to resign.\n\nExplanation (in English):</comment>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>System</value>
+    <comment>The source of informational chat messages.</comment>
+  </data>
+  <data name="XDeclinedYourMatchRequest" xml:space="preserve">
+    <value>{0} declined your match request.</value>
+  </data>
+  <data name="XIsSatisfiedWithTheRemovedStones" xml:space="preserve">
+    <value>{0} is satisfied with the removed stones.</value>
+  </data>
+  <data name="YouAreObservingAProfessionalGame" xml:space="preserve">
+    <value>You are observing a professional game.</value>
+  </data>
+  <data name="YouAreWatchingAProfessionalGameTitledX" xml:space="preserve">
+    <value>You are watching a named professional game. This is the game title:\n\n{0}</value>
+  </data>
+  <data name="YouShouldPassExplanation" xml:space="preserve">
+    <value>You should pass.\n\nExplanation:</value>
+  </data>
+  <data name="YouShouldPlayExplanation" xml:space="preserve">
+    <value>You should place a stone at {0}.\n\nExplanation:</value>
+    <comment>{0} is coordinates, such as "B2".</comment>
+  </data>
+  <data name="YouShouldResign" xml:space="preserve">
+    <value>You should resign.</value>
+  </data>
   <data name="Validation_BoardTooExtreme" xml:space="preserve">
-    <value>Please choose a board size 100x100 or smaller. Your computer might not handle a larger board.</value>
+    <value>Please choose a board size of 52x52 or smaller.</value>
   </data>
   <data name="Validation_ExcessiveTimeError" xml:space="preserve">
     <value>A field ('{0}') has a value greater than 10000. Please choose a smaller value. </value>
   </data>
   <data name="Validation_KomiTooExtreme" xml:space="preserve">
     <value>Please choose komi between -500 and 500.</value>
+  </data>
+  <data name="CheckboxPublicGame" xml:space="preserve">
+    <value>Show in list of all games</value>
+  </data>
+  <data name="CheckboxRankedGame" xml:space="preserve">
+    <value>This game is ranked</value>
+  </data>
+  <data name="BranchDeletionConfirmationText" xml:space="preserve">
+    <value>Are you sure that you want to delete the selected branch?</value>
+  </data>
+  <data name="BranchDeletionConfirmationTitle" xml:space="preserve">
+    <value>Delete branch</value>
+  </data>
+  <data name="BranchDeletionErrorText" xml:space="preserve">
+    <value>Selected branch cannot be deleted because its part of the primary timeline.</value>
+  </data>
+  <data name="BranchDeletionErrorTitle" xml:space="preserve">
+    <value>Delete branch</value>
+  </data>
+  <data name="Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="GameTree" xml:space="preserve">
+    <value>Game tree</value>
+  </data>
+  <data name="Add1Minute" xml:space="preserve">
+    <value>Add 1 minute</value>
+  </data>
+  <data name="Add1MinuteTooltip" xml:space="preserve">
+    <value>Adds 1 minute to your opponent's clock</value>
+  </data>
+  <data name="Add5Minutes" xml:space="preserve">
+    <value>Add 5 minutes</value>
+  </data>
+  <data name="Add5MinutesTooltip" xml:space="preserve">
+    <value>Adds 5 minutes to your opponent's clock</value>
+  </data>
+  <data name="CantPlayRanked" xml:space="preserve">
+    <value>The game cannot be ranked. It will be created as a non-ranked game.</value>
+  </data>
+  <data name="Validation_ImproperHandicapForSize" xml:space="preserve">
+    <value>Handicap is supported only for 9x9, 13x13 and 19x19.</value>
+  </data>
+  <data name="AgreeWithUndo" xml:space="preserve">
+    <value>Allow undo</value>
+  </data>
+  <data name="DisagreeWithUndo" xml:space="preserve">
+    <value>Refuse undo</value>
+  </data>
+  <data name="YouHaveRequestedAnUndo" xml:space="preserve">
+    <value>You have requested an undo.</value>
+  </data>
+  <data name="YourOppRequestedAnUndo" xml:space="preserve">
+    <value>Your opponent requested his or her last move to be undone.</value>
   </data>
   <data name="ImportSgfFile" xml:space="preserve">
     <value>Import SGF file</value>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.LiveGame.Phases.Main;
 using OmegaGo.Core.Modes.LiveGame.Connectors;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Kgs;
@@ -91,10 +92,8 @@ namespace OmegaGo.Core.LiveGame.Connectors.Kgs
 
         public void CauseUndo(int howManyUndos)
         {
-            for (int i = 0; i < howManyUndos; i++)
-            {
-                MainUndoForced?.Invoke(this, EventArgs.Empty);
-            }
+            (_gameController.Phase as KgsMainPhase)?.Undo(howManyUndos);
+            
         }
     }
 }

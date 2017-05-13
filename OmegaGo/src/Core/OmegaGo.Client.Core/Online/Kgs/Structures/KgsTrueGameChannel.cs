@@ -17,7 +17,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
     {
         private KgsGameInfo _gameInfo;
 
-        private KgsTrueGameChannel(GameChannel channel, KgsGameInfo gameInfo) : base(channel.ChannelId)
+        private KgsTrueGameChannel(int channelId, KgsGameInfo gameInfo) : base(channelId)
         {
             this._gameInfo = gameInfo;
         }
@@ -39,7 +39,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
             var gameInfo = CreateGameInfo(channel);
             if (gameInfo != null)
             {
-                return new KgsTrueGameChannel(channel, gameInfo);
+                return new KgsTrueGameChannel(channel.ChannelId, gameInfo);
             }
             return null;
         }
@@ -66,6 +66,11 @@ namespace OmegaGo.Core.Online.Kgs.Structures
                 CountingType.Area,
                 channel.ChannelId);
             return kgi;
+        }
+
+        public static KgsTrueGameChannel FromGameInfo(KgsGameInfo info, int channelId)
+        {
+            return new Structures.KgsTrueGameChannel(channelId, info);
         }
     }
 }

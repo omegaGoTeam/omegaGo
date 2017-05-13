@@ -19,6 +19,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using OmegaGo.UI.Services.Online;
 using OmegaGo.UI.Infrastructure.Tabbed;
+using OmegaGo.UI.Localization;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -55,6 +56,8 @@ namespace OmegaGo.UI.ViewModels
         private string _validationErrorMessage = "";
         private string _compensationString;
         private int _selectedColorIndex = 0;
+        private bool _isRankedGame = false;
+        private bool _isPubliclyListedGame = false;
         private ObservableCollection<TimeControlStyle> _timeControlStyles =
             new ObservableCollection<TimeControlStyle>
             {
@@ -264,6 +267,24 @@ namespace OmegaGo.UI.ViewModels
                 SetDefaultCompensation();
             }
         }
+        public bool IsRankedGame
+        {
+            get { return _isRankedGame; }
+            set
+            {
+                SetProperty(ref _isRankedGame, value);
+                SetDefaultCompensation();
+            }
+        }
+        public bool IsPubliclyListedGame
+        {
+            get { return _isPubliclyListedGame; }
+            set
+            {
+                SetProperty(ref _isPubliclyListedGame, value);
+                SetDefaultCompensation();
+            }
+        }
         public string CustomSquareSize
         {
             get { return _customWidth.ToString(); }
@@ -404,8 +425,8 @@ namespace OmegaGo.UI.ViewModels
             {
                 Mvx.RegisterSingleton<IGame>(game);
                 OpenInNewActiveTab<OnlineGameViewModel>();
-                this.CloseSelf();
             }
+            this.CloseSelf();
         }
 
         private async Task DeclineSingleOpponent()
@@ -470,10 +491,28 @@ namespace OmegaGo.UI.ViewModels
                 ValidationErrorMessage = Localizer.Validation_YouMustHave2x2OrGreater;
                 return false;
             }
-            if (SelectedGameBoardSize.Width > 100 || SelectedGameBoardSize.Height > 100)
+            if (SelectedGameBoardSize.Width > 52 || SelectedGameBoardSize.Height > 52)
             {
                 ValidationErrorMessage = Localizer.Validation_BoardTooExtreme;
                 return false;
+            }
+            if (Handicap != 0)
+            {
+                if (SelectedGameBoardSize.IsSquare)
+                {
+                    if (SelectedGameBoardSize.Width != 9 &&
+                        SelectedGameBoardSize.Width != 13 &&
+                        SelectedGameBoardSize.Width != 19)
+                    {
+                        ValidationErrorMessage = LocalizedStrings.Validation_ImproperHandicapForSize;
+                        return false;
+                    }
+                }
+                else
+                {
+                    ValidationErrorMessage = LocalizedStrings.Validation_ImproperHandicapForSize;
+                    return false;
+                }
             }
             float compensation;
             if (float.TryParse(CompensationString, NumberStyles.Any, CultureInfo.InvariantCulture, out compensation))

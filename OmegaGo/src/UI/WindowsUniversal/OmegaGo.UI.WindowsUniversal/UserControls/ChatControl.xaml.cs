@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MvvmCross.Platform;
 using OmegaGo.UI.Services.Localization;
+using System.Threading.Tasks;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -49,7 +50,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 if (ev.CollectionChange == CollectionChange.ItemInserted)
                 {
                     object newObject = messageListView.Items[(int)ev.Index];
-
+                    
                     messageListView.ScrollIntoView(newObject);
                 }
             };

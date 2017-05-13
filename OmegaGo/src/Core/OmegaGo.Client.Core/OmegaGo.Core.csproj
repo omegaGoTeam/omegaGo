@@ -54,7 +54,6 @@
     <Compile Include="Extensions\TimeSpanExtension.cs" />
     <Compile Include="Extensions\TreeExtensions.cs" />
     <Compile Include="Game\GameInfo.cs" />
-    <Compile Include="Game\GameToolServices.cs" />
     <Compile Include="Game\GameTreeConversion\GameTreeToSgfConverter.cs" />
     <Compile Include="Game\GameTreeConversion\SgfToGameTreeConversionResult.cs" />
     <Compile Include="Game\GameTreeConversion\SgfToGameTreeConverter.cs" />
@@ -68,6 +67,7 @@
     <Compile Include="Game\PlayerInfo.cs" />
     <Compile Include="Game\StoneColorExtensions.cs" />
     <Compile Include="Game\TerritoryMap.cs" />
+    <Compile Include="Game\Tools\ToolMessage.cs" />
     <Compile Include="Game\Tools\DeleteBranchTool.cs" />
     <Compile Include="Game\Tools\ITool.cs" />
     <Compile Include="Game\Tools\IToolServices.cs" />
@@ -78,6 +78,7 @@
     <Compile Include="Game\Markup\ShadowItemKind.cs" />
     <Compile Include="Game\Tools\SimpleMarkupTool.cs" />
     <Compile Include="Game\Tools\StonePlacementTool.cs" />
+    <Compile Include="Game\Tools\ToolConfirmationResult.cs" />
     <Compile Include="LiveGame\Connectors\IGameConnector.cs" />
     <Compile Include="LiveGame\Connectors\Igs\IgsConnector.cs" />
     <Compile Include="LiveGame\Connectors\Igs\IIgsConnectorServerActions.cs" />

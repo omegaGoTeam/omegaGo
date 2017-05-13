@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
 using OmegaGo.Core.Online.Igs;
+using OmegaGo.UI.Localization;
 using OmegaGo.UI.Services.Online;
 using OmegaGo.UI.ViewModels;
 
@@ -23,9 +24,9 @@ namespace OmegaGo.UI.Services.GameCreation
         public override GameCreationFormStyle Style => GameCreationFormStyle.OutgoingIgs;
         public override bool AcceptableAndRefusable => false;
         public override bool WillCreateChallenge => true;
-        public override bool CanReturn => true;
+        public override bool CanReturn => false;
         public override bool Frozen => false;
-        public override string TabTitle => selectedChallengeableUser.Name + " - outgoing challenge";
+        public override string TabTitle => selectedChallengeableUser.Name + LocalizedStrings.HyphenOutgoingChallenge;
 
         public override async Task CreateChallenge(GameCreationViewModel gameCreationViewModel)
         {
@@ -58,7 +59,7 @@ namespace OmegaGo.UI.Services.GameCreation
                 );
             Mvx.Resolve<Notifications.IAppNotificationService>()
                 .TriggerNotification(
-                    new Notifications.BubbleNotification("Challenge to " + selectedChallengeableUser.Name + " sent.", null, Notifications.NotificationType.Info));
+                    new Notifications.BubbleNotification(String.Format(LocalizedStrings.ChallengeToXSent, selectedChallengeableUser.Name), null, Notifications.NotificationType.Info));
             gameCreationViewModel.CloseSelf();
         }
 

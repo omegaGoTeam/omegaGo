@@ -78,12 +78,12 @@ namespace OmegaGo.UI.ViewModels
             Connections.Igs.Events.PersonalInformationUpdate += Pandanet_PersonalInformationUpdate;
             Connections.Igs.Events.Disconnected += Events_Disconnected;
             Connections.Igs.Events.LoginPhaseChanged += Events_LoginPhaseChanged;
+            Connections.Igs.Events.LoginComplete += OnLoginComplete;
             if (LoginForm.FormVisible && Connections.Igs.Composure != IgsComposure.Disconnected)
             {
                 LoginForm.FormEnabled = false;
                 LoginForm.LoginErrorMessage = Localizer.Igs_LoginAlreadyInProgress;
                 LoginForm.LoginErrorMessageVisible = true;
-                Connections.Igs.Events.LoginComplete += OnLoginComplete;
             }
             else if (Connections.Igs.LoggedIn)
             {
@@ -106,6 +106,7 @@ namespace OmegaGo.UI.ViewModels
 
         private void Events_LoginPhaseChanged(object sender, IgsLoginPhase e)
         {
+            LoginForm.FormEnabled = false;
             LoginForm.LoginErrorMessage = Localizer.GetString("IgsLoginPhase_" + e); ;
         }
 
@@ -122,6 +123,8 @@ namespace OmegaGo.UI.ViewModels
         {
             if (success)
             {
+                LoginForm.FormVisible = false;
+                LoginForm.LoginErrorMessageVisible = false;
                 await EnterIgsLobbyLoggedIn();
             }
             else
@@ -137,6 +140,7 @@ namespace OmegaGo.UI.ViewModels
             allUsers = Connections.Igs.Data.OnlineUsers;
             ObservableGames = new ObservableCollection<IgsGameInfo>(Connections.Igs.Data.GamesInProgress);
             RefillChallengeableUsersFromAllUsers();
+            RaisePropertyChanged(nameof(LoggedInUser));
             LoginForm.FormVisible = false;
             LoginForm.FormEnabled = true;
             LoginForm.LoginErrorMessageVisible = false;
@@ -286,8 +290,6 @@ namespace OmegaGo.UI.ViewModels
             if (loginSuccess)
             {
                 RaisePropertyChanged(nameof(LoggedInUser));
-                LoginForm.FormVisible = false;
-                LoginForm.LoginErrorMessageVisible = false;
                 await EnterIgsLobbyLoggedIn();
             }
             else

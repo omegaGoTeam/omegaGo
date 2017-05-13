@@ -1884,6 +1884,103 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string KgsConnectionFailure => LocalizeCaller();
 		/// <summary>
+		/// A game with Fuego is already open.
+		/// </summary>
+		public string AGameWithFuegoAlreadyOpen => LocalizeCaller();
+		/// <summary>
+		/// Requesting challenge creation...
+		/// </summary>
+		public string ChallengeIsBeingCreated => LocalizeCaller();
+		/// <summary>
+		/// Challenge to {0} sent.
+		/// </summary>
+		public string ChallengeToXSent => LocalizeCaller();
+		/// <summary>
+		/// Hint unavailable
+		/// </summary>
+		public string HintUnavailable => LocalizeCaller();
+		/// <summary>
+		/// Hint cannot be given because Fuego is occupied elsewhere.
+		/// </summary>
+		public string HintUnavailableExplanation => LocalizeCaller();
+		/// <summary>
+		/// - outgoing challenge
+		/// </summary>
+		public string HyphenOutgoingChallenge => LocalizeCaller();
+		/// <summary>
+		/// KGS Message
+		/// </summary>
+		public string KGSAlert => LocalizeCaller();
+		/// <summary>
+		/// You are already in that game or challenge.
+		/// </summary>
+		public string KGSChannelAlreadyJoined => LocalizeCaller();
+		/// <summary>
+		/// You have just logged in elsewhere.
+		/// </summary>
+		public string KGSReconnect => LocalizeCaller();
+		/// <summary>
+		/// KGS Technical Message
+		/// </summary>
+		public string KGSTechnicalMessage => LocalizeCaller();
+		/// <summary>
+		/// You cannot play two KGS games at a time.
+		/// </summary>
+		public string KGSYouCantPlayTwice => LocalizeCaller();
+		/// <summary>
+		/// Pandanet Error
+		/// </summary>
+		public string PandanetError => LocalizeCaller();
+		/// <summary>
+		/// The assistant recommends you to resign.\n\nExplanation:
+		/// </summary>
+		public string ResignExplanation => LocalizeCaller();
+		/// <summary>
+		/// System
+		/// </summary>
+		public string System => LocalizeCaller();
+		/// <summary>
+		/// {0} declined your match request.
+		/// </summary>
+		public string XDeclinedYourMatchRequest => LocalizeCaller();
+		/// <summary>
+		/// {0} is satisfied with the removed stones.
+		/// </summary>
+		public string XIsSatisfiedWithTheRemovedStones => LocalizeCaller();
+		/// <summary>
+		/// You are observing a professional game.
+		/// </summary>
+		public string YouAreObservingAProfessionalGame => LocalizeCaller();
+		/// <summary>
+		/// You are watching a named professional game. This is the game title:\n\n{0}
+		/// </summary>
+		public string YouAreWatchingAProfessionalGameTitledX => LocalizeCaller();
+		/// <summary>
+		/// You should pass.\n\nExplanation:
+		/// </summary>
+		public string YouShouldPassExplanation => LocalizeCaller();
+		/// <summary>
+		/// You should place a stone at {0}.\n\nExplanation:
+		/// </summary>
+		public string YouShouldPlayExplanation => LocalizeCaller();
+		/// <summary>
+		/// You should resign.
+		/// </summary>
+		public string YouShouldResign => LocalizeCaller();
+		/// <summary>
+		/// Please choose a board size of 52x52 or smaller.
+		/// That is a wrong password for this user.
+		/// </summary>
+		public string KgsBadPassword => LocalizeCaller();
+		/// <summary>
+		/// There is no user with this name.
+		/// </summary>
+		public string KgsBadUsername => LocalizeCaller();
+		/// <summary>
+		/// Connection failure. Check your internet connection and try again.
+		/// </summary>
+		public string KgsConnectionFailure => LocalizeCaller();
+		/// <summary>
 		/// Please choose a board size 100x100 or smaller. Your computer might not handle a larger board.
 		/// </summary>
 		public string Validation_BoardTooExtreme => LocalizeCaller();
@@ -1896,6 +1993,67 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string Validation_KomiTooExtreme => LocalizeCaller();
 		/// <summary>
+		/// Show in list of all games
+		/// </summary>
+		public string CheckboxPublicGame => LocalizeCaller();
+		/// <summary>
+		/// This game is ranked
+		/// </summary>
+		public string CheckboxRankedGame => LocalizeCaller();
+		/// <summary>
+		/// Are you sure that you want to delete the selected branch?
+		/// </summary>
+		public string BranchDeletionConfirmationText => LocalizeCaller();
+		/// <summary>
+		/// Delete branch
+		/// </summary>
+		public string BranchDeletionConfirmationTitle => LocalizeCaller();
+		/// <summary>
+		/// Selected branch cannot be deleted because its part of the primary timeline.
+		/// </summary>
+		public string BranchDeletionErrorText => LocalizeCaller();
+		/// <summary>
+		/// Delete branch
+		/// </summary>
+		public string BranchDeletionErrorTitle => LocalizeCaller();
+		/// <summary>
+		/// Chat
+		/// </summary>
+		public string Chat => LocalizeCaller();
+		/// <summary>
+		/// Game tree
+		/// </summary>
+		public string GameTree => LocalizeCaller();
+		/// <summary>
+		/// Add 1 minute
+		/// </summary>
+		public string Add1Minute => LocalizeCaller();
+		/// <summary>
+		/// Adds 1 minute to your opponent's clock
+		/// </summary>
+		public string Add1MinuteTooltip => LocalizeCaller();
+		/// <summary>
+		/// Add 5 minutes
+		/// </summary>
+		public string Add5Minutes => LocalizeCaller();
+		/// <summary>
+		/// Adds 5 minutes to your opponent's clock
+		/// </summary>
+		public string Add5MinutesTooltip => LocalizeCaller();
+		/// <summary>
+		/// The game cannot be ranked. It will be created as a non-ranked game.
+		/// </summary>
+		public string CantPlayRanked => LocalizeCaller();
+		/// <summary>
+		/// Handicap is supported only for 9x9, 13x13 and 19x19.
+		/// </summary>
+		public string Validation_ImproperHandicapForSize => LocalizeCaller();
+		/// <summary>
+		/// Allow undo
+		/// </summary>
+		public string AgreeWithUndo => LocalizeCaller();
+		/// <summary>
+		/// Refuse undo
 		/// Import SGF file
 		/// </summary>
 		public string ImportSgfFile => LocalizeCaller();
@@ -1926,14 +2084,19 @@ namespace OmegaGo.UI.Services.Localization
 		/// <summary>
 		/// games
 		/// </summary>
+		public string DisagreeWithUndo => LocalizeCaller();
 		public string Game2 => LocalizeCaller();
 		/// <summary>
+		/// You have requested an undo.
 		/// games
 		/// </summary>
+		public string YouHaveRequestedAnUndo => LocalizeCaller();
 		public string Game5 => LocalizeCaller();
 		/// <summary>
+		/// Your opponent requested his or her last move to be undone.
 		/// Analysis
 		/// </summary>
+		public string YourOppRequestedAnUndo => LocalizeCaller();
 		public string Analysis => LocalizeCaller();
 
         // 

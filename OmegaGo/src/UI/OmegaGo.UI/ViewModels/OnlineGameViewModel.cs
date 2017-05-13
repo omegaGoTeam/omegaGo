@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using OmegaGo.UI.UserControls.ViewModels;
 using MvvmCross.Core.ViewModels;
 using OmegaGo.Core.Modes.LiveGame.Phases;
@@ -45,6 +46,9 @@ namespace OmegaGo.UI.ViewModels
 
         public bool IsIgs => (Game.Info is IgsGameInfo);
 
+        public IMvxCommand Add1Minute => new MvxCommand(() => AddTimeToOpponent(1));
+        public IMvxCommand Add5Minutes => new MvxCommand(() => AddTimeToOpponent(5));
+
         /// <summary>
         /// Agree with undo command
         /// </summary>
@@ -81,6 +85,12 @@ namespace OmegaGo.UI.ViewModels
         }
 
 
+        private void AddTimeToOpponent(int minutes)
+        {
+            (Game.Controller as RemoteGameController).Server.Commands.AddTime(Game.Info as RemoteGameInfo,
+                TimeSpan.FromMinutes(minutes));
+        }
+
         private async void AgreeUndo()
         {
             this.CanAgreeOrDisagreeUndo = false;
@@ -107,7 +117,6 @@ namespace OmegaGo.UI.ViewModels
         {
             if (e == Game.Info)
             {
-                // TODO Petr: implement better equality comparison for GameInfo
                 this.CanAgreeOrDisagreeUndo = true;
             }
         }

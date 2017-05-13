@@ -18,7 +18,7 @@ namespace OmegaGo.Core.Online.Kgs
     public class KgsData 
     {
         private KgsConnection _kgsConnection;
-        public Dictionary<string, KgsUser> Users { get; } = new Dictionary<string, KgsUser>();
+        private Dictionary<string, KgsUser> _users { get; } = new Dictionary<string, KgsUser>();
         private readonly Dictionary<int, KgsGame> _joinedGames = new Dictionary<int, KgsGame>();
 
         public KgsData(KgsConnection kgsConnection)
@@ -41,11 +41,7 @@ namespace OmegaGo.Core.Online.Kgs
         /// </summary>
         public ObservableCollection<KgsRoom> AllRooms { get; } = new ObservableCollection<KgsRoom>();
 
-        public delegate void KgsDataUpdate<in T>(T concernedItem);
 
-        public event KgsDataUpdate<KgsChannel> ChannelJoined;
-        public event KgsDataUpdate<KgsChannel> ChannelUnjoined;
-        public event Action SomethingChanged;
 
         /// <summary>
         /// Gets the channel with the specified channel ID, if it exists and if it has the appropriate type.
@@ -101,6 +97,7 @@ namespace OmegaGo.Core.Online.Kgs
             }
             KgsChannel channel = Channels[channelId];
             channel.Joined = false;
+            _kgsConnection.Events.RaiseUnjoin(channel);
             if (channel is KgsGameContainer)
             {
                 KgsGameContainer container = channel as KgsGameContainer;
@@ -113,11 +110,10 @@ namespace OmegaGo.Core.Online.Kgs
                     _joinedGames.Remove(channel.ChannelId);
                 }
             }
-            ChannelUnjoined?.Invoke(channel);
-            SomethingChanged?.Invoke();
+            SomethingChanged();
 
             // Old:
-            _kgsConnection.Events.RaiseUnjoin(channel);
+            _kgsConnection.Events.RaiseChannelUnjoined(channel);
         }
 
 
@@ -133,8 +129,8 @@ namespace OmegaGo.Core.Online.Kgs
                 Channels.Add(channel.ChannelId, channel);
             }
             channel.Joined = true;
-            ChannelJoined?.Invoke(channel);
-            SomethingChanged?.Invoke();
+            _kgsConnection.Events.RaiseChannelJoined(channel);
+            SomethingChanged();
         }
 
         public void EnsureChannelExists(KgsChannel channel)
@@ -278,27 +274,60 @@ namespace OmegaGo.Core.Online.Kgs
             }
         }
 
-        // Users --- not used
-
+        /// <summary>
+        /// Adds the user to a channel. This is used only by the lobby to display the users in a room.
+        /// </summary>
+        /// <param name="channelId">The channel identifier.</param>
+        /// <param name="user">The user.</param>
         public void AddUserToChannel(int channelId, User user)
         {
             EnsureUserExists(user);
-            Channels[channelId].Users.Add(Users[user.Name]);
+            Channels[channelId].Users.Add(_users[user.Name]);
         }
-        public void EnsureUserExists(User user)
+
+        /// <summary>
+        /// If we already have information about a user, returns that canonical information. If not, we create it.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        public KgsUser EnsureUserExists(User user)
         {
-            if (!Users.ContainsKey(user.Name))
+            if (!_users.ContainsKey(user.Name))
             {
                 var nUser = new KgsUser();
                 nUser.CopyDataFrom(user);
-                Users[user.Name] = nUser;
+                _users[user.Name] = nUser;
             }
-        }
-        public void RemoveUserFromChannel(int channelId, User user)
-        {
-            Channels[channelId].Users.RemoveWhere(kgsUser => kgsUser.Name == user.Name);
+            return _users[user.Name];
         }
 
-  
+        /// <summary>
+        /// Removes a user from a channel. This is used only by the lobby to display the users in a room.
+        /// </summary>
+        /// <param name="channelId">The channel identifier.</param>
+        /// <param name="user">The user.</param>
+        public void RemoveUserFromChannel(int channelId, User user)
+        {
+            // We can't user the argument directly because it's a differente reference.
+            var usr = Channels[channelId].Users.FirstOrDefault(kgsUser => kgsUser.Name == user.Name);
+            if (usr != null)
+            {
+                Channels[channelId].Users.Remove(usr);
+            }
+        }
+
+        /// <summary>
+        /// Adds a game to the list of channels we know but haven't joined yet, and returns it.
+        /// </summary>
+        /// <param name="game">The game.</param>
+        public KgsTrueGameChannel CreateGame(KgsTrueGameChannel game)
+        {
+            Channels[game.ChannelId] = game;
+            return game;
+        }
+        private void SomethingChanged()
+        {
+            this._kgsConnection.Events.RaiseSomethingChanged();
+        }
+
     }
 }
