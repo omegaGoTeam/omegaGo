@@ -554,12 +554,12 @@ namespace FormsPrototype
 
         private async void bUndoYes_Click(object sender, EventArgs e)
         {
-            await (_server as IServerConnection).Commands.AllowUndoAsync(OnlineInfo);
+            await (_server as IServerConnection).Commands.AllowUndoAsync((RemoteGameInfo)_game.Info);
         }
 
         private async void bUndoNo_Click(object sender, EventArgs e)
         {
-            await (_server as IServerConnection).Commands.RejectUndoAsync(OnlineInfo);
+            await (_server as IServerConnection).Commands.RejectUndoAsync((RemoteGameInfo)_game.Info);
         }
 
         private void bLocalUndo_Click(object sender, EventArgs e)
