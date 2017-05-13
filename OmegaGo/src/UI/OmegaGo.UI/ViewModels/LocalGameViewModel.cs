@@ -342,17 +342,17 @@ namespace OmegaGo.UI.ViewModels
                 {
                     case AgentDecisionKind.Resign:
                         title = LocalizedStrings.YouShouldResign;
-                        content = LocalizedStrings.ResignExplanation + " " + hint.Explanation;
+                        content = LocalizedStrings.ResignExplanation.Replace("\\n", Environment.NewLine) + " " + hint.Explanation;
                         break;
                     case AgentDecisionKind.Move:
                         title = hint.Move.ToString();
                         if (hint.Move.Kind == MoveKind.Pass)
                         {
-                            content = LocalizedStrings.YouShouldPassExplanation + " " + hint.Explanation;
+                            content = LocalizedStrings.YouShouldPassExplanation.Replace("\\n", Environment.NewLine) + " " + hint.Explanation;
                         }
                         else
                         {
-                            content = String.Format(LocalizedStrings.YouShouldPlayExplanation, hint.Move.Coordinates) + " " +
+                            content = String.Format(LocalizedStrings.YouShouldPlayExplanation.Replace("\\n", Environment.NewLine), hint.Move.Coordinates) + " " +
                                       hint.Explanation;
                         }
                         break;
