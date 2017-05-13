@@ -10,7 +10,10 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Border Background="Wheat" BorderBrush="Blue" BorderThickness="1" Width="300" Height="250">
+    <Border Width="300" Height="250">
+        <Border.Background>
+            <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="{ThemeResource PagePanelOpacity}" />
+        </Border.Background>
         <Grid>
             <StackPanel VerticalAlignment="Top">
                 <TextBlock TextAlignment="Center" Text="{Binding Quest.Name}" 
