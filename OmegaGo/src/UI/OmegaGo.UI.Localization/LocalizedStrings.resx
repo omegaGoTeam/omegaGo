@@ -1581,7 +1581,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>You should resign.</value>
   </data>
   <data name="Validation_BoardTooExtreme" xml:space="preserve">
-    <value>Please choose a board size 100x100 or smaller. Your computer might not handle a larger board.</value>
+    <value>Please choose a board size of 52x52 or smaller.</value>
   </data>
   <data name="Validation_ExcessiveTimeError" xml:space="preserve">
     <value>A field ('{0}') has a value greater than 10000. Please choose a smaller value. </value>
@@ -1627,6 +1627,9 @@ I dare you to let two Fish play against each other. The game will never end (unl
   </data>
   <data name="CantPlayRanked" xml:space="preserve">
     <value>The game cannot be ranked. It will be created as a non-ranked game.</value>
+  </data>
+  <data name="Validation_ImproperHandicapForSize" xml:space="preserve">
+    <value>Handicap is supported only for 9x9, 13x13 and 19x19.</value>
   </data>
   <data name="AgreeWithUndo" xml:space="preserve">
     <value>Allow undo</value>

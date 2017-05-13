@@ -4110,7 +4110,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please choose a board size 100x100 or smaller. Your computer might not handle a larger board..
+        ///   Looks up a localized string similar to Please choose a board size of 52x52 or smaller..
         /// </summary>
         public static string Validation_BoardTooExtreme {
             get {
@@ -4142,6 +4142,15 @@ namespace OmegaGo.UI.Localization {
         public static string Validation_FuegoGamesTooFew {
             get {
                 return ResourceManager.GetString("Validation_FuegoGamesTooFew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Handicap is supported only for 9x9, 13x13 and 19x19..
+        /// </summary>
+        public static string Validation_ImproperHandicapForSize {
+            get {
+                return ResourceManager.GetString("Validation_ImproperHandicapForSize", resourceCulture);
             }
         }
         
