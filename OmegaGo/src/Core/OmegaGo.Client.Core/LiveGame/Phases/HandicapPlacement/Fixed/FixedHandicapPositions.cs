@@ -19,7 +19,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
             new Position(2, 2),
             new Position(2, 6),
             new Position(6, 2),
-            new Position(4, 4)
+            new Position(4, 4),
+            new Position(2, 4),
+            new Position(6, 4),
+            new Position(4, 6),
+            new Position(4, 2)
         };
 
         /// <summary>
