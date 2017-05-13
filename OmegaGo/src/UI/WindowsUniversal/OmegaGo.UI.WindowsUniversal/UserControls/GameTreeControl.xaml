@@ -13,8 +13,9 @@
     IsTabStop="True"
     SizeChanged="layoutRoot_SizeChanged">
 
-    <Grid Background="#FFFDD270">
+    <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -23,20 +24,33 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        
+
+        <TextBlock x:Name="headerText" 
+                   Grid.Row="0"
+                   Text="{x:Bind Localizer.GameTree}" TextAlignment="Center" 
+                   Style="{ThemeResource TitleTextBlockStyle}"/>
+
+        <Border Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <Border.Background>
+                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}"
+                                 Opacity="0.7"/>
+            </Border.Background>
+        </Border>
+
         <win2d:CanvasControl x:Name="canvas"
                              Margin="5"
+                             Grid.Row="1"
                              Grid.RowSpan="2"
                              Grid.ColumnSpan="2"/>
 
         <ScrollBar x:Name="verticalBar" 
-                   Grid.Column="1" Grid.Row="0"
+                   Grid.Column="1" Grid.Row="1"
                    Orientation="Vertical"
                    Minimum="0" Maximum="{x:Bind GameTreeHeight, Mode=OneWay}"
                    Value="{x:Bind GameTreeVerticalOffset, Mode=TwoWay}"/>
         
         <ScrollBar x:Name="horizontalBar" 
-                   Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                   Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"
                    Orientation="Horizontal"
                    Minimum="0" Maximum="{x:Bind GameTreeWidth, Mode=OneWay}"
                    Value="{x:Bind GameTreeHorizontalOffset, Mode=TwoWay}"/>

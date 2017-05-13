@@ -1837,7 +1837,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="GamesAndChallenges" translate="yes" xml:space="preserve">
           <source>Games and challenges</source>
-          <target state="translated">Hry v výzvy</target>
+          <target state="translated">Hry a výzvy</target>
         </trans-unit>
         <trans-unit id="Users" translate="yes" xml:space="preserve">
           <source>Users</source>
@@ -1997,6 +1997,14 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         <trans-unit id="BranchDeletionErrorTitle" translate="yes" xml:space="preserve">
           <source>Delete branch</source>
           <target state="translated">Smazat větev</target>
+        </trans-unit>
+        <trans-unit id="Chat" translate="yes" xml:space="preserve">
+          <source>Chat</source>
+          <target state="translated">Konverzace</target>
+        </trans-unit>
+        <trans-unit id="GameTree" translate="yes" xml:space="preserve">
+          <source>Game tree</source>
+          <target state="translated">Herní strom</target>
         </trans-unit>
         <trans-unit id="Add1Minute" translate="yes" xml:space="preserve">
           <source>Add 1 minute</source>

@@ -10,7 +10,7 @@ namespace OmegaGo.Core.Game.Tools
     {
         public async void Execute(IToolServices toolService)
         {
-            if (!toolService.GameTree.LastNode.GetNodeHistory().Contains(toolService.Node))
+            if (!toolService.GameTree.PrimaryTimelineWithRoot.Contains(toolService.Node))
             {
                 var result = await toolService.ShowMessage(ToolMessage.BranchDeletionConfirmation);
 
