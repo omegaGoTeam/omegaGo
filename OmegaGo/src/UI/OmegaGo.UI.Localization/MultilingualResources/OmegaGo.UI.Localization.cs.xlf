@@ -2022,6 +2022,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Adds 5 minutes to your opponent's clock</source>
           <target state="new">Adds 5 minutes to your opponent's clock</target>
         </trans-unit>
+        <trans-unit id="CantPlayRanked" translate="yes" xml:space="preserve">
+          <source>The game cannot be ranked. It will be created as a non-ranked game.</source>
+          <target state="new">The game cannot be ranked. It will be created as a non-ranked game.</target>
+        </trans-unit>
       </group>
     </body>
   </file>

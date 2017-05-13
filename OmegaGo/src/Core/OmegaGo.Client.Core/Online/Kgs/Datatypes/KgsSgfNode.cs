@@ -101,12 +101,17 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     break;
                 case "COMMENT":
                     // "Putti [2k]: hi\n
-                    var tuple = KgsRegex.ParseCommentAsChat(prop.Text);
-                    if (tuple != null)
+                    string[] splitByNewlines =
+                        prop.Text.Split(new string[] {"\n"}, StringSplitOptions.RemoveEmptyEntries);
+                    foreach(var s in splitByNewlines)
                     {
-                        var chatMessage = new ChatMessage(tuple.Item1, tuple.Item2,
-                            DateTimeOffset.Now, tuple.Item1 == ongame.Controller.Server.Username ? ChatMessageKind.Outgoing : ChatMessageKind.Incoming);
-                        ongame.Controller.KgsConnector.ChatMessageFromServer(chatMessage);
+                        var tuple = KgsRegex.ParseCommentAsChat(s);
+                        if (tuple != null)
+                        {
+                            var chatMessage = new ChatMessage(tuple.Item1, tuple.Item2,
+                                DateTimeOffset.Now, tuple.Item1 == ongame.Controller.Server.Username ? ChatMessageKind.Outgoing : ChatMessageKind.Incoming);
+                            ongame.Controller.KgsConnector.ChatMessageFromServer(chatMessage);
+                        }
                     }
                     break;
                 case "DEAD":

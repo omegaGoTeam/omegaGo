@@ -9,6 +9,8 @@ namespace OmegaGo.Core.Time.Canadian
         public TimeSpan PeriodTimeLeft { get;}
         public int PeriodStonesLeft { get; }
 
+        public bool StillInMainTime { get; }
+
         public override string MainText
         {
             get
@@ -39,8 +41,9 @@ namespace OmegaGo.Core.Time.Canadian
 
         public override TimeControlStyle Style => TimeControlStyle.Canadian;
 
-        public CanadianTimeInformation(TimeSpan mainTimeLeft, TimeSpan periodTimeLeft, int periodStonesLeft)
+        public CanadianTimeInformation(bool inMainTime, TimeSpan mainTimeLeft, TimeSpan periodTimeLeft, int periodStonesLeft)
         {
+            StillInMainTime = inMainTime;
             MainTimeLeft = mainTimeLeft;
             PeriodTimeLeft = periodTimeLeft;
             PeriodStonesLeft = periodStonesLeft;

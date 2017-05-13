@@ -37,6 +37,7 @@ namespace OmegaGo.UI.Services.GameCreation
             vm.FormTitle = Localizer.Creation_KgsChallengeCreation;
             base.OnLoad(vm);
         }
+        public override bool IsKgsChallengeCreation => true;
         public override async Task CreateChallenge(GameCreationViewModel vm)
         {
             string rulesString = "chinese";
