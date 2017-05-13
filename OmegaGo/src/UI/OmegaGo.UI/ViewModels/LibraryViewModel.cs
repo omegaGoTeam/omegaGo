@@ -19,6 +19,7 @@ using OmegaGo.UI.Models;
 using OmegaGo.UI.Models.Library;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Files;
+using OmegaGo.UI.Utility;
 using OmegaGo.UI.Utility.Collections;
 
 namespace OmegaGo.UI.ViewModels
@@ -219,7 +220,7 @@ namespace OmegaGo.UI.ViewModels
             try
             {
                 string fileName = fileContents.Name;
-
+                fileName = await SgfExport.SaveToLibraryAsync(fileName, fileContents.Contents);
                 //add to library
                 var newItem = await LoadLibraryItemAsync(fileName);
                 LibraryItems.Insert(0, new AppDataLibraryItemViewModel(newItem));
