@@ -97,7 +97,7 @@ namespace OmegaGo.UI.ViewModels
 
         protected IQuestsManager QuestsManager => _questsManager;
 
-        protected virtual string SuggestedGameFileName => $"Game_{DateTimeOffset.Now:ddMMyyhhmm}.sgf";
+        protected virtual string SuggestedGameFileName => $"{TabTitle}_{DateTimeOffset.Now:dd-MM-yyyy}.sgf";
 
         public BoardViewModel BoardViewModel
         {

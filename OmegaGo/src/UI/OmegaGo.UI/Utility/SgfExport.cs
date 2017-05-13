@@ -12,7 +12,7 @@ namespace OmegaGo.UI.Utility
 {
     public static class SgfExport
     {
-        public static async Task ExportAsync( string suggestedFileName, string sgfContent )
+        public static async Task ExportAsync(string suggestedFileName, string sgfContent)
         {
             await Mvx.Resolve<IFilePickerService>().PickAndWriteFileAsync(suggestedFileName, sgfContent);
         }
@@ -34,7 +34,7 @@ namespace OmegaGo.UI.Utility
             {
                 int copyNumber = 1;
                 while (await appDataFileService.FileExistsAsync(
-                    $"{Path.GetFileNameWithoutExtension(fileName)} ({copyNumber}).sgf"))
+                    $"{Path.GetFileNameWithoutExtension(fileName)} ({copyNumber}).sgf", LibraryViewModel.SgfFolderName))
                 {
                     copyNumber++;
                 }
