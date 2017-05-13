@@ -1478,4 +1478,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="BranchDeletionErrorTitle" xml:space="preserve">
     <value>Smazat větev</value>
   </data>
+  <data name="Chat" xml:space="preserve">
+    <value>Konverzace</value>
+  </data>
+  <data name="GameTree" xml:space="preserve">
+    <value>Herní strom</value>
+  </data>
 </root>
