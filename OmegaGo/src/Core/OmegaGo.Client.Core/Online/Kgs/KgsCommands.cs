@@ -203,20 +203,34 @@ namespace OmegaGo.Core.Online.Kgs
             });
         }
 
-        public async Task<KgsChallenge> JoinAndSubmitSelfToChallengeAsync(KgsChallenge selectedItem)
+        public async Task JoinAndSubmitSelfToChallengeAsync(KgsChallenge selectedItem)
         {
             // Join
+            var simpleProposal = SubmitOurselvesIntoProposal(selectedItem);
+            ChallengeWaiter waiter = new Kgs.KgsCommands.ChallengeWaiter(kgsConnection, simpleProposal);
+            this.kgsConnection.Events.SomethingChanged += waiter.SomethingChanged;
             await kgsConnection.MakeUnattendedRequestAsync("JOIN_REQUEST", new
             {
                 ChannelId = selectedItem.ChannelId
             });
-            await kgsConnection.WaitUntilJoinedAsync(selectedItem.ChannelId);
 
+        }
+        
+        class ChallengeWaiter
+        {
+            private readonly KgsConnection _connection;
+            private readonly object _simpleProposal;
 
-            var simpleProposal = SubmitOurselvesIntoProposal(selectedItem);
-
-            await kgsConnection.MakeUnattendedRequestAsync("CHALLENGE_SUBMIT", simpleProposal);
-            return selectedItem;
+            public async void SomethingChanged()
+            {
+                _connection.Events.SomethingChanged -= this.SomethingChanged;
+                await _connection.MakeUnattendedRequestAsync("CHALLENGE_SUBMIT", _simpleProposal);
+            }
+            public ChallengeWaiter(KgsConnection connection, object simpleProposal)
+            {
+                _connection = connection;
+                _simpleProposal = simpleProposal;
+            }
         }
 
         private object SubmitOurselvesIntoProposal(KgsChallenge selectedItem)
