@@ -363,10 +363,12 @@
     <Content Include="Assets\Logos\Square310x310Logo.scale-200.png" />
     <Content Include="Assets\Logos\Square44x44Logo.targetsize-256_altform-unplated.png" />
     <Content Include="Assets\MainMenu\bambooForest.jpg" />
+    <Content Include="Assets\MainMenu\Buttons\Bot.png" />
     <Content Include="Assets\MainMenu\Buttons\Help.png" />
     <Content Include="Assets\MainMenu\Buttons\Library.png" />
     <Content Include="Assets\MainMenu\Buttons\Local.png" />
     <Content Include="Assets\MainMenu\Buttons\Multiplayer.png" />
+    <Content Include="Assets\MainMenu\Buttons\Puzzle.png" />
     <Content Include="Assets\MainMenu\Buttons\Settings.png" />
     <Content Include="Assets\MainMenu\Buttons\SinglePlayer.png" />
     <Content Include="Assets\MainMenu\Buttons\Statistics.png" />

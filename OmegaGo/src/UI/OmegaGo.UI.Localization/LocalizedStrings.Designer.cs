@@ -2922,6 +2922,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rank-up at.
+        /// </summary>
+        public static string RankUpAt {
+            get {
+                return ResourceManager.GetString("RankUpAt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refresh.
         /// </summary>
         public static string Refresh {
