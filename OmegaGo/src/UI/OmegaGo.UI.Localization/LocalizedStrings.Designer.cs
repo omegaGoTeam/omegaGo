@@ -195,6 +195,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Analysis.
+        /// </summary>
+        public static string Analysis {
+            get {
+                return ResourceManager.GetString("Analysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Analyze.
         /// </summary>
         public static string Analyze {

@@ -1550,4 +1550,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Game5" xml:space="preserve">
     <value>games</value>
   </data>
+  <data name="Analysis" xml:space="preserve">
+    <value>Analysis</value>
+  </data>
 </root>

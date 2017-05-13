@@ -11,6 +11,7 @@ using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using MvvmCross.Platform.Core;
 using Newtonsoft.Json;
+using OmegaGo.Core.Game;
 using OmegaGo.Core.Game.GameTreeConversion;
 using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Parsing;
@@ -49,7 +50,7 @@ namespace OmegaGo.UI.ViewModels
         //item specific
         private ICommand _deleteItemCommand;
         private ICommand _exportItemCommand;
-        private ICommand _analyzeLibraryItemGame;
+        private ICommand _analyzeLibraryItemGameCommand;
 
         // Property backing fields
 
@@ -109,8 +110,8 @@ namespace OmegaGo.UI.ViewModels
         /// <summary>
         /// Command that opens a library item for analysis
         /// </summary>
-        public ICommand AnalyzeLibraryItemGame => _analyzeLibraryItemGame ??
-                                              (_analyzeLibraryItemGame = new MvxAsyncCommand<LibraryItemGame>(AnalyzeLibraryItemGameAsync));
+        public ICommand AnalyzeLibraryItemGameCommand => _analyzeLibraryItemGameCommand ??
+                                              (_analyzeLibraryItemGameCommand = new MvxAsyncCommand<LibraryItemGame>(AnalyzeLibraryItemGameAsync));
 
         /// <summary>
         /// Command that deletes a library item
@@ -162,7 +163,7 @@ namespace OmegaGo.UI.ViewModels
                 model = Mvx.Resolve<LibraryViewModel.NavigationModel>();
                 Mvx.RegisterSingleton<NavigationModel>(new NavigationModel());
             }
-            await RefreshListAsync();            
+            await RefreshListAsync();
             OpenSgfFile(model?.SgfFileInfo);
         }
 
@@ -180,7 +181,7 @@ namespace OmegaGo.UI.ViewModels
             {
                 //add to library
                 var newItem = CreateLibraryItemFromFile(fileInfo);
-                SelectedLibraryItem = new LibraryItemViewModel(newItem) { ShowCommands = false };
+                SelectedLibraryItem = new ExternalSgfFileViewModel(fileInfo.Contents, newItem);
             }
             catch (Exception e)
             {
@@ -199,7 +200,7 @@ namespace OmegaGo.UI.ViewModels
         private async Task OpenSgfFileAsync()
         {
             IsWorking = true;
-            var fileContents = await _filePicker.PickAndReadFileAsync(".sgf");
+            var fileContents = await _filePicker.PickAndReadFileAsync(".sgf");            
             OpenSgfFile(fileContents);
         }
 
@@ -231,7 +232,7 @@ namespace OmegaGo.UI.ViewModels
                 await _appDataFileService.WriteFileAsync(fileName, fileContents.Contents, SgfFolderName);
                 //add to library
                 var newItem = await LoadLibraryItemAsync(fileName);
-                LibraryItems.Insert(0, new LibraryItemViewModel(newItem));
+                LibraryItems.Insert(0, new AppDataLibraryItemViewModel(newItem));
             }
             catch (Exception e)
             {
@@ -251,6 +252,7 @@ namespace OmegaGo.UI.ViewModels
         {
             IsWorking = true;
             UpdateProgressText();
+
             //load cache
             await LoadLibraryCacheAsync();
 
@@ -269,20 +271,19 @@ namespace OmegaGo.UI.ViewModels
 
             //get the resuts, include only non-null items
             var allLoadingTask = Task.WhenAll(libraryLoadTasks);
-
+           
             //report progress periodically
-            while (await Task.WhenAny(allLoadingTask, Task.Delay(300)) != allLoadingTask)
+            while (await Task.WhenAny(allLoadingTask, Task.Delay(100)) != allLoadingTask)
             {
                 //report progress
                 UpdateProgressText();
             }
 
-            var rawResults = await allLoadingTask;
 
+            var rawResults = await allLoadingTask;            
             //clean up results from invalid files
-            var results = rawResults.Where(i => i != null).OrderByDescending(i => i.FileLastModified).ToList();
-
-            LibraryItems.ReplaceCollection(results.Select(li => new LibraryItemViewModel(li)));
+            var results = rawResults.Where(i => i != null).OrderByDescending(i => i.FileLastModified).ToList();            
+            LibraryItems.ReplaceCollection(results.Select(li => new AppDataLibraryItemViewModel(li)));
             await SaveLibraryCacheAsync(results);
             IsWorking = false;
         }
@@ -320,25 +321,60 @@ namespace OmegaGo.UI.ViewModels
             var libraryItem = LibraryItems.FirstOrDefault(i => i.Games.Contains(game));
             if (libraryItem != null)
             {
-                //load from library
-                LoadingText = Localizer.LoadingEllipsis;
-                IsWorking = true;
-
-                //// TODO Petr: When Analyze Mode is done
-                var bundle = new AnalyzeOnlyViewModel.NavigationBundle(SelectedItem.GameTree, SelectedItem.GameInfo);
-                Mvx.RegisterSingleton(bundle);
-                ShowViewModel<AnalyzeOnlyViewModel>();
-                IsWorking = false;
+                //app data library item
+                var appDataLibraryItem = libraryItem as AppDataLibraryItemViewModel;
+                if (appDataLibraryItem != null)
+                {
+                    await AnalyzeGameAsync(appDataLibraryItem, game);
+                }
             }
             else
             {
+                //selected item, external
                 if (SelectedLibraryItem?.Games.Contains(game) == true)
                 {
-                    
+                    var externalLibraryItem = SelectedLibraryItem as ExternalSgfFileViewModel;
+                    if (externalLibraryItem != null)
+                    {
+                        AnalyzeGame(externalLibraryItem, game);
+                    }
                 }
             }
         }
 
+        private async Task AnalyzeGameAsync(AppDataLibraryItemViewModel libraryItem, LibraryItemGame game)
+        {
+            //load from library
+            LoadingText = Localizer.LoadingEllipsis;
+            IsWorking = true;
+
+            var sgfContents = await _appDataFileService.ReadFileAsync(libraryItem.FileName, SgfFolderName);
+            var parser = new SgfParser();
+            var collection = parser.Parse(sgfContents);
+            var index = Array.IndexOf(libraryItem.Games, game);
+            var sgfGameTree = collection.GameTrees.ElementAt(index);
+            StartAnalysis(libraryItem, sgfGameTree);
+            IsWorking = false;
+        }
+
+        private void AnalyzeGame(ExternalSgfFileViewModel libraryItem, LibraryItemGame game)
+        {
+            SgfParser parser = new SgfParser();
+            var sgfCollection = parser.Parse(libraryItem.Contents);
+            var index = Array.IndexOf(libraryItem.Games, game);
+            var sgfGameTree = sgfCollection.GameTrees.ElementAt(index);
+            StartAnalysis(libraryItem, sgfGameTree);
+        }
+
+        private void StartAnalysis(LibraryItemViewModel item, SgfGameTree sgfGameTree)
+        {
+            SgfToGameTreeConverter converter = new SgfToGameTreeConverter(sgfGameTree);
+            var conversionResult = converter.Convert();
+            var bundle =
+                new AnalyzeOnlyViewModel.NavigationBundle(item, conversionResult.GameTree, conversionResult.GameInfo);
+            Mvx.RegisterSingleton(bundle);
+            ShowViewModel<AnalyzeOnlyViewModel>();
+        }
 
         private async Task DeleteItemAsync(LibraryItemViewModel libraryItem)
         {
@@ -390,8 +426,8 @@ namespace OmegaGo.UI.ViewModels
         /// Stores current library cache to disk
         /// </summary>        
         private async Task SaveLibraryCacheAsync(IEnumerable<LibraryItem> libraryState)
-        {
-            await _appDataFileService.WriteFileAsync(LibraryCacheFileName, JsonConvert.SerializeObject(libraryState), CacheFolderName);
+        {            
+            await _appDataFileService.WriteFileAsync(LibraryCacheFileName, JsonConvert.SerializeObject(libraryState), CacheFolderName);            
         }
 
         /// <summary>

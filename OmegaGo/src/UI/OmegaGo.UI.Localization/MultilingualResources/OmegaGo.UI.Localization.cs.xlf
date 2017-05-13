@@ -1924,6 +1924,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Error saving file</source>
           <target state="new">Error saving file</target>
         </trans-unit>
+        <trans-unit id="Analysis" translate="yes" xml:space="preserve">
+          <source>Analysis</source>
+          <target state="new">Analysis</target>
+        </trans-unit>
       </group>
     </body>
   </file>

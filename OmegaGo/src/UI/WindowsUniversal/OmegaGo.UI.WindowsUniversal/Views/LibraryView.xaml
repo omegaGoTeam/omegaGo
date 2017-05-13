@@ -39,11 +39,6 @@
                         <core:InvokeCommandAction Command="{Binding ElementName=MainView, Path=VM.SelectLibraryItemCommand}" CommandParameter="{Binding}" />
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
-                <!--<FlyoutBase.AttachedFlyout>
-                    <Flyout FlyoutPresenterStyle="{StaticResource NonScrollFlyoutPresenter}">
-                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource LargeLibraryItemTemplate}" />
-                    </Flyout>
-                </FlyoutBase.AttachedFlyout>-->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -60,7 +55,7 @@
             </Border>
         </DataTemplate>
         <DataTemplate x:Key="LargeLibraryItemTemplate">
-            <library1:LibraryItemControl ViewModel="{Binding Mode=OneWay}" AnalyzeGameCommand="{Binding ElementName=MainView, Path=VM.AnalyzeLibraryItemGame}" ExportCommand="{Binding ElementName=MainView, Path=VM.ExportItemCommand}" DeleteCommand="{Binding ElementName=MainView, Path=VM.DeleteItemCommand}" />
+            <library1:LibraryItemControl ViewModel="{Binding Mode=OneWay}" AnalyzeGameCommand="{Binding ElementName=MainView, Path=VM.AnalyzeLibraryItemGameCommand}" ExportCommand="{Binding ElementName=MainView, Path=VM.ExportItemCommand}" DeleteCommand="{Binding ElementName=MainView, Path=VM.DeleteItemCommand}" />
         </DataTemplate>
     </Page.Resources>
 
@@ -206,7 +201,7 @@
                         <FlipView MaxWidth="250" MaxHeight="250" Grid.Row="2" ItemsSource="{x:Bind VM.SelectedLibraryItem.Games, Mode=OneWay}" SelectedItem="{Binding ElementName=MainView, Path=VM.SelectedLibraryItem.SelectedGame, Mode=TwoWay}">
                             <FlipView.ItemTemplate>
                                 <DataTemplate x:DataType="library:LibraryItemGame">
-                                    <library1:LibraryItemGameControl Game="{x:Bind}" OpenGameCommand="{Binding ElementName=MainControl, Path=AnalyzeGameCommand}" />
+                                    <library1:LibraryItemGameControl Game="{x:Bind}" OpenGameCommand="{Binding ElementName=MainView, Path=VM.AnalyzeLibraryItemGameCommand}" />
                                 </DataTemplate>
                             </FlipView.ItemTemplate>
                         </FlipView>

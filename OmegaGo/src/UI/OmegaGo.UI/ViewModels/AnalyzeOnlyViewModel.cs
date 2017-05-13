@@ -9,6 +9,7 @@ using OmegaGo.Core.Game;
 using OmegaGo.Core.Game.Markup;
 using OmegaGo.Core.Game.Tools;
 using OmegaGo.Core.Rules;
+using OmegaGo.UI.Models.Library;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
@@ -21,12 +22,14 @@ namespace OmegaGo.UI.ViewModels
     {
         public class NavigationBundle
         {
-            public NavigationBundle(GameTree gameTree, GameInfo gameInfo)
+            public NavigationBundle(LibraryItemViewModel libraryItem, GameTree gameTree, GameInfo gameInfo)
             {
+                LibraryItem = libraryItem;
                 GameTree = gameTree;
                 GameInfo = gameInfo;
             }
 
+            public LibraryItemViewModel LibraryItem { get; }
             public GameTree GameTree { get; }
             public GameInfo GameInfo { get; }
         }
@@ -38,6 +41,7 @@ namespace OmegaGo.UI.ViewModels
         {
             _dialogService = dialogService;
             var analyzeBundle = Mvx.Resolve<NavigationBundle>();
+            LibraryItem = analyzeBundle.LibraryItem;
             GameTree = analyzeBundle.GameTree;
             GameInfo = analyzeBundle.GameInfo;
             BlackPortrait = new PlayerPortraitViewModel(analyzeBundle.GameInfo.Black);
@@ -78,6 +82,12 @@ namespace OmegaGo.UI.ViewModels
             };
         }
 
+        public override void Appearing()
+        {
+            TabTitle = LibraryItem.FileName + "(" + Localizer.Analysis + ")";
+        }
+
+        public LibraryItemViewModel LibraryItem { get; }
         public GameTree GameTree { get; }
         public GameInfo GameInfo { get; }
 

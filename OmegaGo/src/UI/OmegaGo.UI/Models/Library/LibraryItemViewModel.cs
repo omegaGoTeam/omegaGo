@@ -5,7 +5,7 @@ using MvvmCross.Core.ViewModels;
 
 namespace OmegaGo.UI.Models.Library
 {
-    public class LibraryItemViewModel : MvxNotifyPropertyChanged
+    public abstract class LibraryItemViewModel : MvxNotifyPropertyChanged
     {
         private readonly LibraryItem _wrappedItem;
 
@@ -15,13 +15,15 @@ namespace OmegaGo.UI.Models.Library
         {
             _wrappedItem = item;
             SelectedGame = item.Games.FirstOrDefault();
-        }
+        }        
 
         public string FileName => _wrappedItem.FileName;
 
         public string FileNameWithoutExtension => Path.GetFileNameWithoutExtension(FileName);
 
-        public bool ShowCommands { get; set; } = true;
+        public abstract bool ShowCommands { get; }
+
+        public abstract LibraryItemKind Kind { get; }
 
         public int GameCount => _wrappedItem.Games.Length;
 

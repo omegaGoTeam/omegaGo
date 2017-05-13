@@ -82,7 +82,7 @@
                 <TextBlock Visibility="{x:Bind Game.Comment, Converter={StaticResource NonEmptyStringVisibilityConverter}, Mode=OneWay}" MaxLines="3" Text="{x:Bind Game.Comment, Mode=OneWay}" TextTrimming="CharacterEllipsis" Grid.Row="3" TextWrapping="Wrap" />
             </StackPanel>
         </ScrollViewer>
-        <Button Grid.Row="1" Margin="0" Command="{x:Bind OpenGameCommand, Mode=OneWay}" HorizontalAlignment="Stretch">
+        <Button Grid.Row="1" Margin="0" Command="{x:Bind OpenGameCommand, Mode=OneWay}" CommandParameter="{x:Bind Game, Mode=OneWay}" HorizontalAlignment="Stretch">
             <StackPanel Orientation="Horizontal">
                 <BitmapIcon UriSource="/Assets/Icons/TitleBar/Analyze.png" Width="20" Height="20" Margin="0,0,8,0" />
                 <TextBlock VerticalAlignment="Center" Text="{Binding Source={StaticResource Localizer}, Path=Analyze}" />

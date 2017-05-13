@@ -80,7 +80,10 @@
     <Compile Include="Infrastructure\Tabbed\ITabInfo.cs" />
     <Compile Include="Infrastructure\Tabbed\ITabProvider.cs" />
     <Compile Include="Infrastructure\Tabbed\TabNavigationType.cs" />
+    <Compile Include="Models\Library\AppDataLibraryItemViewModel.cs" />
+    <Compile Include="Models\Library\ExternalSgfFileViewModel.cs" />
     <Compile Include="Models\Library\LibraryItemGame.cs" />
+    <Compile Include="Models\Library\LibraryItemKind.cs" />
     <Compile Include="Models\Library\LibraryItemViewModel.cs" />
     <Compile Include="Models\Statistics\StatisticsItem.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

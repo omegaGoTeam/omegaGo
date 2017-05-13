@@ -26,8 +26,11 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
         public async Task WriteFileAsync(string filePath, string fileContent, string folder = null)
         {
             StorageFolder storageFolder = folder == null ? _rootFolder : await _rootFolder.CreateFolderAsync(folder, CreationCollisionOption.OpenIfExists);
-            var storageFile = await storageFolder.CreateFileAsync(filePath, CreationCollisionOption.ReplaceExisting);
-            await FileIO.WriteTextAsync(storageFile, fileContent);
+            await Task.Run(() =>
+            {
+                var fullPath = Path.Combine(storageFolder.Path, filePath);
+                File.WriteAllText(fullPath, fileContent);
+            });
         }
 
         public async Task EnsureFolderExistsAsync(string folderPath)
