@@ -1239,6 +1239,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export SGF file....
+        /// </summary>
+        public static string ExportSgfFile {
+            get {
+                return ResourceManager.GetString("ExportSgfFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Feedback.
         /// </summary>
         public static string Feedback {
@@ -3071,6 +3080,15 @@ namespace OmegaGo.UI.Localization {
         public static string RulesetType_Japanese {
             get {
                 return ResourceManager.GetString("RulesetType_Japanese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save to game library.
+        /// </summary>
+        public static string SaveToLibrary {
+            get {
+                return ResourceManager.GetString("SaveToLibrary", resourceCulture);
             }
         }
         

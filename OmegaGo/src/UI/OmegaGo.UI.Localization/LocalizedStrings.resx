@@ -1673,4 +1673,10 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Analysis" xml:space="preserve">
     <value>Analysis</value>
   </data>
+  <data name="ExportSgfFile" xml:space="preserve">
+    <value>Export SGF file...</value>
+  </data>
+  <data name="SaveToLibrary" xml:space="preserve">
+    <value>Save to game library</value>
+  </data>
 </root>
