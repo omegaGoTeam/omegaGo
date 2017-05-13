@@ -23,6 +23,6 @@ namespace OmegaGo.UI.Services.Files
         /// </summary>
         /// <param name="suggestedFileName">Suggested file name</param>
         /// <param name="contents">Text to write in the file</param>        
-        Task PickAndWriteFileAsync(string suggestedFileName, string contents);
+        Task<bool> PickAndWriteFileAsync(string suggestedFileName, string contents);
     }
 }

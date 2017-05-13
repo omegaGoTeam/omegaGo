@@ -229,8 +229,12 @@ namespace OmegaGo.UI.ViewModels
             try
             {
                 var sgf = ConvertStateToSgf();
-                await SgfExport.ExportAsync(SuggestedGameFileName, sgf);
-                Mvx.Resolve<IAppNotificationService>().TriggerNotification(new BubbleNotification(Localizer.SgfExportSuccessful, Localizer.Success, NotificationType.Success));
+                if (await SgfExport.ExportAsync(SuggestedGameFileName, sgf))
+                {
+                    Mvx.Resolve<IAppNotificationService>()
+                        .TriggerNotification(new BubbleNotification(Localizer.SgfExportSuccessful, Localizer.Success,
+                            NotificationType.Success));
+                }
             }
             catch (Exception ex)
             {
@@ -247,7 +251,7 @@ namespace OmegaGo.UI.ViewModels
             {
                 var sgf = ConvertStateToSgf();
                 await SgfExport.SaveToLibraryAsync(SuggestedGameFileName, sgf);
-                Mvx.Resolve<IAppNotificationService>().TriggerNotification(new BubbleNotification(Localizer.SgfSaveToLibrarySuccessful,Localizer.Success, NotificationType.Success));
+                Mvx.Resolve<IAppNotificationService>().TriggerNotification(new BubbleNotification(Localizer.SgfSaveToLibrarySuccessful, Localizer.Success, NotificationType.Success));
             }
             catch (Exception ex)
             {

@@ -201,8 +201,12 @@ namespace OmegaGo.UI.ViewModels
             try
             {
                 var sgf = ConvertStateToSgf();
-                await SgfExport.ExportAsync(LibraryItem.FileName, sgf);
-                Mvx.Resolve<IAppNotificationService>().TriggerNotification(new BubbleNotification(Localizer.SgfExportSuccessful, Localizer.Success, NotificationType.Success));
+                if (await SgfExport.ExportAsync(LibraryItem.FileName, sgf))
+                {
+                    Mvx.Resolve<IAppNotificationService>()
+                        .TriggerNotification(new BubbleNotification(Localizer.SgfExportSuccessful, Localizer.Success,
+                            NotificationType.Success));
+                }
             }
             catch (Exception ex)
             {

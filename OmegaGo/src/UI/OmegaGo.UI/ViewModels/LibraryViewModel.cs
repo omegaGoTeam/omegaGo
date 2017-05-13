@@ -165,33 +165,47 @@ namespace OmegaGo.UI.ViewModels
                 Mvx.RegisterSingleton<NavigationModel>(new NavigationModel());
             }
             await RefreshListAsync();
-            OpenSgfFile(model?.SgfFileInfo);
+            await OpenSgfFileAsync(model?.SgfFileInfo);
         }
 
         /// <summary>
         /// Opens a SGF file provided its info
         /// </summary>
         /// <param name="fileInfo">File info</param>        
-        public void OpenSgfFile(FileContentInfo fileInfo)
+        public async Task OpenSgfFileAsync(FileContentInfo fileInfo)
+        {
+            var newItem = await CreateLibraryItemFromFileContentAsync(fileInfo);
+            if (newItem != null)
+            {
+                SelectedLibraryItem = new ExternalSgfFileViewModel(fileInfo.Contents, newItem);
+            }
+        }
+
+        /// <summary>
+        /// Creates a library item from file content info. Displays error info.
+        /// </summary>
+        /// <param name="fileInfo">File content info</param>
+        /// <returns>Library item</returns>
+        public async Task<LibraryItem> CreateLibraryItemFromFileContentAsync(FileContentInfo fileInfo)
         {
             if (fileInfo == null)
             {
-                return;
+                return null;
             }
+            var parser = new SgfParser();
+            SgfCollection collection = null;
             try
             {
-                //add to library
-                var newItem = CreateLibraryItemFromFile(fileInfo);
-                SelectedLibraryItem = new ExternalSgfFileViewModel(fileInfo.Contents, newItem);
+                collection = parser.Parse(fileInfo.Contents);
             }
-            catch (Exception e)
+            catch (SgfParseException e)
             {
                 //ignore
+                await _dialogService.ShowAsync(e.Message, Localizer.ErrorParsingSgfFile);
             }
-            finally
-            {
-                IsWorking = false;
-            }
+            //add to library
+            var newItem = CreateLibraryItem(fileInfo, collection);
+            return newItem;
         }
 
         /// <summary>
@@ -202,7 +216,8 @@ namespace OmegaGo.UI.ViewModels
         {
             IsWorking = true;
             var fileContents = await _filePicker.PickAndReadFileAsync(".sgf");
-            OpenSgfFile(fileContents);
+            await OpenSgfFileAsync(fileContents);
+            IsWorking = false;
         }
 
         /// <summary>
@@ -212,22 +227,28 @@ namespace OmegaGo.UI.ViewModels
         private async Task ImportSgfFileAsync()
         {
             IsWorking = true;
-            var fileContents = await _filePicker.PickAndReadFileAsync(".sgf");
-            if (fileContents == null)
-            {
-                return;
-            }
             try
             {
+                var fileContents = await _filePicker.PickAndReadFileAsync(".sgf");
+                if (fileContents == null)
+                {
+                    return;
+                }
+
                 string fileName = fileContents.Name;
                 fileName = await SgfExport.SaveToLibraryAsync(fileName, fileContents.Contents);
                 //add to library
-                var newItem = await LoadLibraryItemAsync(fileName);
-                LibraryItems.Insert(0, new AppDataLibraryItemViewModel(newItem));
+                var fileInfo = await _appDataFileService.GetFileInfoAsync(fileName, SgfFolderName);
+                var newItem = await CreateLibraryItemFromFileContentAsync(new FileContentInfo(fileInfo.Name,
+                    fileInfo.Size, fileInfo.LastModified, fileContents.Contents));
+                if (newItem != null)
+                {
+                    LibraryItems.Insert(0, new AppDataLibraryItemViewModel(newItem));
+                }
             }
             catch (Exception e)
             {
-                await _dialogService.ShowAsync(e.ToString(), Localizer.ErrorSavingFile);
+                //ignore
             }
             finally
             {
@@ -257,7 +278,7 @@ namespace OmegaGo.UI.ViewModels
             foreach (var fileName in fileNames)
             {
                 //load each library item
-                libraryLoadTasks.Add(Task.Run(() => LoadLibraryItemAsync(fileName)));
+                libraryLoadTasks.Add(Task.Run(() => RefreshLoadLibraryItemAsync(fileName)));
             }
 
             //get the resuts, include only non-null items
@@ -427,7 +448,7 @@ namespace OmegaGo.UI.ViewModels
         /// Loads a library item
         /// </summary>
         /// <param name="fileName">File name</param>        
-        private async Task<LibraryItem> LoadLibraryItemAsync(string fileName)
+        private async Task<LibraryItem> RefreshLoadLibraryItemAsync(string fileName)
         {
             FileInfo info = await _appDataFileService.GetFileInfoAsync(fileName, SgfFolderName);
 
@@ -446,45 +467,18 @@ namespace OmegaGo.UI.ViewModels
                 }
             }
 
-            //load the library item in full on different thread
-
+            //load the library item in full on different thread            
             string content = await _appDataFileService.ReadFileAsync(fileName, SgfFolderName);
-            return CreateLibraryItemFromFile(new FileContentInfo(info.Name, info.Size, info.LastModified, content));
+            return RefreshLibraryItemBuilder(new FileContentInfo(info.Name, info.Size, info.LastModified, content));
         }
 
-        private LibraryItem CreateLibraryItemFromFile(FileContentInfo fileContentInfo)
+        private LibraryItem RefreshLibraryItemBuilder(FileContentInfo fileContentInfo)
         {
             try
             {
                 SgfParser parser = new SgfParser();
                 var sgfCollection = parser.Parse(fileContentInfo.Contents);
-                List<LibraryItemGame> games = new List<LibraryItemGame>(sgfCollection.Count());
-                foreach (var tree in sgfCollection.GameTrees)
-                {
-                    SgfGameInfoSearcher searcher = new SgfGameInfoSearcher(tree);
-                    var sgfGameInfo = searcher.GetGameInfo();
-                    var comment = sgfGameInfo.GameComment?.Value<string>() ?? "";
-                    if (comment == "")
-                    {
-                        //try to find a comment in first node
-                        var firstNode = tree.Sequence.FirstOrDefault();
-                        if (firstNode != null)
-                        {
-                            comment = firstNode["C"]?.Value<string>() ?? "";
-                        }
-                    }
-                    var gameName = sgfGameInfo.GameName?.Value<string>() ?? "";
-                    var blackName = sgfGameInfo.PlayerBlack?.Value<string>() ?? "";
-                    var blackRank = sgfGameInfo.BlackRank?.Value<string>() ?? "";
-                    var whiteName = sgfGameInfo.PlayerWhite?.Value<string>() ?? "";
-                    var whiteRank = sgfGameInfo.WhiteRank?.Value<string>() ?? "";
-                    var date = sgfGameInfo.Date?.Value<string>() ?? "";
-                    var moves = CountPrimaryLineMoves(tree);
-                    var libraryItemGame = new LibraryItemGame(gameName, moves, date, blackName, blackRank, whiteName, whiteRank, comment);
-                    games.Add(libraryItemGame);
-                }
-
-                var libraryItem = new LibraryItem(fileContentInfo.Name, games.ToArray(), fileContentInfo.Size, fileContentInfo.LastModified);
+                var libraryItem = CreateLibraryItem(fileContentInfo, sgfCollection);
                 lock (_progressLock)
                 {
                     _loadedLibraryItems++;
@@ -500,6 +494,43 @@ namespace OmegaGo.UI.ViewModels
                 }
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Creates a library item
+        /// </summary>
+        /// <param name="fileInfo">File info</param>
+        /// <param name="sgfCollection">Sgf collection</param>
+        /// <returns></returns>
+        private LibraryItem CreateLibraryItem(FileInfo fileInfo, SgfCollection sgfCollection)
+        {
+            List<LibraryItemGame> games = new List<LibraryItemGame>(sgfCollection.Count());
+            foreach (var tree in sgfCollection.GameTrees)
+            {
+                SgfGameInfoSearcher searcher = new SgfGameInfoSearcher(tree);
+                var sgfGameInfo = searcher.GetGameInfo();
+                var comment = sgfGameInfo.GameComment?.Value<string>() ?? "";
+                if (comment == "")
+                {
+                    //try to find a comment in first node
+                    var firstNode = tree.Sequence.FirstOrDefault();
+                    if (firstNode != null)
+                    {
+                        comment = firstNode["C"]?.Value<string>() ?? "";
+                    }
+                }
+                var gameName = sgfGameInfo.GameName?.Value<string>() ?? "";
+                var blackName = sgfGameInfo.PlayerBlack?.Value<string>() ?? "";
+                var blackRank = sgfGameInfo.BlackRank?.Value<string>() ?? "";
+                var whiteName = sgfGameInfo.PlayerWhite?.Value<string>() ?? "";
+                var whiteRank = sgfGameInfo.WhiteRank?.Value<string>() ?? "";
+                var date = sgfGameInfo.Date?.Value<string>() ?? "";
+                var moves = CountPrimaryLineMoves(tree);
+                var libraryItemGame = new LibraryItemGame(gameName, moves, date, blackName, blackRank, whiteName, whiteRank, comment);
+                games.Add(libraryItemGame);
+            }
+
+            return new LibraryItem(fileInfo.Name, games.ToArray(), fileInfo.Size, fileInfo.LastModified);
         }
 
         /// <summary>

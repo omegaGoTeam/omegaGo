@@ -12,9 +12,9 @@ namespace OmegaGo.UI.Utility
 {
     public static class SgfExport
     {
-        public static async Task ExportAsync(string suggestedFileName, string sgfContent)
+        public static async Task<bool> ExportAsync(string suggestedFileName, string sgfContent)
         {
-            await Mvx.Resolve<IFilePickerService>().PickAndWriteFileAsync(suggestedFileName, sgfContent);
+            return await Mvx.Resolve<IFilePickerService>().PickAndWriteFileAsync(suggestedFileName, sgfContent);
         }
 
         /// <summary>

@@ -39,7 +39,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
             return null;
         }
 
-        public async Task PickAndWriteFileAsync(string suggestedFileName, string contents)
+        public async Task<bool> PickAndWriteFileAsync(string suggestedFileName, string contents)
         {
             //prepare file picker
             FileSavePicker fileSave = new FileSavePicker();
@@ -52,12 +52,14 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
                 try
                 {
                     await FileIO.WriteTextAsync(file, contents);
+                    return true;
                 }
                 catch
                 {
                     //ignore write errors
                 }
             }
+            return false;
         }
     }
 }
