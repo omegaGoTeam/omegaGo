@@ -97,6 +97,7 @@ namespace OmegaGo.Core.Online.Kgs
             }
             KgsChannel channel = Channels[channelId];
             channel.Joined = false;
+            _kgsConnection.Events.RaiseUnjoin(channel);
             if (channel is KgsGameContainer)
             {
                 KgsGameContainer container = channel as KgsGameContainer;
@@ -112,7 +113,7 @@ namespace OmegaGo.Core.Online.Kgs
             SomethingChanged();
 
             // Old:
-            _kgsConnection.Events.RaiseUnjoin(channel);
+            _kgsConnection.Events.RaiseChannelUnjoined(channel);
         }
 
 
@@ -128,6 +129,7 @@ namespace OmegaGo.Core.Online.Kgs
                 Channels.Add(channel.ChannelId, channel);
             }
             channel.Joined = true;
+            _kgsConnection.Events.RaiseChannelJoined(channel);
             SomethingChanged();
         }
 

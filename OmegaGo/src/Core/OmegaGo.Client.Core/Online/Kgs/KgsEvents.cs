@@ -37,6 +37,8 @@ namespace OmegaGo.Core.Online.Kgs
         public event EventHandler<GameInfo> UndoDeclined;
 #pragma warning restore CS0067
         public event Action SomethingChanged;
+        public event Action<KgsChannel> ChannelJoined;
+        public event Action<KgsChannel> ChannelUnjoined;
 
         internal void RaiseChallengeJoined(KgsChallenge createdChallenge)
         {
@@ -101,9 +103,18 @@ namespace OmegaGo.Core.Online.Kgs
             UndoRequestReceived?.Invoke(this, kgsGame.Info);
         }
 
-        public void RaiseSomethingChanged()
+        internal void RaiseSomethingChanged()
         {
             SomethingChanged?.Invoke();
+        }
+
+        internal void RaiseChannelJoined(KgsChannel channel)
+        {
+            ChannelJoined?.Invoke(channel);
+        }
+        internal void RaiseChannelUnjoined(KgsChannel channel)
+        {
+            ChannelUnjoined?.Invoke(channel);
         }
     }
 }
