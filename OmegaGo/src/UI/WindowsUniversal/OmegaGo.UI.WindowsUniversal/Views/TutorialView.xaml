@@ -61,10 +61,10 @@
                 Margin="5" Padding="5"
                 MaxWidth="600" Height="100"
                 HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                BorderThickness="2" BorderBrush="Black"
                 CornerRadius="20" SizeChanged="Viewbox_SizeChanged">
             <Border.Background>
-                <SolidColorBrush Opacity="0.7" Color="LightBlue" />
+                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}"
+                                 Opacity="0.8" />
             </Border.Background>
             <Viewbox Stretch="Uniform" 
                      HorizontalAlignment="Stretch">
@@ -77,21 +77,23 @@
         <Border x:Name="MakeYourChoiceDialog"
                 Grid.Row="1"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
-                BorderThickness="2"
-                Background="LightBlue"
-                BorderBrush="Black"
                 CornerRadius="20"
                 Visibility="{x:Bind VM.IsChoiceDialogVisible, Mode=OneWay}">
+            <Border.Background>
+                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}"
+                                 Opacity="0.95" />
+            </Border.Background>
+            
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel HorizontalAlignment="Center" Margin="20">
                     <TextBlock  x:Name="senseisMessageTextBlock"
                                     HorizontalAlignment="Center"
                                     Text="{x:Bind VM.SenseisMessage, Mode=OneWay}" TextWrapping="Wrap">
                     </TextBlock>
-                    <Button Command="{x:Bind VM.Option1Command}" HorizontalAlignment="Stretch" Padding="50,10,50,10" Margin="20">
+                    <Button Command="{x:Bind VM.Option1Command}" HorizontalAlignment="Stretch" Padding="30,10,30,10" Margin="20,20,20,10">
                         <TextBlock x:Name="option1Text" TextWrapping="Wrap" Text="{x:Bind VM.Option1Text, Mode=OneWay}" />
                     </Button>
-                    <Button Command="{x:Bind VM.Option2Command}" HorizontalAlignment="Stretch" Padding="50,10,50,10" Margin="20">
+                    <Button Command="{x:Bind VM.Option2Command}" HorizontalAlignment="Stretch" Padding="30,10,30,10" Margin="20,10,20,20">
                         <TextBlock x:Name="option2Text" TextWrapping="Wrap" Text="{x:Bind VM.Option2Text, Mode=OneWay}" />
                     </Button>
                 </StackPanel>
@@ -100,14 +102,16 @@
 
         <Border x:Name="nextButtonBorder" 
                 Grid.Row="1" 
-                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
-                BorderThickness="3"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
+                Padding="20" CornerRadius="20"
                 Visibility="{x:Bind VM.IsNextButtonVisible, Mode=OneWay}">
+            <Border.Background>
+                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}"
+                                 Opacity="0.95" />
+            </Border.Background>
+
             <Button x:Name="buttonNext"
-                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                    Padding="20"
+                    Padding="30,10,30,10"
                     Command="{x:Bind VM.NextButtonCommand}">
                 <TextBlock x:Name="buttonNextText" 
                            FontWeight="Bold"
