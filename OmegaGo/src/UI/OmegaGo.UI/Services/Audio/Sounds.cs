@@ -49,5 +49,7 @@ namespace OmegaGo.UI.Services.Audio
         /// Sound for incoming match requests, among others.
         /// </summary>
         public static AudioFilePack IncomingMatchRequest => SfxId.PleasantJingle;
+
+        public static AudioFilePack ChallengerChanged => SfxId.PleasantJingle;
     }
 }
