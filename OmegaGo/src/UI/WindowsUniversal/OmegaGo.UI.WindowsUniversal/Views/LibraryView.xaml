@@ -11,6 +11,7 @@
     xmlns:actions="using:OmegaGo.UI.WindowsUniversal.Behaviors.Actions"
     xmlns:library="using:OmegaGo.UI.Models.Library"
     xmlns:library1="using:OmegaGo.UI.WindowsUniversal.UserControls.Library"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     x:Name="MainView"
     mc:Ignorable="d">
 
@@ -35,14 +36,14 @@
             <Border HorizontalAlignment="Stretch" Padding="12" IsRightTapEnabled="True" IsTapEnabled="True" Background="Transparent">
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Tapped">
-                        <actions:OpenAttachedFlyoutAction />
+                        <core:InvokeCommandAction Command="{Binding ElementName=MainView, Path=VM.SelectLibraryItemCommand}" CommandParameter="{Binding}" />
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
-                <FlyoutBase.AttachedFlyout>
+                <!--<FlyoutBase.AttachedFlyout>
                     <Flyout FlyoutPresenterStyle="{StaticResource NonScrollFlyoutPresenter}">
                         <ContentControl Content="{Binding}" ContentTemplate="{StaticResource LargeLibraryItemTemplate}" />
                     </Flyout>
-                </FlyoutBase.AttachedFlyout>
+                </FlyoutBase.AttachedFlyout>-->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -90,83 +91,129 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+        <Grid>
+            <interactivity:Interaction.Behaviors>
+                <behaviors:Blur x:Name="BlurBehavior"
+                                Value="3"
+                                Duration="500"
+                                Delay="0"
+                                AutomaticallyStart="True"/>
+                <core:DataTriggerBehavior Binding="{x:Bind VM.SelectedItemShown, Mode=OneWay}" ComparisonCondition="Equal" Value="True">
+                    <core:CallMethodAction MethodName="Blur" TargetObject="{Binding ElementName=MainView}" />
+                </core:DataTriggerBehavior>
+                <core:DataTriggerBehavior Binding="{x:Bind VM.SelectedItemShown, Mode=OneWay}" ComparisonCondition="Equal" Value="False">
+                    <core:CallMethodAction MethodName="Unblur" TargetObject="{Binding ElementName=MainView}" />
+                </core:DataTriggerBehavior>
+            </interactivity:Interaction.Behaviors>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <navigation:TitleControl HorizontalAlignment="Center"
+            <navigation:TitleControl HorizontalAlignment="Center"
                    Grid.Row="0"
                    Text="{x:Bind Localizer.GameLibrary}"
                    Margin="0,12,0,0" />
-        <StackPanel x:Name="TopCommandPanel" Visibility="Collapsed"  Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1" Margin="8">
-            <Button Command="{x:Bind VM.OpenSgfFileCommand}">
-                <StackPanel Orientation="Horizontal">
-                    <SymbolIcon Symbol="OpenFile" />
-                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.OpenSgfFile}" />
-                </StackPanel>
-            </Button>
-            <Button Margin="8,0,0,0" Command="{x:Bind VM.ImportSgfFileCommand}">
-                <StackPanel Orientation="Horizontal">
-                    <BitmapIcon UriSource="/Assets/Icons/Commands/ImportToLibrary.png" Width="20" Height="20" />
-                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.ImportSgfFile}" />
-                </StackPanel>
-            </Button>
-            <Button Command="{x:Bind Path=VM.RefreshCommand}" Margin="8,0,0,0">
-                <StackPanel Orientation="Horizontal">
-                    <SymbolIcon Symbol="Refresh" />
-                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.Refresh}" />
-                </StackPanel>
-            </Button>
-            <Button Command="{x:Bind Path=VM.OpenLibraryInExplorerCommand}" Margin="8,0,0,0">
-                <StackPanel Orientation="Horizontal">
-                    <FontIcon Glyph="&#xED43;" />
-                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.OpenLibraryInExplorer}" />
-                </StackPanel>
-            </Button>
-        </StackPanel>
+            <StackPanel x:Name="TopCommandPanel" Visibility="Collapsed"  Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1" Margin="8">
+                <Button Command="{x:Bind VM.OpenSgfFileCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Symbol="OpenFile" />
+                        <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.OpenSgfFile}" />
+                    </StackPanel>
+                </Button>
+                <Button Margin="8,0,0,0" Command="{x:Bind VM.ImportSgfFileCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <BitmapIcon UriSource="/Assets/Icons/Commands/ImportToLibrary.png" Width="20" Height="20" />
+                        <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.ImportSgfFile}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind Path=VM.RefreshCommand}" Margin="8,0,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Symbol="Refresh" />
+                        <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.Refresh}" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{x:Bind Path=VM.OpenLibraryInExplorerCommand}" Margin="8,0,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon Glyph="&#xED43;" />
+                        <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.OpenLibraryInExplorer}" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
 
-        <GridView Padding="12,0" x:Name="LibraryGridView" ItemsPanel="{ThemeResource GridItemsPanelTemplate}" Visibility="Collapsed" HorizontalContentAlignment="Center" HorizontalAlignment="Center" IsItemClickEnabled="False" SelectionMode="None"
+            <GridView Padding="12,0" x:Name="LibraryGridView" ItemsPanel="{ThemeResource GridItemsPanelTemplate}" Visibility="Collapsed" HorizontalContentAlignment="Center" HorizontalAlignment="Center" IsItemClickEnabled="False" SelectionMode="None"
                   Grid.Row="2"                 
                   ItemsSource="{x:Bind Path=VM.LibraryItems, Mode=OneWay}" ItemTemplate="{StaticResource LargeLibraryItemTemplate}">
-            <GridView.ItemContainerTransitions>
-                <TransitionCollection>
-                    <RepositionThemeTransition />
-                </TransitionCollection>
-            </GridView.ItemContainerTransitions>
-            <GridView.ItemContainerStyle>
-                <Style TargetType="GridViewItem">
-                    <Setter Property="Margin" Value="12" />
-                </Style>
-            </GridView.ItemContainerStyle>
-        </GridView>
+                <GridView.ItemContainerTransitions>
+                    <TransitionCollection>
+                        <RepositionThemeTransition />
+                    </TransitionCollection>
+                </GridView.ItemContainerTransitions>
+                <GridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="Margin" Value="12" />
+                    </Style>
+                </GridView.ItemContainerStyle>
+            </GridView>
 
-        <ListView Margin="12,0" x:Name="LibraryListView" Visibility="Collapsed" IsItemClickEnabled="True" SelectionMode="None" Grid.Row="2"
+            <ListView Margin="12,0" x:Name="LibraryListView" Visibility="Collapsed" IsItemClickEnabled="True" SelectionMode="None" Grid.Row="2"
                   ItemsSource="{x:Bind Path=VM.LibraryItems, Mode=OneWay}" ItemTemplate="{StaticResource SmallLibraryItemTemplate}">
-            <ListView.Background>
-                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="{StaticResource PagePanelOpacity}" />
-            </ListView.Background>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalAlignment" Value="Stretch" />
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
+                <ListView.Background>
+                    <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="{StaticResource PagePanelOpacity}" />
+                </ListView.Background>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
 
 
-        <CommandBar x:Name="BottomCommandBar" Grid.Row="3" IsDynamicOverflowEnabled="True">
-            <AppBarButton Command="{x:Bind VM.OpenSgfFileCommand}" Label="{x:Bind Localizer.OpenSgfFile}" Icon="OpenFile" />
-            <AppBarButton Command="{x:Bind VM.ImportSgfFileCommand}" Label="{x:Bind Localizer.ImportSgfFile}">
-                <BitmapIcon UriSource="/Assets/Icons/Commands/ImportToLibrary.png" />
-            </AppBarButton>
-            <AppBarButton Icon="Refresh" Label="{x:Bind Localizer.Refresh}" Command="{x:Bind VM.RefreshCommand}" />
-            <AppBarButton Command="{x:Bind Path=VM.OpenLibraryInExplorerCommand}" Label="{x:Bind Localizer.OpenLibraryInExplorer}">
-                <FontIcon Glyph="&#xED43;" />
-            </AppBarButton>
-        </CommandBar>
+            <CommandBar x:Name="BottomCommandBar" Grid.Row="3" IsDynamicOverflowEnabled="True">
+                <AppBarButton Command="{x:Bind VM.OpenSgfFileCommand}" Label="{x:Bind Localizer.OpenSgfFile}" Icon="OpenFile" />
+                <AppBarButton Command="{x:Bind VM.ImportSgfFileCommand}" Label="{x:Bind Localizer.ImportSgfFile}">
+                    <BitmapIcon UriSource="/Assets/Icons/Commands/ImportToLibrary.png" />
+                </AppBarButton>
+                <AppBarButton Icon="Refresh" Label="{x:Bind Localizer.Refresh}" Command="{x:Bind VM.RefreshCommand}" />
+                <AppBarButton Command="{x:Bind Path=VM.OpenLibraryInExplorerCommand}" Label="{x:Bind Localizer.OpenLibraryInExplorer}">
+                    <FontIcon Glyph="&#xED43;" />
+                </AppBarButton>
+            </CommandBar>
+        </Grid>
+        <Border Visibility="{x:Bind VM.SelectedItemShown, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Grid.RowSpan="4" Background="Transparent">
+            <Border Margin="0,20,0,20" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColorBrush}" >
+                <ScrollViewer VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" HorizontalScrollMode="Disabled" Padding="20,0,20,0">
+                    <Grid Margin="0,20,0,20" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8" HorizontalAlignment="Center">
+                            <Button Command="{x:Bind VM.DeselectLibraryItemCommand}"  Style="{StaticResource NavigationBackButtonSmallStyle}" />
+                            <TextBlock VerticalAlignment="Center" TextAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" FontSize="16" TextWrapping="Wrap" Text="{x:Bind VM.SelectedLibraryItem.FileName, Mode=OneWay, Converter={StaticResource StringToUpperConverter}}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" Grid.Row="1" Margin="0,0,0,8">
+                            <TextBlock Style="{ThemeResource CaptionTextBlockStyle}">
+                                <Run Text="{x:Bind VM.SelectedLibraryItem.GameCount, Mode=OneWay}" />                            
+                                <Run Text="{x:Bind VM.SelectedLibraryItem.GameCount, Mode=OneWay, Converter={StaticResource PluralizingConverter}, ConverterParameter=Game}" />
+                            </TextBlock>
+                        </StackPanel>
+                        <FlipView MaxWidth="250" MaxHeight="250" Grid.Row="2" ItemsSource="{x:Bind VM.SelectedLibraryItem.Games, Mode=OneWay}" SelectedItem="{Binding ElementName=MainView, Path=VM.SelectedLibraryItem.SelectedGame, Mode=TwoWay}">
+                            <FlipView.ItemTemplate>
+                                <DataTemplate x:DataType="library:LibraryItemGame">
+                                    <library1:LibraryItemGameControl Game="{x:Bind}" OpenGameCommand="{Binding ElementName=MainControl, Path=AnalyzeGameCommand}" />
+                                </DataTemplate>
+                            </FlipView.ItemTemplate>
+                        </FlipView>
+                    </Grid>
+                </ScrollViewer>
+            </Border>
+        </Border>
 
         <Border Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind VM.IsWorking, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Grid.RowSpan="4">
             <Border.Background>

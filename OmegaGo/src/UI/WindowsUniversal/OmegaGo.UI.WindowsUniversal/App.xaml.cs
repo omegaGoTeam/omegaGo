@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
+using Windows.Storage;
 using Windows.System.Profile;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -27,6 +28,7 @@ using OmegaGo.UI.WindowsUniversal.Services.Uncategorized;
 using Windows.UI.Xaml.Controls.Primitives;
 using MvvmCross.Core.ViewModels;
 using OmegaGo.UI.Infrastructure.Tabbed;
+using OmegaGo.UI.Services.Files;
 using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.WindowsUniversal
@@ -102,9 +104,17 @@ namespace OmegaGo.UI.WindowsUniversal
             {
                 await InitAsync(args.SplashScreen);
             }
-            AppShell.GetForCurrentView().TabManager.ProcessViewModelRequest(
-                new MvxViewModelRequest(typeof(LibraryViewModel), new MvxBundle(), new MvxBundle(),
-                    MvxRequestedBy.UserAction), TabNavigationType.NewForegroundTab);
+            var file = args.Files.OfType<StorageFile>().FirstOrDefault();
+            if (file != null)
+            {
+                var basicProperties = await file.GetBasicPropertiesAsync();
+                var contents = await FileIO.ReadTextAsync(file);
+                var fileInfo = new FileContentInfo(file.Name, basicProperties.Size, basicProperties.DateModified, contents);
+                Mvx.RegisterSingleton(new LibraryViewModel.NavigationModel() { SgfFileInfo = fileInfo });
+                AppShell.GetForCurrentView().TabManager.ProcessViewModelRequest(
+                    new MvxViewModelRequest(typeof(LibraryViewModel), new MvxBundle(), new MvxBundle(),
+                        MvxRequestedBy.UserAction), TabNavigationType.NewForegroundTab);
+            }
         }
 
         /// <summary>

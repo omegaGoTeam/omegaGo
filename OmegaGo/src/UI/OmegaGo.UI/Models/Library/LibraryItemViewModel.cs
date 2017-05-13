@@ -21,6 +21,8 @@ namespace OmegaGo.UI.Models.Library
 
         public string FileNameWithoutExtension => Path.GetFileNameWithoutExtension(FileName);
 
+        public bool ShowCommands { get; set; } = true;
+
         public int GameCount => _wrappedItem.Games.Length;
 
         public LibraryItemGame[] Games => _wrappedItem.Games;

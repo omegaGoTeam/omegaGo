@@ -43,6 +43,9 @@ namespace OmegaGo.UI.ViewModels
         private ICommand _importSgfFileCommand;
         private ICommand _refreshLibraryCommand;
 
+        private ICommand _selectLibraryItemCommand;
+        private ICommand _deselectLibraryItemCommand;
+
         //item specific
         private ICommand _deleteItemCommand;
         private ICommand _exportItemCommand;
@@ -56,6 +59,7 @@ namespace OmegaGo.UI.ViewModels
 
         private int _totalLibraryItems = 0;
         private int _loadedLibraryItems = 0;
+        private LibraryItemViewModel _selectedLibraryItem;
 
         public LibraryViewModel(IFilePickerService filePicker, IAppDataFileService appDataFileService, IDialogService dialogService)
         {
@@ -90,6 +94,19 @@ namespace OmegaGo.UI.ViewModels
                                                         (_openLibraryInExplorerCommand = new MvxAsyncCommand(OpenLibraryInExplorerAsync));
 
         /// <summary>
+        /// Command that selects a library item
+        /// </summary>
+        public ICommand SelectLibraryItemCommand => _selectLibraryItemCommand ??
+                                                    (_selectLibraryItemCommand = new MvxCommand<LibraryItemViewModel>(SelectLibraryItem));
+
+        /// <summary>
+        /// Command that deselects the currently selected library item
+        /// </summary>
+        public ICommand DeselectLibraryItemCommand => _deselectLibraryItemCommand ??
+                                                      (_deselectLibraryItemCommand =
+                                                          new MvxCommand(DeselectLibraryItem));
+
+        /// <summary>
         /// Command that opens a library item for analysis
         /// </summary>
         public ICommand AnalyzeLibraryItemGame => _analyzeLibraryItemGame ??
@@ -122,12 +139,57 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         public RangeCollection<LibraryItemViewModel> LibraryItems { get; } = new RangeCollection<LibraryItemViewModel>();
 
+        public LibraryItemViewModel SelectedLibraryItem
+        {
+            get { return _selectedLibraryItem; }
+            set
+            {
+                SetProperty(ref _selectedLibraryItem, value);
+                RaisePropertyChanged(() => SelectedItemShown);
+            }
+        }
+
+        public bool SelectedItemShown => SelectedLibraryItem != null;
+
         /// <summary>
         /// Initialization of the ViewModel
         /// </summary>
         public async void Init()
         {
-            await RefreshListAsync();
+            NavigationModel model = null;
+            if (Mvx.CanResolve<LibraryViewModel.NavigationModel>())
+            {
+                model = Mvx.Resolve<LibraryViewModel.NavigationModel>();
+                Mvx.RegisterSingleton<NavigationModel>(new NavigationModel());
+            }
+            await RefreshListAsync();            
+            OpenSgfFile(model?.SgfFileInfo);
+        }
+
+        /// <summary>
+        /// Opens a SGF file provided its info
+        /// </summary>
+        /// <param name="fileInfo">File info</param>        
+        public void OpenSgfFile(FileContentInfo fileInfo)
+        {
+            if (fileInfo == null)
+            {
+                return;
+            }
+            try
+            {
+                //add to library
+                var newItem = CreateLibraryItemFromFile(fileInfo);
+                SelectedLibraryItem = new LibraryItemViewModel(newItem) { ShowCommands = false };
+            }
+            catch (Exception e)
+            {
+                //ignore
+            }
+            finally
+            {
+                IsWorking = false;
+            }
         }
 
         /// <summary>
@@ -136,7 +198,9 @@ namespace OmegaGo.UI.ViewModels
         /// <returns></returns>
         private async Task OpenSgfFileAsync()
         {
-            throw new NotImplementedException();
+            IsWorking = true;
+            var fileContents = await _filePicker.PickAndReadFileAsync(".sgf");
+            OpenSgfFile(fileContents);
         }
 
         /// <summary>
@@ -231,7 +295,26 @@ namespace OmegaGo.UI.ViewModels
             await _appDataFileService.LaunchFolderAsync(SgfFolderName);
         }
 
+        /// <summary>
+        /// Selects a library item
+        /// </summary>
+        private void SelectLibraryItem(LibraryItemViewModel libraryItemViewModel)
+        {
+            SelectedLibraryItem = libraryItemViewModel;
+        }
 
+        /// <summary>
+        /// Deselects the currently selected library item
+        /// </summary>
+        private void DeselectLibraryItem()
+        {
+            SelectedLibraryItem = null;
+        }
+
+        /// <summary>
+        /// Opens analysis of a single library item game
+        /// </summary>
+        /// <param name="game">Game to analyze</param>        
         private async Task AnalyzeLibraryItemGameAsync(LibraryItemGame game)
         {
             var libraryItem = LibraryItems.FirstOrDefault(i => i.Games.Contains(game));
@@ -329,10 +412,15 @@ namespace OmegaGo.UI.ViewModels
             //load the library item in full on different thread
 
             string content = await _appDataFileService.ReadFileAsync(fileName, SgfFolderName);
+            return CreateLibraryItemFromFile(new FileContentInfo(info.Name, info.Size, info.LastModified, content));
+        }
+
+        private LibraryItem CreateLibraryItemFromFile(FileContentInfo fileContentInfo)
+        {
             try
             {
                 SgfParser parser = new SgfParser();
-                var sgfCollection = parser.Parse(content);
+                var sgfCollection = parser.Parse(fileContentInfo.Contents);
                 List<LibraryItemGame> games = new List<LibraryItemGame>(sgfCollection.Count());
                 foreach (var tree in sgfCollection.GameTrees)
                 {
@@ -359,7 +447,7 @@ namespace OmegaGo.UI.ViewModels
                     games.Add(libraryItemGame);
                 }
 
-                var libraryItem = new LibraryItem(fileName, games.ToArray(), info.Size, info.LastModified);
+                var libraryItem = new LibraryItem(fileContentInfo.Name, games.ToArray(), fileContentInfo.Size, fileContentInfo.LastModified);
                 lock (_progressLock)
                 {
                     _loadedLibraryItems++;
@@ -421,6 +509,11 @@ namespace OmegaGo.UI.ViewModels
                 LoadingText = string.Format(Localizer.LibraryLoadingFormatString, _loadedLibraryItems,
                     _totalLibraryItems);
             }
+        }
+
+        public class NavigationModel
+        {
+            public FileContentInfo SgfFileInfo { get; set; }
         }
     }
 }
