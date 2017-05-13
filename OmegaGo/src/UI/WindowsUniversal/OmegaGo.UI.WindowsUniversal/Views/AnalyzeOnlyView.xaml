@@ -140,7 +140,8 @@
                             <MenuFlyout>
                                 <ToggleMenuFlyoutItem x:Name="focusButton" Text="{x:Bind Localizer.HideTabs}" Click="focusButton_Click" />
                                 <MenuFlyoutSeparator />
-                                <MenuFlyoutItem Text="{x:Bind Localizer.ExportSGF}" />
+                                <MenuFlyoutItem Text="{x:Bind Localizer.ExportSgfFile}" Command="{x:Bind VM.ExportSGFCommand}" />
+                                <MenuFlyoutItem Text="{x:Bind Localizer.SaveToLibrary}" Command="{x:Bind VM.SaveToLibraryCommand}" />
                                 <MenuFlyoutSeparator />
                             </MenuFlyout>
                         </Button.Flyout>

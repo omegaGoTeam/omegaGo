@@ -30,6 +30,8 @@ using OmegaGo.Core.Sgf.Serializing;
 using OmegaGo.UI.Services.AppPackage;
 using OmegaGo.UI.Services.Files;
 using OmegaGo.UI.Services.Localization;
+using OmegaGo.UI.Services.Notifications;
+using OmegaGo.UI.Utility;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -227,10 +229,10 @@ namespace OmegaGo.UI.ViewModels
             try
             {
                 var sgf = ConvertStateToSgf();
-
-                await Mvx.Resolve<IFilePickerService>().PickAndWriteFileAsync(SuggestedGameFileName, sgf);
+                await SgfExport.ExportAsync(SuggestedGameFileName, sgf);
+                Mvx.Resolve<IAppNotificationService>().TriggerNotification(new BubbleNotification(Localizer.SgfExportSuccessful, Localizer.Success, NotificationType.Success));
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
                 //ignore
             }
@@ -244,9 +246,10 @@ namespace OmegaGo.UI.ViewModels
             try
             {
                 var sgf = ConvertStateToSgf();
-                
+                await SgfExport.SaveToLibraryAsync(SuggestedGameFileName, sgf);
+                Mvx.Resolve<IAppNotificationService>().TriggerNotification(new BubbleNotification(Localizer.SgfSaveToLibrarySuccessful,Localizer.Success, NotificationType.Success));
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
                 //ignore
             }
@@ -255,7 +258,6 @@ namespace OmegaGo.UI.ViewModels
         private string ConvertStateToSgf()
         {
             var appPackage = Mvx.Resolve<IAppPackageService>();
-            var appDataService = Mvx.Resolve<IAppDataFileService>();
             GameTreeToSgfConverter converter = new GameTreeToSgfConverter(
                 new ApplicationInfo(appPackage.AppName, appPackage.Version),
                 Game.Info,

@@ -1679,4 +1679,13 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="SaveToLibrary" xml:space="preserve">
     <value>Save to game library</value>
   </data>
+  <data name="SgfExportSuccessful" xml:space="preserve">
+    <value>Game successfully exported to SGF.</value>
+  </data>
+  <data name="SgfSaveToLibrarySuccessful" xml:space="preserve">
+    <value>Game successfuly saved to library.</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Success</value>
+  </data>
 </root>

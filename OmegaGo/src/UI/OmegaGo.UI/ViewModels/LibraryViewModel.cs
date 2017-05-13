@@ -25,7 +25,7 @@ namespace OmegaGo.UI.ViewModels
 {
     public class LibraryViewModel : ViewModelBase
     {
-        private const string SgfFolderName = "Library";
+        public const string SgfFolderName = "Library";
         private const string LibraryCacheFileName = "LibraryCache.json";
         private const string CacheFolderName = "Cache";
 
@@ -219,17 +219,7 @@ namespace OmegaGo.UI.ViewModels
             try
             {
                 string fileName = fileContents.Name;
-                if (await _appDataFileService.FileExistsAsync(fileContents.Name, SgfFolderName))
-                {
-                    int copyNumber = 1;
-                    while (await _appDataFileService.FileExistsAsync(
-                        $"{Path.GetFileNameWithoutExtension(fileName)} ({copyNumber}).sgf"))
-                    {
-                        copyNumber++;
-                    }
-                    fileName = $"{Path.GetFileNameWithoutExtension(fileName)} ({copyNumber}).sgf";
-                }
-                await _appDataFileService.WriteFileAsync(fileName, fileContents.Contents, SgfFolderName);
+
                 //add to library
                 var newItem = await LoadLibraryItemAsync(fileName);
                 LibraryItems.Insert(0, new AppDataLibraryItemViewModel(newItem));

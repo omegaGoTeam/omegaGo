@@ -3,19 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
+using OmegaGo.Core;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Game.GameTreeConversion;
 using OmegaGo.Core.Game.Markup;
 using OmegaGo.Core.Game.Tools;
 using OmegaGo.Core.Rules;
+using OmegaGo.Core.Sgf;
+using OmegaGo.Core.Sgf.Serializing;
 using OmegaGo.UI.Models.Library;
+using OmegaGo.UI.Services.AppPackage;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Timer;
 using OmegaGo.UI.UserControls.ViewModels;
 using OmegaGo.UI.Services.GameTools;
+using OmegaGo.UI.Services.Notifications;
+using OmegaGo.UI.Utility;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -37,6 +45,9 @@ namespace OmegaGo.UI.ViewModels
 
         private readonly IRuleset _ruleset;
         private readonly IDialogService _dialogService;
+
+        private ICommand _exportSGFCommand = null;
+        private ICommand _saveToLibraryCommand = null;
 
         public AnalyzeOnlyViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
         {
@@ -83,10 +94,11 @@ namespace OmegaGo.UI.ViewModels
             };
         }
 
-        public override void Appearing()
-        {
-            TabTitle = LibraryItem.FileName + "(" + Localizer.Analysis + ")";
-        }
+        public ICommand ExportSGFCommand => _exportSGFCommand ??
+                                            (_exportSGFCommand = new MvxAsyncCommand(ExportSGFAsync));
+
+        public ICommand SaveToLibraryCommand => _saveToLibraryCommand ??
+                                                (_saveToLibraryCommand = new MvxAsyncCommand(SaveToLibraryAsync));
 
         public LibraryItemViewModel LibraryItem { get; }
         public GameTree GameTree { get; }
@@ -104,6 +116,13 @@ namespace OmegaGo.UI.ViewModels
 
         public BoardViewModel BoardViewModel { get; }
 
+        /// <summary>
+        /// Set appropriate title for the tab
+        /// </summary>
+        public override void Appearing()
+        {
+            TabTitle = LibraryItem.FileName + "(" + Localizer.Analysis + ")";
+        }
 
         /// <summary>
         /// Confirmation for closing
@@ -171,6 +190,52 @@ namespace OmegaGo.UI.ViewModels
             // It the current tool is not empty, execute it
             if (Tool != null)
                 Tool.Execute(ToolServices);
+        }
+
+        /// <summary>
+        /// Exports SGF
+        /// </summary>
+        /// <returns></returns>
+        private async Task ExportSGFAsync()
+        {
+            try
+            {
+                var sgf = ConvertStateToSgf();
+                await SgfExport.ExportAsync(LibraryItem.FileName, sgf);
+                Mvx.Resolve<IAppNotificationService>().TriggerNotification(new BubbleNotification(Localizer.SgfExportSuccessful, Localizer.Success, NotificationType.Success));
+            }
+            catch (Exception ex)
+            {
+                //ignore
+            }
+        }
+
+        /// <summary>
+        /// Saves game to library
+        /// </summary>
+        private async Task SaveToLibraryAsync()
+        {
+            try
+            {
+                var sgf = ConvertStateToSgf();
+                await SgfExport.SaveToLibraryAsync(LibraryItem.FileName, sgf);
+                Mvx.Resolve<IAppNotificationService>().TriggerNotification(new BubbleNotification(Localizer.SgfSaveToLibrarySuccessful, Localizer.Success, NotificationType.Success));
+            }
+            catch (Exception ex)
+            {
+                //ignore
+            }
+        }
+
+        private string ConvertStateToSgf()
+        {
+            var appPackage = Mvx.Resolve<IAppPackageService>();
+            GameTreeToSgfConverter converter = new GameTreeToSgfConverter(
+                new ApplicationInfo(appPackage.AppName, appPackage.Version),
+                GameInfo,
+                GameTree);
+            var sgfGameTree = converter.Convert();
+            return new SgfSerializer(true).Serialize(new SgfCollection(new[] { sgfGameTree }));
         }
     }
 }

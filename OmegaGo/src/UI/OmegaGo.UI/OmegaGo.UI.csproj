@@ -197,6 +197,7 @@
     <Compile Include="Utility\Collections\RangeCollection.cs" />
     <Compile Include="Utility\Rectangle.cs" />
     <Compile Include="Utility\Assistant.cs" />
+    <Compile Include="Utility\SgfExport.cs" />
     <Compile Include="ViewModels\AnalyzeOnlyViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="Models\Library\LibraryItem.cs" />

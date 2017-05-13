@@ -3165,6 +3165,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Game successfully exported to SGF..
+        /// </summary>
+        public static string SgfExportSuccessful {
+            get {
+                return ResourceManager.GetString("SgfExportSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game successfuly saved to library..
+        /// </summary>
+        public static string SgfSaveToLibrarySuccessful {
+            get {
+                return ResourceManager.GetString("SgfSaveToLibrarySuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show coordinates.
         /// </summary>
         public static string ShowCoordinates {
@@ -3449,6 +3467,15 @@ namespace OmegaGo.UI.Localization {
         public static string Strength {
             get {
                 return ResourceManager.GetString("Strength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Success.
+        /// </summary>
+        public static string Success {
+            get {
+                return ResourceManager.GetString("Success", resourceCulture);
             }
         }
         
