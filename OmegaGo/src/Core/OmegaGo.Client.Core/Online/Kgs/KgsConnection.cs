@@ -210,10 +210,15 @@ namespace OmegaGo.Core.Online.Kgs
                 LoggingIn = false;
                 Events.RaiseLoginComplete(LoginResult.FailureBadConnection);
             }
-            await MakeUnattendedRequestAsync("SYNC_REQUEST", new
+            if (!await MakeUnattendedRequestAsync("SYNC_REQUEST", new
             {
                 CallbackKey = 7
-            });
+            }))
+            {
+
+                LoggingIn = false;
+                Events.RaiseLoginComplete(LoginResult.FailureBadConnection);
+            }
         }
         private async Task<PostRequestResult> SendPostRequest(string jsonContents)
         {
