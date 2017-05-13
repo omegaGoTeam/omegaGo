@@ -320,14 +320,22 @@ namespace OmegaGo.UI.ViewModels
             var libraryItem = LibraryItems.FirstOrDefault(i => i.Games.Contains(game));
             if (libraryItem != null)
             {
+                //load from library
                 LoadingText = Localizer.LoadingEllipsis;
                 IsWorking = true;
 
                 //// TODO Petr: When Analyze Mode is done
-                //var bundle = new AnalyzeOnlyViewModel.NavigationBundle(SelectedItem.GameTree, SelectedItem.GameInfo);
-                //Mvx.RegisterSingleton(bundle);
-                //ShowViewModel<AnalyzeOnlyViewModel>();               
+                var bundle = new AnalyzeOnlyViewModel.NavigationBundle(SelectedItem.GameTree, SelectedItem.GameInfo);
+                Mvx.RegisterSingleton(bundle);
+                ShowViewModel<AnalyzeOnlyViewModel>();
                 IsWorking = false;
+            }
+            else
+            {
+                if (SelectedLibraryItem?.Games.Contains(game) == true)
+                {
+                    
+                }
             }
         }
 
