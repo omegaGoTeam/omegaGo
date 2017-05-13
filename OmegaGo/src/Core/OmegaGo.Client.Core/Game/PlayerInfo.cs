@@ -9,14 +9,13 @@ namespace OmegaGo.Core.Game
 {
     public class PlayerInfo
     {
-        public PlayerInfo(StoneColor color, string name, string rank, string team = null )
+        public PlayerInfo(StoneColor color, string name, string rank)
         {
-            Name = name;
+            Name = name ?? "";
             Rank = rank?.Trim() ?? "";
             Color = color;
-            Team = team;
         }
-
+        
         /// <summary>
         /// Gets the name of the player. This could be a player's online nickname, an AI program's name and difficulty,
         /// or the text "Local Black" or "Local White".
@@ -27,11 +26,6 @@ namespace OmegaGo.Core.Game
         /// Gets the rank of the player. There should be no whitespace. The rank may be arbitrary otherwise: NR, 17k, 6d+, 5p? etc.
         /// </summary>
         public string Rank { get; }
-
-        /// <summary>
-        /// Player's team
-        /// </summary>
-        public string Team { get; }
 
         /// <summary>
         /// Player's stone color

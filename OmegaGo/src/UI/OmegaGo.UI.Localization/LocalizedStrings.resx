@@ -182,7 +182,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Back</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background Color</value>
+    <value>Background color</value>
   </data>
   <data name="BackgroundColor_Basic" xml:space="preserve">
     <value>Basic orange</value>
@@ -194,7 +194,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>None</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
-    <value>Background Image</value>
+    <value>Background image</value>
   </data>
   <data name="BackgroundImage_Forest" xml:space="preserve">
     <value>Bamboo forest</value>
@@ -423,7 +423,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>View your winrate and other statistics.</value>
   </data>
   <data name="StonesTheme" xml:space="preserve">
-    <value>Stones Theme</value>
+    <value>Stones theme</value>
   </data>
   <data name="StoneTheme_PolishedBitmap" xml:space="preserve">
     <value>Polished stones</value>
@@ -615,7 +615,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>You have solved this problem!</value>
   </data>
   <data name="IgsRank" xml:space="preserve">
-    <value>IGS rank</value>
+    <value>Pandanet rank</value>
   </data>
   <data name="KgsRank" xml:space="preserve">
     <value>KGS rank</value>
@@ -681,13 +681,13 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Reset all progress</value>
   </data>
   <data name="ControlStyle_OperatingSystem" xml:space="preserve">
-    <value>Operating System</value>
+    <value>Operating system</value>
   </data>
   <data name="ControlStyle_Wood" xml:space="preserve">
     <value>Wood</value>
   </data>
   <data name="ControlStyle" xml:space="preserve">
-    <value>Control Style</value>
+    <value>Control style</value>
   </data>
   <data name="ControlStyle_Lite" xml:space="preserve">
     <value>Lite</value>
@@ -909,7 +909,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Observe this game</value>
   </data>
   <data name="SortBy" xml:space="preserve">
-    <value>Sort by:</value>
+    <value>Sort by</value>
   </data>
   <data name="SortBy_Black" xml:space="preserve">
     <value>Black's name</value>
@@ -1408,5 +1408,284 @@ I dare you to let two Fish play against each other. The game will never end (unl
   </data>
   <data name="Validation_YouMustSelectASquareBoard" xml:space="preserve">
     <value>You must select a square board.</value>
+  </data>
+  <data name="BackToGame" xml:space="preserve">
+    <value>Back to game</value>
+  </data>
+  <data name="Commentary" xml:space="preserve">
+    <value>Commentary</value>
+  </data>
+  <data name="CreateChallenge" xml:space="preserve">
+    <value>Create challenge</value>
+  </data>
+  <data name="NoOpponentYet" xml:space="preserve">
+    <value>[no opponent yet]</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="YourOpponent" xml:space="preserve">
+    <value>Your opponent</value>
+  </data>
+  <data name="ExitAnalyze_Caption" xml:space="preserve">
+    <value>Do you want to exit analysis?</value>
+  </data>
+  <data name="ExitAnalyze_Confirm" xml:space="preserve">
+    <value>End analysis</value>
+  </data>
+  <data name="ExitAnalyze_Text" xml:space="preserve">
+    <value>Exiting this screen will end analysis and all your changes will be lost.</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="LooksForAGame" xml:space="preserve">
+    <value>Looks for a game</value>
+  </data>
+  <data name="NameAndRank" xml:space="preserve">
+    <value>Name and rank</value>
+  </data>
+  <data name="NoUserFoundChangeFilter" xml:space="preserve">
+    <value>No user found, try changing the filter</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
+  </data>
+  <data name="VisibilitySettings" xml:space="preserve">
+    <value>Visibility settings</value>
+  </data>
+  <data name="RoomColon" xml:space="preserve">
+    <value>Room:</value>
+  </data>
+  <data name="Games" xml:space="preserve">
+    <value>Games</value>
+  </data>
+  <data name="Rooms" xml:space="preserve">
+    <value>Rooms</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="NoRoomSelectedMessage" xml:space="preserve">
+    <value>No room selected. Pick one from the list.</value>
+  </data>
+  <data name="Join" xml:space="preserve">
+    <value>Join</value>
+  </data>
+  <data name="Unjoin" xml:space="preserve">
+    <value>Unjoin</value>
+  </data>
+  <data name="Challenges" xml:space="preserve">
+    <value>Challenges</value>
+  </data>
+  <data name="GamesAndChallenges" xml:space="preserve">
+    <value>Games and challenges</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="ChannelColon" xml:space="preserve">
+    <value>Channel:</value>
+  </data>
+  <data name="GlobalGamesListKind_ActiveGames" xml:space="preserve">
+    <value>All observable games</value>
+  </data>
+  <data name="GlobalGamesListKind_Challenges" xml:space="preserve">
+    <value>All open challenges</value>
+  </data>
+  <data name="GlobalGamesListKind_Favourites" xml:space="preserve">
+    <value>Favorite games</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="KgsBadPassword" xml:space="preserve">
+    <value>That is a wrong password for this user.</value>
+  </data>
+  <data name="KgsBadUsername" xml:space="preserve">
+    <value>There is no user with this name.</value>
+  </data>
+  <data name="KgsConnectionFailure" xml:space="preserve">
+    <value>Connection failure. Check your internet connection and try again.</value>
+  </data>
+  <data name="AGameWithFuegoAlreadyOpen" xml:space="preserve">
+    <value>A game with Fuego is already open.</value>
+  </data>
+  <data name="ChallengeIsBeingCreated" xml:space="preserve">
+    <value>Requesting challenge creation...</value>
+  </data>
+  <data name="ChallengeToXSent" xml:space="preserve">
+    <value>Challenge to {0} sent.</value>
+  </data>
+  <data name="HintUnavailable" xml:space="preserve">
+    <value>Hint unavailable</value>
+  </data>
+  <data name="HintUnavailableExplanation" xml:space="preserve">
+    <value>Hint cannot be given because Fuego is occupied elsewhere.</value>
+  </data>
+  <data name="HyphenOutgoingChallenge" xml:space="preserve">
+    <value>- outgoing challenge</value>
+  </data>
+  <data name="KGSAlert" xml:space="preserve">
+    <value>KGS Message</value>
+  </data>
+  <data name="KGSChannelAlreadyJoined" xml:space="preserve">
+    <value>You are already in that game or challenge.</value>
+  </data>
+  <data name="KGSReconnect" xml:space="preserve">
+    <value>You have just logged in elsewhere.</value>
+  </data>
+  <data name="KGSTechnicalMessage" xml:space="preserve">
+    <value>KGS Technical Message</value>
+  </data>
+  <data name="KGSYouCantPlayTwice" xml:space="preserve">
+    <value>You cannot play two KGS games at a time.</value>
+  </data>
+  <data name="PandanetError" xml:space="preserve">
+    <value>Pandanet Error</value>
+  </data>
+  <data name="ResignExplanation" xml:space="preserve">
+    <value>The assistant recommends you to resign.\n\nExplanation:</value>
+    <comment>translate as The assistant recommends you to resign.\n\nExplanation (in English):</comment>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>System</value>
+    <comment>The source of informational chat messages.</comment>
+  </data>
+  <data name="XDeclinedYourMatchRequest" xml:space="preserve">
+    <value>{0} declined your match request.</value>
+  </data>
+  <data name="XIsSatisfiedWithTheRemovedStones" xml:space="preserve">
+    <value>{0} is satisfied with the removed stones.</value>
+  </data>
+  <data name="YouAreObservingAProfessionalGame" xml:space="preserve">
+    <value>You are observing a professional game.</value>
+  </data>
+  <data name="YouAreWatchingAProfessionalGameTitledX" xml:space="preserve">
+    <value>You are watching a named professional game. This is the game title:\n\n{0}</value>
+  </data>
+  <data name="YouShouldPassExplanation" xml:space="preserve">
+    <value>You should pass.\n\nExplanation:</value>
+  </data>
+  <data name="YouShouldPlayExplanation" xml:space="preserve">
+    <value>You should place a stone at {0}.\n\nExplanation:</value>
+    <comment>{0} is coordinates, such as "B2".</comment>
+  </data>
+  <data name="YouShouldResign" xml:space="preserve">
+    <value>You should resign.</value>
+  </data>
+  <data name="Validation_BoardTooExtreme" xml:space="preserve">
+    <value>Please choose a board size of 52x52 or smaller.</value>
+  </data>
+  <data name="Validation_ExcessiveTimeError" xml:space="preserve">
+    <value>A field ('{0}') has a value greater than 10000. Please choose a smaller value. </value>
+  </data>
+  <data name="Validation_KomiTooExtreme" xml:space="preserve">
+    <value>Please choose komi between -500 and 500.</value>
+  </data>
+  <data name="CheckboxPublicGame" xml:space="preserve">
+    <value>Show in list of all games</value>
+  </data>
+  <data name="CheckboxRankedGame" xml:space="preserve">
+    <value>This game is ranked</value>
+  </data>
+  <data name="BranchDeletionConfirmationText" xml:space="preserve">
+    <value>Are you sure that you want to delete the selected branch?</value>
+  </data>
+  <data name="BranchDeletionConfirmationTitle" xml:space="preserve">
+    <value>Delete branch</value>
+  </data>
+  <data name="BranchDeletionErrorText" xml:space="preserve">
+    <value>Selected branch cannot be deleted because its part of the primary timeline.</value>
+  </data>
+  <data name="BranchDeletionErrorTitle" xml:space="preserve">
+    <value>Delete branch</value>
+  </data>
+  <data name="Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="GameTree" xml:space="preserve">
+    <value>Game tree</value>
+  </data>
+  <data name="Add1Minute" xml:space="preserve">
+    <value>Add 1 minute</value>
+  </data>
+  <data name="Add1MinuteTooltip" xml:space="preserve">
+    <value>Adds 1 minute to your opponent's clock</value>
+  </data>
+  <data name="Add5Minutes" xml:space="preserve">
+    <value>Add 5 minutes</value>
+  </data>
+  <data name="Add5MinutesTooltip" xml:space="preserve">
+    <value>Adds 5 minutes to your opponent's clock</value>
+  </data>
+  <data name="CantPlayRanked" xml:space="preserve">
+    <value>The game cannot be ranked. It will be created as a non-ranked game.</value>
+  </data>
+  <data name="Validation_ImproperHandicapForSize" xml:space="preserve">
+    <value>Handicap is supported only for 9x9, 13x13 and 19x19.</value>
+  </data>
+  <data name="AgreeWithUndo" xml:space="preserve">
+    <value>Allow undo</value>
+  </data>
+  <data name="DisagreeWithUndo" xml:space="preserve">
+    <value>Refuse undo</value>
+  </data>
+  <data name="YouHaveRequestedAnUndo" xml:space="preserve">
+    <value>You have requested an undo.</value>
+  </data>
+  <data name="YourOppRequestedAnUndo" xml:space="preserve">
+    <value>Your opponent requested his or her last move to be undone.</value>
+  </data>
+  <data name="ImportSgfFile" xml:space="preserve">
+    <value>Import SGF file</value>
+  </data>
+  <data name="OpenSgfFile" xml:space="preserve">
+    <value>Open SGF file</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="LibraryLoadingFormatString" xml:space="preserve">
+    <value>Loading... {0} of {1}</value>
+  </data>
+  <data name="Analyze" xml:space="preserve">
+    <value>Analyze</value>
+  </data>
+  <data name="ErrorSavingFile" xml:space="preserve">
+    <value>Error saving file</value>
+  </data>
+  <data name="Game1" xml:space="preserve">
+    <value>game</value>
+  </data>
+  <data name="Game2" xml:space="preserve">
+    <value>games</value>
+  </data>
+  <data name="Game5" xml:space="preserve">
+    <value>games</value>
+  </data>
+  <data name="Analysis" xml:space="preserve">
+    <value>Analysis</value>
+  </data>
+  <data name="ExportSgfFile" xml:space="preserve">
+    <value>Export SGF file...</value>
+  </data>
+  <data name="SaveToLibrary" xml:space="preserve">
+    <value>Save to game library</value>
+  </data>
+  <data name="SgfExportSuccessful" xml:space="preserve">
+    <value>Game successfully exported to SGF.</value>
+  </data>
+  <data name="SgfSaveToLibrarySuccessful" xml:space="preserve">
+    <value>Game successfuly saved to library.</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Success</value>
   </data>
 </root>

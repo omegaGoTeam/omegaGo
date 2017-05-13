@@ -93,11 +93,10 @@ namespace FormsPrototype
             Text = game.Info.White.Name + " (" + game.Info.White.Rank + ") vs. " + game.Info.Black.Name + "(" + game.Info.Black.Rank + ")";
 
             _controller = _game.Controller;
-            _controller.CurrentNodeStateChanged += _controller_BoardMustBeRefreshed;
             (_controller as IDebuggingMessageProvider).DebuggingMessage += _controller_DebuggingMessage;
             _controller.GameEnded += _controller_GameEnded;
             _controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
-            _controller.CurrentNodeChanged += _controller_CurrentGameTreeNodeChanged;
+            _controller.GameTree.LastNodeChanged += _controller_CurrentGameTreeNodeChanged;
             _controller.GamePhaseChanged += _controller_GamePhaseChanged1;
             foreach (var aiAgent in _controller.Players.Select(p => p.Agent).OfType<AiAgent>())
             {
@@ -183,6 +182,7 @@ namespace FormsPrototype
                 connection.Events.ErrorMessageReceived -= _igs_ErrorMessageReceived;
                 //   this._igs.UndoRequestReceived -= _igs_UndoRequestReceived;
                 //connection.Events.UndoDeclined -= _igs_UndoDeclined;
+                // connection.Events.UndoDeclined -= _igs_UndoDeclined;
             }
            // _controller.AbortGame();*/
         }
@@ -266,7 +266,7 @@ namespace FormsPrototype
             // Positions
             GameBoard positions = new GameBoard(new GameBoardSize(19));
             GameTreeNode whatIsShowing =
-                _game.Controller.GameTree.GameTreeRoot?.GetTimelineView.Skip(whereWeAt).FirstOrDefault();
+                _game.Controller.GameTree.PrimaryTimeline.Skip(whereWeAt).FirstOrDefault();
             _truePositions = whatIsShowing?.BoardState ?? positions;
             _lastMove = whatIsShowing?.Move.Kind == MoveKind.PlaceStone
                 ? whatIsShowing.Move.Coordinates
@@ -511,10 +511,6 @@ namespace FormsPrototype
 
         private void nAiStrength_ValueChanged(object sender, EventArgs e)
         {
-           foreach (GamePlayer player in _game.Controller.Players)
-           {
-               (player.Agent as AiAgent)?.SetStrength((int) nAiStrength.Value);
-           }
         }
 
         private void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)
@@ -558,12 +554,12 @@ namespace FormsPrototype
 
         private async void bUndoYes_Click(object sender, EventArgs e)
         {
-            await (_server as IServerConnection).Commands.AllowUndoAsync(OnlineInfo);
+            await (_server as IServerConnection).Commands.AllowUndoAsync((RemoteGameInfo)_game.Info);
         }
 
         private async void bUndoNo_Click(object sender, EventArgs e)
         {
-            await (_server as IServerConnection).Commands.RejectUndoAsync(OnlineInfo);
+            await (_server as IServerConnection).Commands.RejectUndoAsync((RemoteGameInfo)_game.Info);
         }
 
         private void bLocalUndo_Click(object sender, EventArgs e)
@@ -647,6 +643,8 @@ namespace FormsPrototype
 
         private void button1_Click(object sender, EventArgs e)
         {
+            /*
+             * Broken after rearchitecture:
             foreach(var pl in _game.Controller.Players)
             {
                 if (pl.Agent is AiAgent)
@@ -654,7 +652,7 @@ namespace FormsPrototype
                     var fuego = (Fuego) ((AiAgent) pl.Agent).AI;
                     MessageBox.Show(fuego.SendCommand(this.tbGtp.Text).Text);
                 }
-            }
+            }*/
         }
     }
 }

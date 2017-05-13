@@ -4,6 +4,7 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Text;
 using OmegaGo.UI.Services.Game;
 using System.Numerics;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI;
@@ -35,6 +36,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private static CanvasBitmap sabakiTatamiBitmap;
         private static CanvasBitmap sabakiBlackBitmap;
         private static CanvasBitmap sabakiWhiteBitmap;
+        private static int BitmapInitializationHasCommenced = 0;
         private static TaskCompletionSource<bool> BitmapInitializationCompletion = new TaskCompletionSource<bool>();
 
         private BoardControlState _sharedBoardControlState;
@@ -74,19 +76,26 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
         public static async Task CreateResourcesAsync(ICanvasResourceCreator sender)
         {
-            blackStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/black.png");
-            whiteStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/white.png");
-            oakBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/oak.jpg");
-            kayaBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/kaya.jpg");
-            spaceBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/space.png");
-            sabakiTatamiBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiTatami.png");
-            sabakiWhiteBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiWhite.png");
-            sabakiBlackBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiBlack.png");
-            sabakiBoardBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiBoard.png");
-            BitmapInitializationCompletion.SetResult(true);
+            if (Interlocked.CompareExchange(ref BitmapInitializationHasCommenced, 1, 0) == 0)
+            {
+                blackStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/black.png");
+                whiteStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/white.png");
+                oakBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/oak.jpg");
+                kayaBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/kaya.jpg");
+                spaceBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/space.png");
+                sabakiTatamiBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiTatami.png");
+                sabakiWhiteBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiWhite.png");
+                sabakiBlackBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiBlack.png");
+                sabakiBoardBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiBoard.png");
+                BitmapInitializationCompletion.SetResult(true);
+            }
+            else
+            {
+                await BitmapInitializationCompletion.Task;
+            }
         }
 
-        public async Task CreateResources()
+        public async Task AwaitResources()
         {
             ReloadSettings();
             await BitmapInitializationCompletion.Task;
@@ -178,12 +187,18 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             // Draw all stones for given game state
             DrawStones(gameState, session);
 
-
+            Position pointerPosition = _sharedBoardControlState.PointerOverPosition;
             // Mouse over position special case
-            if (_sharedBoardControlState.PointerOverPosition.IsDefined)
+            if (pointerPosition.IsDefined && _sharedBoardControlState.IsShadowDrawingEnabled)
             {
                 if (SharedBoardControlState.IsAnalyzeModeEnabled)
                 {
+                    // Set actual pointer position for the tools
+                    // This has to be done here and not in InputService because we might get caught in race condition
+                    // - pointerPosition.IsDefined returns true and in mean time user moves pointer outside of the board and IToolServices advertises Position.Undefined
+                    // - and finally in this step we ask ITool for its shadow. ITools should not worry about handling Position.Undefined for GetShadow
+                    SharedBoardControlState.AnalyzeToolServices.SetPointerPosition(pointerPosition);
+
                     // Analyze mode is enabled, draw selected tool shadow item.
                     DrawAnalyzeToolShadow(session, SharedBoardControlState.AnalyzeModeTool);
                 }
@@ -193,9 +208,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     // But it would be slow, you can implement caching to check for each intersection only once
                     if (_sharedBoardControlState.PointerOverShadowColor != StoneColor.None && (
                         _sharedBoardControlState.TEMP_MoveLegality == null ||
-                        _sharedBoardControlState.TEMP_MoveLegality[this.SharedBoardControlState.PointerOverPosition.X, this.SharedBoardControlState.PointerOverPosition.Y] == MoveResult.Legal))
+                        _sharedBoardControlState.TEMP_MoveLegality[pointerPosition.X, pointerPosition.Y] == MoveResult.Legal))
                     {
-                        DrawStone(session, this.SharedBoardControlState.PointerOverPosition.X, this.SharedBoardControlState.PointerOverPosition.Y, _sharedBoardControlState.PointerOverShadowColor, 0.5);
+                        DrawStone(session, pointerPosition.X, pointerPosition.Y, _sharedBoardControlState.PointerOverShadowColor, 0.5);
                     }
                 }
             }
@@ -339,9 +354,6 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     break;
                 case BoardTheme.KayaWood:
                     bitmapToDraw = kayaBitmap;
-                    break;
-                case BoardTheme.VirtualBoard:
-                    bitmapToDraw = spaceBitmap;
                     break;
                 case BoardTheme.SabakiBoard:
                     bitmapToDraw = sabakiBoardBitmap;
@@ -519,7 +531,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     _halfSize,                                                 // y1
                     _halfSize + i * _cellSize,                             // x2
                     _cellSize * boardHeight - _halfSize,                  // y2
-                    _boardTheme == BoardTheme.VirtualBoard ? Colors.Cyan : Colors.Black, _boardLineThickness);
+                    Colors.Black, _boardLineThickness);
             }
 
             // Draw horizontal lines
@@ -529,7 +541,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     _halfSize + i * _cellSize,                             // y2
                     _cellSize * boardWidth - _halfSize,                   // x2
                     _halfSize + i * _cellSize,                             // y2
-                    _boardTheme == BoardTheme.VirtualBoard ? Colors.Cyan : Colors.Black, _boardLineThickness);
+                    Colors.Black, _boardLineThickness);
             }
         }
 

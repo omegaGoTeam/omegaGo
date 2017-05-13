@@ -55,6 +55,14 @@ namespace FuegoLib
 		}
 	}
 
+	void FuegoInstance::Dispose() {
+		if (_e != nullptr)
+		{
+			delete _e;
+			_e = nullptr;
+		}
+	}
+
 	void FuegoInstance::StartGame(unsigned char size)
 	{
 		try

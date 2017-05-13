@@ -12,6 +12,7 @@ using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Kgs;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.UI.Infrastructure.Tabbed;
+using OmegaGo.UI.Localization;
 using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.Services.Notifications;
@@ -85,14 +86,22 @@ namespace OmegaGo.UI.Services.Online
             _igsConnection.Events.IncomingMatchRequest += Pandanet_IncomingMatchRequest; 
             _igsConnection.Events.MatchRequestAccepted += Pandanet_MatchRequestAccepted;
             _igsConnection.Events.MatchRequestDeclined += Pandanet_MatchRequestDeclined;
+            _igsConnection.Events.ErrorMessageReceived += Pandanet_ErrorMessageReceived;
             Mvx.Resolve<ITimerService>()
-                .StartTimer(TimeSpan.FromSeconds(10), async () => { await _igsConnection.Commands.AreYouThere(); });
+                .StartTimer(TimeSpan.FromSeconds(10), () => { _igsConnection.Commands.AreYouThere(); });
+        }
+
+        private static void Pandanet_ErrorMessageReceived(object sender, string e)
+        {
+            Mvx.Resolve<IAppNotificationService>()
+                .TriggerNotification(new BubbleNotification(e, LocalizedStrings.PandanetError, NotificationType.Alert));
+
         }
 
         private static void Pandanet_MatchRequestDeclined(object sender, string e)
         {
-            Mvx.Resolve<Notifications.IAppNotificationService>()
-                .TriggerNotification(new Notifications.BubbleNotification(e + " declined your match request."));
+            Mvx.Resolve<IAppNotificationService>()
+                .TriggerNotification(new BubbleNotification(String.Format(LocalizedStrings.XDeclinedYourMatchRequest, e), null, NotificationType.Alert));
         }
 
         private static void Pandanet_MatchRequestAccepted(object sender, Core.Modes.LiveGame.Remote.Igs.IgsGame e)
@@ -108,11 +117,7 @@ namespace OmegaGo.UI.Services.Online
         {
             Mvx.RegisterSingleton<GameCreation.GameCreationBundle>(
                 new GameCreation.IgsIncomingMatchRequestBundle(obj));
-            var newTab = Mvx.Resolve<ITabProvider>()
-                .ShowViewModel(
-                    new MvxViewModelRequest(typeof(GameCreationViewModel), new MvxBundle(), new MvxBundle(),
-                        MvxRequestedBy.Unknown), TabNavigationType.NewBackgroundTab);
-            newTab.IsBlinking = true;
+            CreateTab<GameCreationViewModel>(TabNavigationType.NewBackgroundTab);
 
             var settings = Mvx.Resolve<IGameSettings>();
             if (settings.Audio.PlayWhenNotificationReceived)
@@ -130,21 +135,50 @@ namespace OmegaGo.UI.Services.Online
             _kgsConnection = new KgsConnection();
             _kgsConnection.Events.PersonalInformationUpdate += KgsUserUpdate;
             _kgsConnection.Events.GameJoined += Kgs_GameJoined;
-            _kgsConnection.Events.NotificationMessage += Kgs_NotificationMessage;
+            _kgsConnection.Events.NotificationErrorMessage += KgsNotificationErrorMessage;
             _kgsConnection.Events.ChallengeJoined += Kgs_ChallengeJoined;
             Mvx.Resolve<ITimerService>()
                 .StartTimer(TimeSpan.FromSeconds(10), async () => { await _kgsConnection.Commands.WakeUpAsync(); });
         }
+        
 
         private static void Kgs_ChallengeJoined(object sender, Core.Online.Kgs.Structures.KgsChallenge e)
         {
-            Mvx.RegisterSingleton<GameCreationBundle>(new KgsChallengeManagementBundle(e));
+            if (e.OwnedByUs)
+            {
+                Mvx.RegisterSingleton<GameCreationBundle>(new KgsChallengeManagementBundle(e));
+            }
+            else
+            {
+                Mvx.RegisterSingleton<GameCreationBundle>(new KgsJoinChallengeBundle(e));
+            }
             CreateTab<GameCreationViewModel>(TabNavigationType.NewForegroundTab);
         }
 
-        private static void Kgs_NotificationMessage(object sender, string e)
+        private static void KgsNotificationErrorMessage(object sender, string message)
         {
-            Mvx.Resolve<IAppNotificationService>().TriggerNotification(e);
+            string title = LocalizedStrings.KGSTechnicalMessage;
+            switch (message)
+            {
+                case "CHANNEL_ALREADY_JOINED":
+                    title = LocalizedStrings.KGSAlert;
+                    message = LocalizedStrings.KGSChannelAlreadyJoined;
+                    break;
+                case "RECONNECT":
+                    title = LocalizedStrings.KGSAlert;
+                    message = LocalizedStrings.KGSReconnect;
+                    break;
+                case "CANT_PLAY_TWICE":
+                    title = LocalizedStrings.KGSAlert;
+                    message = LocalizedStrings.KGSYouCantPlayTwice;
+                    break;
+                case "CHALLENGE_CANT_PLAY_RANKED":
+                    title = LocalizedStrings.KGSAlert;
+                    message = LocalizedStrings.CantPlayRanked;
+                    break;
+            }
+            Mvx.Resolve<IAppNotificationService>()
+                .TriggerNotification(new BubbleNotification(message, title, NotificationType.Alert));
         }
 
         private static void Kgs_GameJoined(object sender, KgsGame e)

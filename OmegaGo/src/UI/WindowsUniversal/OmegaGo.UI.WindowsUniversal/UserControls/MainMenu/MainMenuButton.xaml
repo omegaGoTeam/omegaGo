@@ -52,7 +52,7 @@
                         <Setter Target="IconContent.Height" Value="64" />
                         <Setter Target="TextContent.FontSize" Value="20" />
                         <Setter Target="TextArea.Height" Value="70" />
-                        <Setter Target="Button.Margin" Value="12" />
+                        <Setter Target="Button.Margin" Value="10" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

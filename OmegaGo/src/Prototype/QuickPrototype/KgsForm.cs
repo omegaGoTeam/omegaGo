@@ -28,7 +28,7 @@ namespace FormsPrototype
             kgs.Events.GameJoined += Events_GameJoined;
             kgs.Events.Disconnection += Events_Disconnection;
             kgs.Events.ChallengeJoined += Events_ChallengeJoined;
-            kgs.Events.NotificationMessage += Events_NotificationMessage;
+            kgs.Events.NotificationErrorMessage += EventsNotificationErrorMessage;
         }
 
         private void Events_ChallengeJoined(object sender, KgsChallenge e)
@@ -37,7 +37,7 @@ namespace FormsPrototype
             form.Show();
         }
 
-        private void Events_NotificationMessage(object sender, string e)
+        private void EventsNotificationErrorMessage(object sender, string e)
         {
             this.lblNotificationMessage.Text = e;
         }
@@ -98,15 +98,7 @@ namespace FormsPrototype
         private async void KgsForm_Load(object sender, EventArgs e)
         {
             this.tbLog.Text += ("Logging in." + Environment.NewLine);
-            if (await kgs.LoginAsync("OmegaGo1", "123456789"))
-            {
-                this.tbLog.Text += ("Logged in." + Environment.NewLine);
-                
-            }
-            else
-            {
-                MessageBox.Show("Fail.");
-            }
+            await kgs.LoginAsync("OmegaGo1", "123456789");
         }
 
        
@@ -114,7 +106,7 @@ namespace FormsPrototype
         private void bLocalRoomsRefresh_Click(object sender, EventArgs e)
         {
             this.lbRooms.Items.Clear();
-            var values = kgs.Data.Rooms.Values.ToList();
+            var values = kgs.Data.AllRooms.ToList();
             values.Sort((r1, r2) =>
             {
                 if (r1.Joined && !r2.Joined) return -1;
@@ -160,7 +152,7 @@ namespace FormsPrototype
         private void bRefreshLocalContainers_Click(object sender, EventArgs e)
         {
             this.lbContainers.Items.Clear();
-            var values = kgs.Data.Containers.Values.ToList();
+            var values = kgs.Data.GameContainers.ToList();
             values.Sort((r1, r2) =>
             {
                 if (r1.Joined && !r2.Joined) return -1;
@@ -225,23 +217,14 @@ namespace FormsPrototype
 
         private void bRefreshJoinedChannels_Click(object sender, EventArgs e)
         {
-            this.lbJoinedChannels.Items.Clear();
-            foreach(var channel in kgs.Data.Channels)
-            {
-                if (channel.Value.Joined)
-                {
-                    this.lbJoinedChannels.Items.Add(channel.Value);
-                }
-            }
+            MessageBox.Show("Functionality retired.");
         }
 
         private async void bAccept_Click(object sender, EventArgs e)
         {
             if (this.lbContainerChallenges.SelectedItem != null)
             {
-                var challenge = await this.kgs.Commands.JoinAndSubmitSelfToChallengeAsync((KgsChallenge)this.lbContainerChallenges.SelectedItem);
-                ChallengeForm form = new FormsPrototype.ChallengeForm(challenge, kgs);
-                form.Show();
+                await this.kgs.Commands.JoinAndSubmitSelfToChallengeAsync((KgsChallenge)this.lbContainerChallenges.SelectedItem);
             }
         }
         
@@ -293,7 +276,7 @@ namespace FormsPrototype
             KgsRoom room = (KgsRoom)this.lbRooms.SelectedItem;
             if (room != null)
             {
-                await this.kgs.Commands.CreateChallenge(room, false, false, new OmegaGo.Core.Online.Kgs.Datatypes.RulesDescription() {
+                await this.kgs.Commands.CreateChallenge(room,true, false, new OmegaGo.Core.Online.Kgs.Datatypes.RulesDescription() {
                             Rules = RulesDescription.RulesChinese,
                             Size = 7,
                             Komi = 6.5f,

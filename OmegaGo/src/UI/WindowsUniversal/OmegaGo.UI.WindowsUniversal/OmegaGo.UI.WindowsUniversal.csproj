@@ -93,10 +93,13 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="Behaviors\Actions\OpenAttachedFlyoutAction.cs" />
     <Compile Include="Bootstrap\VisibilityPluginBootstrap.cs" />
     <Compile Include="Converters\GamePhaseVisibilityConverter.cs" />
+    <Compile Include="Converters\ItemClickEventArgsConverter.cs" />
     <Compile Include="Converters\NativeConverters.cs" />
     <Compile Include="DataTemplateSelectors\ChatMessageDataTemplateSelector.cs" />
+    <Compile Include="DataTemplateSelectors\Multiplayer\KGS\KgsGameContainerDataTemplateSelector.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="Extensions\Colors\BackgroundColorExtensions.cs" />
     <Compile Include="Extensions\Colors\MvxColorExtensions.cs" />
@@ -120,6 +123,7 @@
     <Compile Include="Infrastructure\Tabbed\Tab.cs" />
     <Compile Include="Infrastructure\Tabbed\TabManager.cs" />
     <Compile Include="Infrastructure\Tabbed\TabProvider.cs" />
+    <Compile Include="Services\AppPackage\AppPackageService.cs" />
     <Compile Include="Services\Audio\UwpSfxPlayerService.cs" />
     <Compile Include="Services\BoardControl\FpsCounter.cs" />
     <Compile Include="Services\BoardControl\RenderUtilities.cs" />
@@ -146,11 +150,26 @@
     <Compile Include="UserControls\ChatControl.xaml.cs">
       <DependentUpon>ChatControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Library\LibraryItemControl.xaml.cs">
+      <DependentUpon>LibraryItemControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Library\LibraryItemGameControl.xaml.cs">
+      <DependentUpon>LibraryItemGameControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\LoginFormControl.xaml.cs">
       <DependentUpon>LoginFormControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MainMenu\MainMenuButton.xaml.cs">
       <DependentUpon>MainMenuButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Multiplayer\Kgs\KgsChallengeListItemControl.xaml.cs">
+      <DependentUpon>KgsChallengeListItemControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Multiplayer\ObservedGameControl.xaml.cs">
+      <DependentUpon>ObservedGameControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Multiplayer\Igs\IgsUserListItemControl.xaml.cs">
+      <DependentUpon>IgsUserListItemControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Navigation\BackButton.xaml.cs">
       <DependentUpon>BackButton.xaml</DependentUpon>
@@ -173,13 +192,16 @@
     <Compile Include="UserControls\SimpleBoardControl.xaml.cs">
       <DependentUpon>SimpleBoardControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\GameTreeControl.xaml.cs">
+      <DependentUpon>GameTreeControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Singleplayer\QuestControl.xaml.cs">
       <DependentUpon>QuestControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\TimelineControl.xaml.cs">
-      <DependentUpon>TimelineControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\UserControlBase.cs" />
+    <Compile Include="Views\AnalyzeOnlyView.xaml.cs">
+      <DependentUpon>AnalyzeOnlyView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\KgsHomeView.xaml.cs">
       <DependentUpon>KgsHomeView.xaml</DependentUpon>
     </Compile>
@@ -189,6 +211,7 @@
     <Compile Include="Views\LocalGameView.xaml.cs">
       <DependentUpon>LocalGameView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MultiplayerLobbyViewBase.cs" />
     <Compile Include="Views\ObserverGameView.xaml.cs">
       <DependentUpon>ObserverGameView.xaml</DependentUpon>
     </Compile>
@@ -247,6 +270,53 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Icons\Commands\ExportFromLibrary.scale-100.png" />
+    <Content Include="Assets\Icons\Commands\ExportFromLibrary.scale-150.png" />
+    <Content Include="Assets\Icons\Commands\ExportFromLibrary.scale-200.png" />
+    <Content Include="Assets\Icons\Commands\ImportFile.scale-100.png" />
+    <Content Include="Assets\Icons\Commands\ImportFile.scale-150.png" />
+    <Content Include="Assets\Icons\Commands\ImportFile.scale-200.png" />
+    <Content Include="Assets\Icons\Commands\ImportToLibrary.scale-100.png" />
+    <Content Include="Assets\Icons\Commands\ImportToLibrary.scale-150.png" />
+    <Content Include="Assets\Icons\Commands\ImportToLibrary.scale-200.png" />
+    <Content Include="Assets\Icons\Commands\MultiplayerOptions.png" />
+    <Content Include="Assets\Icons\Info\Channel.scale-100.png" />
+    <Content Include="Assets\Icons\Info\Channel.scale-150.png" />
+    <Content Include="Assets\Icons\Info\Channel.scale-200.png" />
+    <Content Include="Assets\Icons\Info\Dimensions.scale-100.png" />
+    <Content Include="Assets\Icons\Info\Dimensions.scale-150.png" />
+    <Content Include="Assets\Icons\Info\Dimensions.scale-200.png" />
+    <Content Include="Assets\Icons\Commands\Enter.scale-100.png" />
+    <Content Include="Assets\Icons\Commands\Enter.scale-150.png" />
+    <Content Include="Assets\Icons\Commands\Enter.scale-200.png" />
+    <Content Include="Assets\Icons\Commands\Exit.scale-100.png" />
+    <Content Include="Assets\Icons\Commands\Exit.scale-150.png" />
+    <Content Include="Assets\Icons\Commands\Exit.scale-200.png" />
+    <Content Include="Assets\Icons\Commands\Plus.scale-100.png" />
+    <Content Include="Assets\Icons\Commands\Plus.scale-150.png" />
+    <Content Include="Assets\Icons\Commands\Plus.scale-200.png" />
+    <Content Include="Assets\Icons\Info\Handicap.scale-100.png" />
+    <Content Include="Assets\Icons\Info\Handicap.scale-150.png" />
+    <Content Include="Assets\Icons\Info\Handicap.scale-200.png" />
+    <Content Include="Assets\Icons\Info\Label.scale-100.png" />
+    <Content Include="Assets\Icons\Info\Label.scale-150.png" />
+    <Content Include="Assets\Icons\Info\Label.scale-200.png" />
+    <Content Include="Assets\Icons\Info\List.scale-100.png" />
+    <Content Include="Assets\Icons\Info\List.scale-150.png" />
+    <Content Include="Assets\Icons\Info\List.scale-200.png" />
+    <Content Include="Assets\Icons\Info\Room.scale-100.png" />
+    <Content Include="Assets\Icons\Info\Room.scale-150.png" />
+    <Content Include="Assets\Icons\Info\Room.scale-200.png" />
+    <Content Include="Assets\Icons\Info\RoomLarge.png" />
+    <Content Include="Assets\Icons\Info\Ruleset.scale-100.png" />
+    <Content Include="Assets\Icons\Info\Ruleset.scale-150.png" />
+    <Content Include="Assets\Icons\Info\Ruleset.scale-200.png" />
+    <Content Include="Assets\Icons\Info\Timing.scale-100.png" />
+    <Content Include="Assets\Icons\Info\Timing.scale-150.png" />
+    <Content Include="Assets\Icons\Info\Timing.scale-200.png" />
+    <Content Include="Assets\Icons\TitleBar\Analyze.scale-100.png" />
+    <Content Include="Assets\Icons\TitleBar\Analyze.scale-150.png" />
+    <Content Include="Assets\Icons\TitleBar\Analyze.scale-200.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-100.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-150.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-200.png" />
@@ -374,6 +444,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\IconStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Resources\ItemTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Resources\TextBlockStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="Resources\ToggleButtonStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -418,7 +503,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\Library\LibraryItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Library\LibraryItemGameControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\LoginFormControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Multiplayer\Kgs\KgsChallengeListItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Multiplayer\ObservedGameControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Multiplayer\Igs\IgsUserListItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -454,11 +559,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Singleplayer\QuestControl.xaml">
+    <Page Include="UserControls\GameTreeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\TimelineControl.xaml">
+    <Page Include="Views\AnalyzeOnlyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Singleplayer\QuestControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

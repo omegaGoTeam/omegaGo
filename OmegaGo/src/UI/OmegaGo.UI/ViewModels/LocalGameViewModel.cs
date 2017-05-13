@@ -17,6 +17,8 @@ using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Quests;
 using OmegaGo.Core.AI;
 using System.Threading.Tasks;
+using OmegaGo.UI.Localization;
+
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -46,7 +48,8 @@ namespace OmegaGo.UI.ViewModels
             : base (gameSettings, questsManager, dialogService)
         {
             Game.Controller.MoveUndone += Controller_MoveUndone;
-            
+
+            TimelineChanged += (s, e) => UpdateCanPassAndUndo();
 
             // AI Assistant Service 
             _assistant = new Assistant(gameSettings, UiConnector, Game.Controller, Game.Info);
@@ -79,7 +82,10 @@ namespace OmegaGo.UI.ViewModels
             => _requestUndoDeathMarksCommand ??
             (_requestUndoDeathMarksCommand = new MvxCommand(RequestUndoDeathMarks, () => GamePhase == GamePhaseType.LifeDeathDetermination));
 
-        public IMvxCommand GetHintCommand => _getHintCommand ?? (_getHintCommand = new MvxCommand(GetHint, () => Assistant.ProvidesHints));
+        public IMvxCommand GetHintCommand => _getHintCommand ??
+                                             (_getHintCommand =
+                                                 new MvxCommand(GetHint,
+                                                     () => Assistant.ProvidesHintsFor(this.Game.Info)));
 
 
         public bool CanPass
@@ -129,6 +135,7 @@ namespace OmegaGo.UI.ViewModels
                 {
                     UiConnector.AiLog -= Assistant_uiConnector_AiLog;
                     await base.CanCloseViewModelAsync();
+                    Game.Controller.EndGame(GameEndInformation.CreateCancellation(Game.Controller.Players));
                     return true;
                 }
                 else
@@ -166,6 +173,9 @@ namespace OmegaGo.UI.ViewModels
             }
 
             // Otherwise do a normal move
+            if (IsTimelineInPast)
+                return;
+
             if (Game?.Controller.Phase.Type == GamePhaseType.LifeDeathDetermination)
             {
                 UiConnector.RequestLifeDeathKillGroup(position);
@@ -229,6 +239,13 @@ namespace OmegaGo.UI.ViewModels
 
         protected void UpdateCanPassAndUndo()
         {
+            if(IsTimelineInPast)
+            {
+                CanUndo = false;
+                CanPass = false;
+                return;
+            }
+
             CanPass = (this.Game?.Controller?.TurnPlayer?.IsHuman ?? false) ? true : false;
             // TODO Petr this allows to undo before the beginning of the game and causes exception
             if (this.Game?.Controller?.GameTree == null)
@@ -238,23 +255,21 @@ namespace OmegaGo.UI.ViewModels
             }
             else if (this.Game.Controller.Players.Any(pl => pl.IsHuman))
             {
-                // TODO Petr Please find a suitable name for this property.
-                bool value = this.Game.Controller.GameTree.PrimaryMoveTimeline.Any(
-                    move => 
-                    {
-                        if (move.WhoMoves == StoneColor.None) return false;
-                        return this.Game.Controller.Players[move.WhoMoves].IsHuman;
-                    });
-
-                if (value)
+                if (Game.Controller.GameTree.LastNode.Equals(Game.Controller.GameTree.GameTreeRoot))
                 {
-                    // A local human has already made a move.
-                    CanUndo = true;
+                    CanUndo = false;
                 }
                 else
                 {
-                    // No human has yet made any move.
-                    CanUndo = false;
+                    // TODO Petr Please find a suitable name for this property.
+                    bool value = this.Game.Controller.GameTree.PrimaryMoveTimeline.Any(
+                        move =>
+                        {
+                            if (move.WhoMoves == StoneColor.None) return false;
+                            return this.Game.Controller.Players[move.WhoMoves].IsHuman;
+                        });
+
+                    CanUndo = value;
                 }
             }
             else
@@ -303,8 +318,6 @@ namespace OmegaGo.UI.ViewModels
         
         private void ResumeGame()
         {
-            Mvx.Resolve<IAppNotificationService>().TriggerNotification(new BubbleNotification("[DEBUG TEST] Resuming game."));
-
             UiConnector.ForceLifeDeathReturnToMain();
         }
         
@@ -322,28 +335,36 @@ namespace OmegaGo.UI.ViewModels
 
             string content = "";
             string title = "";
-
-            switch (hint.Kind)
+            if (hint != null)
             {
-                case AgentDecisionKind.Resign:
-                    title = "You should resign.";
-                    content = "The assistant recommends you to resign.\n\nExplanation: " + hint.Explanation;
-                    break;
-                case AgentDecisionKind.Move:
-                    title = hint.Move.ToString();
-                    if (hint.Move.Kind == MoveKind.Pass)
-                    {
-                        content = "You should pass.\n\nExplanation: " + hint.Explanation;
-                    }
-                    else
-                    {
-                        content = "You should place a stone at " + hint.Move.Coordinates + ".\n\nExplanation: " +
-                                  hint.Explanation;
-                    }
-                    break;
-            }
 
+                switch (hint.Kind)
+                {
+                    case AgentDecisionKind.Resign:
+                        title = LocalizedStrings.YouShouldResign;
+                        content = LocalizedStrings.ResignExplanation.Replace("\\n", Environment.NewLine) + " " + hint.Explanation;
+                        break;
+                    case AgentDecisionKind.Move:
+                        title = hint.Move.ToString();
+                        if (hint.Move.Kind == MoveKind.Pass)
+                        {
+                            content = LocalizedStrings.YouShouldPassExplanation.Replace("\\n", Environment.NewLine) + " " + hint.Explanation;
+                        }
+                        else
+                        {
+                            content = String.Format(LocalizedStrings.YouShouldPlayExplanation.Replace("\\n", Environment.NewLine), hint.Move.Coordinates) + " " +
+                                      hint.Explanation;
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                title = LocalizedStrings.HintUnavailable;
+                content = LocalizedStrings.HintUnavailableExplanation;
+            }
             await DialogService.ShowAsync(content, title);
+            
         }
         
         ////////////////
@@ -365,7 +386,8 @@ namespace OmegaGo.UI.ViewModels
         private void LifeDeath_TerritoryChanged(object sender, TerritoryMap e)
         {
             BoardViewModel.BoardControlState.TerritoryMap = e;
-            RefreshBoard(Game.Controller.CurrentNode);
+            RefreshBoard(Game.Controller.GameTree.LastNode);
+            // TODO Aniko, Vita: This won't work well with Analyze mode in multiplayer.
         }
         
         private void Assistant_uiConnector_AiLog(object sender, string e)

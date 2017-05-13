@@ -10,7 +10,9 @@ using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Quests;
 using System.Threading.Tasks;
+using OmegaGo.Core.Modes.LiveGame.Connectors;
 using OmegaGo.Core.Online.Common;
+using OmegaGo.UI.Localization;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -23,10 +25,10 @@ namespace OmegaGo.UI.ViewModels
         public ObserverGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
             : base(gameSettings, questsManager, dialogService)
         {
-            ChatViewModel = new ChatViewModel((Game.Controller as RemoteGameController).Chat);
+            ChatViewModel = new ChatViewModel((Game.Controller as RemoteGameController).Chat, (Game.Controller as RemoteGameController).Connectors.First(connector => connector is IRemoteConnector) as IRemoteConnector);
         }
 
-        public ChatViewModel ChatViewModel { get; private set; }
+        public ChatViewModel ChatViewModel { get; private set; }        
 
         public override async void Init()
         {
@@ -38,12 +40,12 @@ namespace OmegaGo.UI.ViewModels
             if (gameName != null)
             {
                 string contents =
-                    string.Format("You are watching a named professional game. This is the game title:\n\n{0}",
+                    string.Format(LocalizedStrings.YouAreWatchingAProfessionalGameTitledX,
                         gameName);
 
-                await this.DialogService.ShowAsync(contents, "You are observing a professional game.");
+                await this.DialogService.ShowAsync(contents, LocalizedStrings.YouAreObservingAProfessionalGame);
             }
-        }
+        }        
 
         public override void Appearing()
         {            

@@ -19,7 +19,15 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
 
         protected override void MainForceUndo()
         {
-            Undo();
+            var undidMoveBelongsTo = Controller.Players[Controller.GameTree.LastNode.Move.WhoMoves];
+            if (!undidMoveBelongsTo.IsHuman)
+            {
+                Undo(2);
+            }
+            else
+            {
+                Undo(1);
+            }
         }
 
         protected override Task MainRequestUndo()

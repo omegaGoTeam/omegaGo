@@ -1,4 +1,6 @@
-﻿using OmegaGo.UI.UserControls.ViewModels;
+﻿using System;
+using System.Linq;
+using OmegaGo.UI.UserControls.ViewModels;
 using MvvmCross.Core.ViewModels;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Remote;
@@ -8,6 +10,8 @@ using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
 using System.Threading.Tasks;
+using OmegaGo.Core.Modes.LiveGame.Connectors;
+
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -25,7 +29,8 @@ namespace OmegaGo.UI.ViewModels
         {            
             (Game.Controller as RemoteGameController).Server.Events.UndoRequestReceived += Events_UndoRequestReceived;
             (Game.Controller as RemoteGameController).Server.Events.UndoDeclined += Events_UndoDeclined;
-            ChatViewModel = new ChatViewModel((Game.Controller as RemoteGameController).Chat);
+            ChatViewModel = new ChatViewModel((Game.Controller as RemoteGameController).Chat, (Game.Controller as RemoteGameController).Connectors.First(connector => connector is IRemoteConnector) as IRemoteConnector);
+            
         }
 
         /// <summary>
@@ -39,7 +44,10 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _canAgreeOrDisagreeUndo, value); }
         }
 
-        public override bool ResumingGameIsPossible => !(Game.Info is IgsGameInfo);
+        public bool IsIgs => (Game.Info is IgsGameInfo);
+
+        public IMvxCommand Add1Minute => new MvxCommand(() => AddTimeToOpponent(1));
+        public IMvxCommand Add5Minutes => new MvxCommand(() => AddTimeToOpponent(5));
 
         /// <summary>
         /// Agree with undo command
@@ -77,6 +85,12 @@ namespace OmegaGo.UI.ViewModels
         }
 
 
+        private void AddTimeToOpponent(int minutes)
+        {
+            (Game.Controller as RemoteGameController).Server.Commands.AddTime(Game.Info as RemoteGameInfo,
+                TimeSpan.FromMinutes(minutes));
+        }
+
         private async void AgreeUndo()
         {
             this.CanAgreeOrDisagreeUndo = false;
@@ -103,7 +117,6 @@ namespace OmegaGo.UI.ViewModels
         {
             if (e == Game.Info)
             {
-                // TODO Petr: implement better equality comparison for GameInfo
                 this.CanAgreeOrDisagreeUndo = true;
             }
         }

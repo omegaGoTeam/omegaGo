@@ -22,7 +22,16 @@ using MvvmCross.Core.ViewModels;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Online.Common;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using OmegaGo.Core;
+using OmegaGo.Core.Game.GameTreeConversion;
+using OmegaGo.Core.Sgf;
+using OmegaGo.Core.Sgf.Serializing;
+using OmegaGo.UI.Services.AppPackage;
+using OmegaGo.UI.Services.Files;
 using OmegaGo.UI.Services.Localization;
+using OmegaGo.UI.Services.Notifications;
+using OmegaGo.UI.Utility;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -33,11 +42,14 @@ namespace OmegaGo.UI.ViewModels
         private readonly IDialogService _dialogService;
         private readonly UiConnector _uiConnector;
         private readonly IQuestsManager _questsManager;
-        
+
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseStartHandlers;
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseEndHandlers;
 
         private GamePhaseType _gamePhase;
+
+        private ICommand _exportSGFCommand = null;
+        private ICommand _saveToLibraryCommand = null;
 
         public GameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
         {
@@ -49,6 +61,8 @@ namespace OmegaGo.UI.ViewModels
 
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => OnBoardTapped(e);
+            // Set empty node (should be in the beginning of every gametree) as current node for board rendering
+            RefreshBoard(Game.Controller.GameTree.LastNode);
 
             _uiConnector = new UiConnector(Game.Controller);
 
@@ -59,21 +73,32 @@ namespace OmegaGo.UI.ViewModels
             Game.Controller.RegisterConnector(_uiConnector);
 
             Game.Controller.GameEnded += (s, e) => OnGameEnded(e);
-            Game.Controller.CurrentNodeChanged += (s, e) => OnCurrentNodeChanged(e);
-            Game.Controller.CurrentNodeStateChanged += (s, e) => OnCurrentNodeStateChanged();
+            Game.Controller.GameTree.LastNodeChanged += (s, e) => OnCurrentNodeChanged(e);
             Game.Controller.TurnPlayerChanged += (s, e) => OnTurnPlayerChanged(e);
             Game.Controller.GamePhaseChanged += (s, e) => OnGamePhaseChanged(e);
             ObserveDebuggingMessages();
         }
-        
+
         public IGame Game => _game;
         public ObservableCollection<string> Log { get; } = new ObservableCollection<string>();
-        
+
+        public ICommand ExportSGFCommand => _exportSGFCommand ??
+                                               (_exportSGFCommand = new MvxAsyncCommand(ExportSGFAsync));
+
+        public ICommand SaveToLibraryCommand => _saveToLibraryCommand ??
+                                                (_saveToLibraryCommand = new MvxAsyncCommand(SaveToLibraryAsync));
+
+
         protected IGameSettings GameSettings => _gameSettings;
+
         protected IDialogService DialogService => _dialogService;
+
         protected UiConnector UiConnector => _uiConnector;
+
         protected IQuestsManager QuestsManager => _questsManager;
-       
+
+        protected virtual string SuggestedGameFileName => $"{TabTitle}_{DateTimeOffset.Now:dd-MM-yyyy}.sgf";
+
         public BoardViewModel BoardViewModel
         {
             get;
@@ -85,7 +110,8 @@ namespace OmegaGo.UI.ViewModels
             get { return _gamePhase; }
             set { SetProperty(ref _gamePhase, value); }
         }
-        
+
+
         ////////////////
         // Initial setup overrides      
         ////////////////
@@ -103,10 +129,11 @@ namespace OmegaGo.UI.ViewModels
 
         }
 
+
         ////////////////
         // State Changes      
         ////////////////
-      
+
         protected virtual void OnGameEnded(GameEndInformation endInformation)
         {
 
@@ -122,16 +149,11 @@ namespace OmegaGo.UI.ViewModels
 
         }
 
-        protected virtual void OnCurrentNodeStateChanged()
-        {
-
-        }
-
         protected virtual void OnTurnPlayerChanged(GamePlayer newPlayer)
         {
 
         }
-        
+
         protected virtual void OnGamePhaseChanged(GamePhaseChangedEventArgs phaseState)
         {
             if (phaseState.PreviousPhase != null)
@@ -139,7 +161,7 @@ namespace OmegaGo.UI.ViewModels
                 _phaseEndHandlers.ItemOrDefault(phaseState.PreviousPhase.Type)?
                     .Invoke(phaseState.PreviousPhase);
             }
-            
+
             if (phaseState.NewPhase != null)
             {
                 _phaseStartHandlers.ItemOrDefault(phaseState.NewPhase.Type)?
@@ -149,12 +171,12 @@ namespace OmegaGo.UI.ViewModels
             // Define publicly the new phase
             GamePhase = phaseState.NewPhase.Type;
         }
-        
+
 
         ////////////////
         // Game View Model Services      
         ////////////////
-        
+
         protected void RefreshBoard(GameTreeNode boardState)
         {
             BoardViewModel.GameTreeNode = boardState;
@@ -197,7 +219,57 @@ namespace OmegaGo.UI.ViewModels
                 }
             }
         }
-        
+
+        /// <summary>
+        /// Exports SGF
+        /// </summary>
+        /// <returns></returns>
+        private async Task ExportSGFAsync()
+        {
+            try
+            {
+                var sgf = ConvertStateToSgf();
+                if (await SgfExport.ExportAsync(SuggestedGameFileName, sgf))
+                {
+                    Mvx.Resolve<IAppNotificationService>()
+                        .TriggerNotification(new BubbleNotification(Localizer.SgfExportSuccessful, Localizer.Success,
+                            NotificationType.Success));
+                }
+            }
+            catch (Exception ex)
+            {
+                //ignore
+            }
+        }
+
+        /// <summary>
+        /// Saves game to library
+        /// </summary>
+        private async Task SaveToLibraryAsync()
+        {
+            try
+            {
+                var sgf = ConvertStateToSgf();
+                await SgfExport.SaveToLibraryAsync(SuggestedGameFileName, sgf);
+                Mvx.Resolve<IAppNotificationService>().TriggerNotification(new BubbleNotification(Localizer.SgfSaveToLibrarySuccessful, Localizer.Success, NotificationType.Success));
+            }
+            catch (Exception ex)
+            {
+                //ignore
+            }
+        }
+
+        private string ConvertStateToSgf()
+        {
+            var appPackage = Mvx.Resolve<IAppPackageService>();
+            GameTreeToSgfConverter converter = new GameTreeToSgfConverter(
+                new ApplicationInfo(appPackage.AppName, appPackage.Version),
+                Game.Info,
+                Game.Controller.GameTree);
+            var sgfGameTree = converter.Convert();
+            return new SgfSerializer(true).Serialize(new SgfCollection(new[] { sgfGameTree }));
+        }
+
         ////////////////
         // Debugging      
         ////////////////

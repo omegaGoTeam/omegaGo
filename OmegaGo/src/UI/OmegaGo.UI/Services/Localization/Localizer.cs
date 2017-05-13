@@ -112,7 +112,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string Back => LocalizeCaller();
 		/// <summary>
-		/// Background Color
+		/// Background color
 		/// </summary>
 		public string BackgroundColor => LocalizeCaller();
 		/// <summary>
@@ -128,7 +128,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string BackgroundColor_None => LocalizeCaller();
 		/// <summary>
-		/// Background Image
+		/// Background image
 		/// </summary>
 		public string BackgroundImage => LocalizeCaller();
 		/// <summary>
@@ -432,7 +432,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string StatisticsToolTip => LocalizeCaller();
 		/// <summary>
-		/// Stones Theme
+		/// Stones theme
 		/// </summary>
 		public string StonesTheme => LocalizeCaller();
 		/// <summary>
@@ -688,7 +688,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string Tsumego_YouHaveSolvedThisProblem => LocalizeCaller();
 		/// <summary>
-		/// IGS rank
+		/// Pandanet rank
 		/// </summary>
 		public string IgsRank => LocalizeCaller();
 		/// <summary>
@@ -736,7 +736,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string QuitCancel => LocalizeCaller();
 		/// <summary>
-		/// Quit game?
+		/// Quit omegaGo?
 		/// </summary>
 		public string QuitCaption => LocalizeCaller();
 		/// <summary>
@@ -744,7 +744,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string QuitConfirm => LocalizeCaller();
 		/// <summary>
-		/// Do you really want to quit the game?
+		/// Do you really want to exit the omegaGo program? All ongoing games will be cancelled.
 		/// </summary>
 		public string QuitText => LocalizeCaller();
 		/// <summary>
@@ -772,7 +772,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string ResetAllProgress => LocalizeCaller();
 		/// <summary>
-		/// Operating System
+		/// Operating system
 		/// </summary>
 		public string ControlStyle_OperatingSystem => LocalizeCaller();
 		/// <summary>
@@ -780,7 +780,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string ControlStyle_Wood => LocalizeCaller();
 		/// <summary>
-		/// Control Style
+		/// Control style
 		/// </summary>
 		public string ControlStyle => LocalizeCaller();
 		/// <summary>
@@ -992,7 +992,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string OnlineTraditionalQuest_Name => LocalizeCaller();
 		/// <summary>
-		/// "Win a solo game against Fuego without handicap.
+		/// Win a solo game against Fuego without handicap.
 		/// </summary>
 		public string PureSkillQuest_Description => LocalizeCaller();
 		/// <summary>
@@ -1076,7 +1076,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string ObserveThisGame => LocalizeCaller();
 		/// <summary>
-		/// Sort by:
+		/// Sort by
 		/// </summary>
 		public string SortBy => LocalizeCaller();
 		/// <summary>
@@ -1524,6 +1524,26 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string Solved => LocalizeCaller();
 		/// <summary>
+		/// Analyze mode
+		/// </summary>
+		public string AnalyzeMode => LocalizeCaller();
+		/// <summary>
+		/// Hide tabs
+		/// </summary>
+		public string HideTabs => LocalizeCaller();
+		/// <summary>
+		/// Hint
+		/// </summary>
+		public string Hint => LocalizeCaller();
+		/// <summary>
+		/// System log
+		/// </summary>
+		public string SystemLog => LocalizeCaller();
+		/// <summary>
+		/// Export SGF
+		/// </summary>
+		public string ExportSGF => LocalizeCaller();
+		/// <summary>
 		/// Connecting to Pandanet...
 		/// </summary>
 		public string Igs_ConnectingToPandanet => LocalizeCaller();
@@ -1656,26 +1676,6 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string Feedback => LocalizeCaller();
 		/// <summary>
-		/// Analyze mode
-		/// </summary>
-		public string AnalyzeMode => LocalizeCaller();
-		/// <summary>
-		/// Hide tabs
-		/// </summary>
-		public string HideTabs => LocalizeCaller();
-		/// <summary>
-		/// Hint
-		/// </summary>
-		public string Hint => LocalizeCaller();
-		/// <summary>
-		/// System log
-		/// </summary>
-		public string SystemLog => LocalizeCaller();
-		/// <summary>
-		/// Export SGF
-		/// </summary>
-		public string ExportSGF => LocalizeCaller();
-		/// <summary>
 		/// Fluffy tree depth must be at least 1.
 		/// </summary>
 		public string Validation_FluffyDepthTooSmall => LocalizeCaller();
@@ -1743,6 +1743,374 @@ namespace OmegaGo.UI.Services.Localization
 		/// You must select a square board.
 		/// </summary>
 		public string Validation_YouMustSelectASquareBoard => LocalizeCaller();
+		/// <summary>
+		/// Back to game
+		/// </summary>
+		public string BackToGame => LocalizeCaller();
+		/// <summary>
+		/// Commentary
+		/// </summary>
+		public string Commentary => LocalizeCaller();
+		/// <summary>
+		/// Create challenge
+		/// </summary>
+		public string CreateChallenge => LocalizeCaller();
+		/// <summary>
+		/// [no opponent yet]
+		/// </summary>
+		public string NoOpponentYet => LocalizeCaller();
+		/// <summary>
+		/// Send
+		/// </summary>
+		public string Send => LocalizeCaller();
+		/// <summary>
+		/// Your opponent
+		/// </summary>
+		public string YourOpponent => LocalizeCaller();
+		/// <summary>
+		/// Do you want to exit analysis?
+		/// </summary>
+		public string ExitAnalyze_Caption => LocalizeCaller();
+		/// <summary>
+		/// End analysis
+		/// </summary>
+		public string ExitAnalyze_Confirm => LocalizeCaller();
+		/// <summary>
+		/// Exiting this screen will end analysis and all your changes will be lost.
+		/// </summary>
+		public string ExitAnalyze_Text => LocalizeCaller();
+		/// <summary>
+		/// Filter
+		/// </summary>
+		public string Filter => LocalizeCaller();
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string Name => LocalizeCaller();
+		/// <summary>
+		/// Search
+		/// </summary>
+		public string Search => LocalizeCaller();
+		/// <summary>
+		/// Looks for a game
+		/// </summary>
+		public string LooksForAGame => LocalizeCaller();
+		/// <summary>
+		/// Name and rank
+		/// </summary>
+		public string NameAndRank => LocalizeCaller();
+		/// <summary>
+		/// No user found, try changing the filter
+		/// </summary>
+		public string NoUserFoundChangeFilter => LocalizeCaller();
+		/// <summary>
+		/// Sort
+		/// </summary>
+		public string Sort => LocalizeCaller();
+		/// <summary>
+		/// Visibility settings
+		/// </summary>
+		public string VisibilitySettings => LocalizeCaller();
+		/// <summary>
+		/// Room:
+		/// </summary>
+		public string RoomColon => LocalizeCaller();
+		/// <summary>
+		/// Games
+		/// </summary>
+		public string Games => LocalizeCaller();
+		/// <summary>
+		/// Rooms
+		/// </summary>
+		public string Rooms => LocalizeCaller();
+		/// <summary>
+		/// Description
+		/// </summary>
+		public string Description => LocalizeCaller();
+		/// <summary>
+		/// No room selected. Pick one from the list.
+		/// </summary>
+		public string NoRoomSelectedMessage => LocalizeCaller();
+		/// <summary>
+		/// Join
+		/// </summary>
+		public string Join => LocalizeCaller();
+		/// <summary>
+		/// Unjoin
+		/// </summary>
+		public string Unjoin => LocalizeCaller();
+		/// <summary>
+		/// Challenges
+		/// </summary>
+		public string Challenges => LocalizeCaller();
+		/// <summary>
+		/// Games and challenges
+		/// </summary>
+		public string GamesAndChallenges => LocalizeCaller();
+		/// <summary>
+		/// Users
+		/// </summary>
+		public string Users => LocalizeCaller();
+		/// <summary>
+		/// Channel:
+		/// </summary>
+		public string ChannelColon => LocalizeCaller();
+		/// <summary>
+		/// All observable games
+		/// </summary>
+		public string GlobalGamesListKind_ActiveGames => LocalizeCaller();
+		/// <summary>
+		/// All open challenges
+		/// </summary>
+		public string GlobalGamesListKind_Challenges => LocalizeCaller();
+		/// <summary>
+		/// Favorite games
+		/// </summary>
+		public string GlobalGamesListKind_Favourites => LocalizeCaller();
+		/// <summary>
+		/// Details
+		/// </summary>
+		public string Details => LocalizeCaller();
+		/// <summary>
+		/// That is a wrong password for this user.
+		/// </summary>
+		public string KgsBadPassword => LocalizeCaller();
+		/// <summary>
+		/// There is no user with this name.
+		/// </summary>
+		public string KgsBadUsername => LocalizeCaller();
+		/// <summary>
+		/// Connection failure. Check your internet connection and try again.
+		/// </summary>
+		public string KgsConnectionFailure => LocalizeCaller();
+		/// <summary>
+		/// A game with Fuego is already open.
+		/// </summary>
+		public string AGameWithFuegoAlreadyOpen => LocalizeCaller();
+		/// <summary>
+		/// Requesting challenge creation...
+		/// </summary>
+		public string ChallengeIsBeingCreated => LocalizeCaller();
+		/// <summary>
+		/// Challenge to {0} sent.
+		/// </summary>
+		public string ChallengeToXSent => LocalizeCaller();
+		/// <summary>
+		/// Hint unavailable
+		/// </summary>
+		public string HintUnavailable => LocalizeCaller();
+		/// <summary>
+		/// Hint cannot be given because Fuego is occupied elsewhere.
+		/// </summary>
+		public string HintUnavailableExplanation => LocalizeCaller();
+		/// <summary>
+		/// - outgoing challenge
+		/// </summary>
+		public string HyphenOutgoingChallenge => LocalizeCaller();
+		/// <summary>
+		/// KGS Message
+		/// </summary>
+		public string KGSAlert => LocalizeCaller();
+		/// <summary>
+		/// You are already in that game or challenge.
+		/// </summary>
+		public string KGSChannelAlreadyJoined => LocalizeCaller();
+		/// <summary>
+		/// You have just logged in elsewhere.
+		/// </summary>
+		public string KGSReconnect => LocalizeCaller();
+		/// <summary>
+		/// KGS Technical Message
+		/// </summary>
+		public string KGSTechnicalMessage => LocalizeCaller();
+		/// <summary>
+		/// You cannot play two KGS games at a time.
+		/// </summary>
+		public string KGSYouCantPlayTwice => LocalizeCaller();
+		/// <summary>
+		/// Pandanet Error
+		/// </summary>
+		public string PandanetError => LocalizeCaller();
+		/// <summary>
+		/// The assistant recommends you to resign.\n\nExplanation:
+		/// </summary>
+		public string ResignExplanation => LocalizeCaller();
+		/// <summary>
+		/// System
+		/// </summary>
+		public string System => LocalizeCaller();
+		/// <summary>
+		/// {0} declined your match request.
+		/// </summary>
+		public string XDeclinedYourMatchRequest => LocalizeCaller();
+		/// <summary>
+		/// {0} is satisfied with the removed stones.
+		/// </summary>
+		public string XIsSatisfiedWithTheRemovedStones => LocalizeCaller();
+		/// <summary>
+		/// You are observing a professional game.
+		/// </summary>
+		public string YouAreObservingAProfessionalGame => LocalizeCaller();
+		/// <summary>
+		/// You are watching a named professional game. This is the game title:\n\n{0}
+		/// </summary>
+		public string YouAreWatchingAProfessionalGameTitledX => LocalizeCaller();
+		/// <summary>
+		/// You should pass.\n\nExplanation:
+		/// </summary>
+		public string YouShouldPassExplanation => LocalizeCaller();
+		/// <summary>
+		/// You should place a stone at {0}.\n\nExplanation:
+		/// </summary>
+		public string YouShouldPlayExplanation => LocalizeCaller();
+		/// <summary>
+		/// You should resign.
+		/// </summary>
+		public string YouShouldResign => LocalizeCaller();
+		/// <summary>
+		/// Please choose a board size of 52x52 or smaller.
+		/// </summary>
+		public string Validation_BoardTooExtreme => LocalizeCaller();
+		/// <summary>
+		/// A field ('{0}') has a value greater than 10000. Please choose a smaller value. 
+		/// </summary>
+		public string Validation_ExcessiveTimeError => LocalizeCaller();
+		/// <summary>
+		/// Please choose komi between -500 and 500.
+		/// </summary>
+		public string Validation_KomiTooExtreme => LocalizeCaller();
+		/// <summary>
+		/// Show in list of all games
+		/// </summary>
+		public string CheckboxPublicGame => LocalizeCaller();
+		/// <summary>
+		/// This game is ranked
+		/// </summary>
+		public string CheckboxRankedGame => LocalizeCaller();
+		/// <summary>
+		/// Are you sure that you want to delete the selected branch?
+		/// </summary>
+		public string BranchDeletionConfirmationText => LocalizeCaller();
+		/// <summary>
+		/// Delete branch
+		/// </summary>
+		public string BranchDeletionConfirmationTitle => LocalizeCaller();
+		/// <summary>
+		/// Selected branch cannot be deleted because its part of the primary timeline.
+		/// </summary>
+		public string BranchDeletionErrorText => LocalizeCaller();
+		/// <summary>
+		/// Delete branch
+		/// </summary>
+		public string BranchDeletionErrorTitle => LocalizeCaller();
+		/// <summary>
+		/// Chat
+		/// </summary>
+		public string Chat => LocalizeCaller();
+		/// <summary>
+		/// Game tree
+		/// </summary>
+		public string GameTree => LocalizeCaller();
+		/// <summary>
+		/// Add 1 minute
+		/// </summary>
+		public string Add1Minute => LocalizeCaller();
+		/// <summary>
+		/// Adds 1 minute to your opponent's clock
+		/// </summary>
+		public string Add1MinuteTooltip => LocalizeCaller();
+		/// <summary>
+		/// Add 5 minutes
+		/// </summary>
+		public string Add5Minutes => LocalizeCaller();
+		/// <summary>
+		/// Adds 5 minutes to your opponent's clock
+		/// </summary>
+		public string Add5MinutesTooltip => LocalizeCaller();
+		/// <summary>
+		/// The game cannot be ranked. It will be created as a non-ranked game.
+		/// </summary>
+		public string CantPlayRanked => LocalizeCaller();
+		/// <summary>
+		/// Handicap is supported only for 9x9, 13x13 and 19x19.
+		/// </summary>
+		public string Validation_ImproperHandicapForSize => LocalizeCaller();
+		/// <summary>
+		/// Allow undo
+		/// </summary>
+		public string AgreeWithUndo => LocalizeCaller();
+		/// <summary>
+		/// Refuse undo
+		/// </summary>
+		public string DisagreeWithUndo => LocalizeCaller();
+		/// <summary>
+		/// You have requested an undo.
+		/// </summary>
+		public string YouHaveRequestedAnUndo => LocalizeCaller();
+		/// <summary>
+		/// Your opponent requested his or her last move to be undone.
+		/// </summary>
+		public string YourOppRequestedAnUndo => LocalizeCaller();
+		/// <summary>
+		/// Import SGF file
+		/// </summary>
+		public string ImportSgfFile => LocalizeCaller();
+		/// <summary>
+		/// Open SGF file
+		/// </summary>
+		public string OpenSgfFile => LocalizeCaller();
+		/// <summary>
+		/// Export
+		/// </summary>
+		public string Export => LocalizeCaller();
+		/// <summary>
+		/// Loading... {0} of {1}
+		/// </summary>
+		public string LibraryLoadingFormatString => LocalizeCaller();
+		/// <summary>
+		/// Analyze
+		/// </summary>
+		public string Analyze => LocalizeCaller();
+		/// <summary>
+		/// Error saving file
+		/// </summary>
+		public string ErrorSavingFile => LocalizeCaller();
+		/// <summary>
+		/// game
+		/// </summary>
+		public string Game1 => LocalizeCaller();
+		/// <summary>
+		/// games
+		/// </summary>
+		public string Game2 => LocalizeCaller();
+		/// <summary>
+		/// games
+		/// </summary>
+		public string Game5 => LocalizeCaller();
+		/// <summary>
+		/// Analysis
+		/// </summary>
+		public string Analysis => LocalizeCaller();
+		/// <summary>
+		/// Export SGF file...
+		/// </summary>
+		public string ExportSgfFile => LocalizeCaller();
+		/// <summary>
+		/// Save to game library
+		/// </summary>
+		public string SaveToLibrary => LocalizeCaller();
+		/// <summary>
+		/// Game successfully exported to SGF.
+		/// </summary>
+		public string SgfExportSuccessful => LocalizeCaller();
+		/// <summary>
+		/// Game successfuly saved to library.
+		/// </summary>
+		public string SgfSaveToLibrarySuccessful => LocalizeCaller();
+		/// <summary>
+		/// Success
+		/// </summary>
+		public string Success => LocalizeCaller();
 
         // 
         // This file is auto-generated by LocalizerGenerator.

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Game.Tools
 {
@@ -7,14 +8,26 @@ namespace OmegaGo.Core.Game.Tools
     /// </summary>
     public sealed class DeleteBranchTool : ITool
     {
-        public void Execute(IToolServices toolService)
+        public async void Execute(IToolServices toolService)
         {
-            if (!toolService.GameTree.LastNode.GetNodeHistory().Contains(toolService.Node))
+            if (!toolService.GameTree.PrimaryTimelineWithRoot.Contains(toolService.Node))
             {
+                var result = await toolService.ShowMessage(ToolMessage.BranchDeletionConfirmation);
+
+                if (result == ToolConfirmationResult.Cancel)
+                    return;
+
                 GameTreeNode parent = toolService.Node.Parent;
                 parent.RemoveChild(toolService.Node);
                 toolService.SetNode(parent);
             }
+            else
+            {
+                var task = toolService.ShowMessage(ToolMessage.BranchDeletionError);
+            }
         }
+
+        public void Set(IToolServices toolServices) { }
+        
     }
 }

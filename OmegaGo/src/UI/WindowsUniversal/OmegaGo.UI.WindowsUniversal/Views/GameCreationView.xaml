@@ -49,7 +49,7 @@
                 <navigation:TitleControl Text="{x:Bind VM.FormTitle}" 
                                          ShowBackButton="{x:Bind VM.Bundle.CanReturn}"
                                          HorizontalAlignment="Center"
-                                         Margin="0,20,0,0" />     
+                                         Margin="0,20,0,0" />
 
                 <Grid x:Name="Form"
               HorizontalAlignment="Center">
@@ -157,11 +157,11 @@
                             </Flyout>
                         </Button.Flyout>
                     </Button>
-                   
 
 
-                    <TextBlock Grid.Row="2" Style="{StaticResource Labels}" Text="Your opponent" Visibility="{Binding Bundle.YouVersusOnlineVisible}" />
-                    <TextBlock Grid.Row="2" Style="{StaticResource TimeControlDescription}" Text="{Binding OpponentName, Mode=OneWay}" Visibility="{Binding Bundle.YouVersusOnlineVisible}"></TextBlock>
+
+                    <TextBlock Grid.Row="2" Style="{StaticResource Labels}" Text="{Binding Localizer.YourOpponent}" Visibility="{Binding Bundle.ShowYourOpponent}" />
+                    <TextBlock Grid.Row="2" Style="{StaticResource TimeControlDescription}" Text="{Binding OpponentName, Mode=OneWay}" Visibility="{Binding Bundle.ShowYourOpponent}"></TextBlock>
                     <Button Grid.Row="2" Style="{StaticResource Buttons}" 
                             Visibility="{x:Bind VM.Bundle.CanDeclineSingleOpponent}"
                             Command="{x:Bind VM.DeclineSingleOpponentCommand}"
@@ -189,14 +189,14 @@
                             </Flyout>
                         </Button.Flyout>
                     </Button>
-                
+
                     <Button Grid.Row="4" Style="{StaticResource Boxes}" Content="{x:Bind Localizer.SwitchColors}" Command="{Binding SwitchColorsCommand}" Visibility="{Binding Bundle.BlackAndWhiteVisible}" />
 
                     <TextBlock Grid.Row="5" Style="{StaticResource Labels}" Visibility="{x:Bind VM.Bundle.ShowHandicapSlider}" Text="{x:Bind Localizer.WhiteHandicap}" />
                     <Slider Grid.Row="5" Style="{StaticResource Boxes}"  Visibility="{x:Bind VM.Bundle.ShowHandicapSlider}" 
                             Minimum="0" Maximum="9" StepFrequency="1" SmallChange="1" LargeChange="1" 
                             Value="{x:Bind VM.Handicap, Mode=TwoWay}" IsEnabled="{x:Bind VM.Bundle.HandicapMayBeChanged}" />
-                    <TextBlock Grid.Row="5" Text="{Binding Handicap}" HorizontalAlignment="Center" Margin="2" Grid.Column="1" VerticalAlignment="Bottom" />
+                    <TextBlock Grid.Row="5" Text="{Binding Handicap}" Visibility="{x:Bind VM.Bundle.ShowHandicapSlider}" HorizontalAlignment="Center" Margin="2" Grid.Column="1" VerticalAlignment="Bottom" />
 
                     <TextBlock Grid.Row="6" Style="{StaticResource Labels}" Text="{x:Bind Localizer.TimeControl}" />
                     <TextBlock Grid.Row="6" Style="{StaticResource TimeControlDescription}" Text="{x:Bind VM.TimeControl.OneLineDescription, Mode=OneWay}" />
@@ -283,7 +283,14 @@
                                Visibility="{Binding Bundle.KomiIsAvailable}"
                               Margin="5,0,5,5"/>
 
-                    <Button Grid.Row="9" Command="{Binding Path=NavigateToGameCommand}"
+                    <CheckBox Grid.Row="9" Style="{StaticResource Boxes}" Content="{x:Bind Localizer.CheckboxRankedGame}"
+                              IsEnabled="{Binding Bundle.Frozen, Converter={StaticResource BoolNegationConverter}}"
+                              Visibility="{x:Bind VM.Bundle.IsKgs}" IsChecked="{x:Bind VM.IsRankedGame, Mode=TwoWay}"></CheckBox>
+                    <CheckBox Grid.Row="10" Style="{StaticResource Boxes}" Content="{x:Bind Localizer.CheckboxPublicGame}"
+                              IsEnabled="{Binding Bundle.Frozen, Converter={StaticResource BoolNegationConverter}}"
+                              Visibility="{x:Bind VM.Bundle.IsKgsChallengeCreation}" IsChecked="{x:Bind VM.IsPubliclyListedGame, Mode=TwoWay}"></CheckBox>
+
+                    <Button Grid.Row="11" Command="{Binding Path=NavigateToGameCommand}"
                             HorizontalAlignment="Stretch" Grid.Column="0" Grid.ColumnSpan="3"
                             Visibility="{x:Bind VM.Bundle.Playable}">
                         <StackPanel Orientation="Horizontal">
@@ -292,16 +299,16 @@
                         </StackPanel>
                     </Button>
 
-                    <Button Grid.Row="9" Command="{Binding Path=CreateChallengeCommand}"
+                    <Button Grid.Row="11" Command="{Binding Path=CreateChallengeCommand}"
                             HorizontalAlignment="Stretch" Grid.Column="0" Grid.ColumnSpan="3"
                             Visibility="{Binding Bundle.WillCreateChallenge}">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="Street" Margin="0,2,0,0" />
-                            <TextBlock Text="Create challenge" Margin="10,0,0,0" />
+                            <TextBlock Text="{Binding Localizer.CreateChallenge}" Margin="10,0,0,0" />
                         </StackPanel>
                     </Button>
 
-                    <Grid Grid.Row="9" Style="{StaticResource Boxes}" Visibility="{x:Bind VM.Bundle.AcceptableAndRefusable}">
+                    <Grid Grid.Row="11" Style="{StaticResource Boxes}" Visibility="{x:Bind VM.Bundle.AcceptableAndRefusable}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"></ColumnDefinition>
                             <ColumnDefinition Width="1*"></ColumnDefinition>
@@ -310,7 +317,7 @@
                         <Button Grid.Column="1" HorizontalAlignment="Stretch" Command="{Binding RefuseChallengeCommand}" Content="{x:Bind VM.RefusalCaption}"></Button>
                     </Grid>
 
-                    <TextBlock Grid.Row="10" Text="{x:Bind VM.ValidationErrorMessage, Mode=OneWay}" HorizontalAlignment="Center" Grid.ColumnSpan="3"></TextBlock>
+                    <TextBlock Grid.Row="12" Text="{x:Bind VM.ValidationErrorMessage, Mode=OneWay}" HorizontalAlignment="Center" Grid.ColumnSpan="3"></TextBlock>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

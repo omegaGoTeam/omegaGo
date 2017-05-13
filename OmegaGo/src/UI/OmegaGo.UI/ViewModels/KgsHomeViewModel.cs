@@ -1,6 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using OmegaGo.Core.Modes.LiveGame;
@@ -18,21 +20,16 @@ namespace OmegaGo.UI.ViewModels
     {
         private readonly IGameSettings _settings;
 
-        private ObservableCollection<KgsRoom> _allRooms = new ObservableCollection<KgsRoom>();
-
-        private ObservableCollection<KgsGameContainer> _gameContainers = new ObservableCollection<KgsGameContainer>();
-
         private IMvxCommand _joinRoomCommand;
         private IMvxCommand _createChallengeCommand;
 
-        private IMvxCommand _joinSelectedGameChannelCommand;
+        private IMvxCommand _joinChannelCommand;
 
         private KgsGameContainer _selectedGameContainer;
         private KgsGameChannel _selectedGameChannel;
 
         private KgsRoom _selectedRoom;
 
-        private bool _showRobots = true;
         private IMvxCommand _unjoinRoomCommand;
 
 
@@ -48,19 +45,16 @@ namespace OmegaGo.UI.ViewModels
             if (this.SelectedRoom != null && this.SelectedRoom.Joined)
             {
                 await Connections.Kgs.Commands.UnjoinRoomAsync(this.SelectedRoom);
-                // TODO Petr: figure out a way to inform the UI when unjoin/join happens
-                RefreshControls();
             }
-        }, () => this.SelectedRoom != null && this.SelectedRoom.Joined));
+        }));
 
         public IMvxCommand JoinRoomCommand => _joinRoomCommand ?? (_joinRoomCommand = new MvxCommand(async () =>
         {
             if (this.SelectedRoom != null && !this.SelectedRoom.Joined)
             {
                 await Connections.Kgs.Commands.JoinRoomAsync(this.SelectedRoom);
-                RefreshControls();
             }
-        }, () => this.SelectedRoom != null && !this.SelectedRoom.Joined));
+        }));
         public IMvxCommand CreateChallengeCommand => _createChallengeCommand ?? (_createChallengeCommand = new MvxCommand(() =>
         {
             if (this.SelectedRoom != null && this.SelectedRoom.Joined)
@@ -68,61 +62,72 @@ namespace OmegaGo.UI.ViewModels
                 Mvx.RegisterSingleton<GameCreationBundle>(new KgsCreateChallengeBundle(this.SelectedRoom));
                 OpenInNewActiveTab<GameCreationViewModel>();
             }
-        }, () => this.SelectedRoom != null && this.SelectedRoom.Joined));
-        public IMvxCommand JoinSelectedGameChannelCommand
-            => _joinSelectedGameChannelCommand ?? (_joinSelectedGameChannelCommand = new MvxCommand(async () =>
-            {
-                if (this.SelectedGameChannel != null)
-                {
-                    if (this.SelectedGameChannel is KgsTrueGameChannel)
-                    {
-                        var trueChannel = this.SelectedGameChannel as KgsTrueGameChannel;
-                        await Connections.Kgs.Commands.ObserveGameAsync(trueChannel.GameInfo);
-                    }
-                    else if (this.SelectedGameChannel is KgsChallenge)
-                    {
-                        var challenge = this.SelectedGameChannel as KgsChallenge;
-                        await Connections.Kgs.Commands.JoinAndSubmitSelfToChallengeAsync(challenge);
-                        Mvx.RegisterSingleton<GameCreationBundle>(new KgsJoinChallengeBundle(challenge));
-                        OpenInNewActiveTab<GameCreationViewModel>();
-                    }
-                }
-            }, () => this.SelectedGameChannel != null));
+        }));
+        public ICommand JoinChannelCommand
+            => _joinChannelCommand ?? (_joinChannelCommand = new MvxAsyncCommand<KgsChannel>(JoinChannelAsync));
 
+        private async Task JoinChannelAsync(KgsChannel channel)
+        {
+            if (channel is KgsTrueGameChannel)
+            {
+                var trueChannel = channel as KgsTrueGameChannel;
+                await Connections.Kgs.Commands.ObserveGameAsync(trueChannel.GameInfo);
+            }
+            else if (channel is KgsChallenge)
+            {
+                var challenge = channel as KgsChallenge;
+                await Connections.Kgs.Commands.JoinAndSubmitSelfToChallengeAsync(challenge);
+            }
+        }
+        
         public IMvxCommand LogoutCommand
             => new MvxCommand(async () => { await Connections.Kgs.Commands.LogoutAsync(); });
 
-        public IMvxCommand RefreshControlsCommand => new MvxCommand(RefreshControls);
+        public IMvxCommand RefreshControlsCommand => new MvxCommand(UpdateBindings);
 
-        public ObservableCollection<KgsGameContainer> GameContainers
+        public ObservableCollection<KgsGameContainer> GameContainers => Connections.Kgs.Data.GameContainers;
+
+        public ObservableCollection<KgsRoom> AllRooms => Connections.Kgs.Data.AllRooms;
+
+        public string LoggedInUser
         {
-            get { return _gameContainers; }
-            set { SetProperty(ref _gameContainers, value); }
+            get
+            {
+                if (Connections.Kgs.LoggedIn)
+                {
+                    return Connections.Kgs.Username;
+                }
+                return Localizer.NotLoggedIn;
+            }
         }
 
-        public ObservableCollection<KgsRoom> AllRooms
-        {
-            get { return _allRooms; }
-            set { SetProperty(ref _allRooms, value); }
-        }
-
-        public ObservableCollection<KgsGameChannel> SelectedGameContainerChannels
+        public ObservableCollection<KgsChallenge> SelectedGameContainerChallenges
         {
             get
             {
                 if (this.SelectedGameContainer == null)
                 {
-                    return new ObservableCollection<KgsGameChannel>();
+                    return new ObservableCollection<KgsChallenge>();
                 }
-                return
-                    new ObservableCollection<KgsGameChannel>(
-                        this.SelectedGameContainer.GetAllChannels().Where(channel =>
-                        {
-                            if (this.ShowRobots) return true;
-                            if (channel.Users.Any(usr => usr.IsRobot)) return false;
-                            return true;
-                        })
-                        );
+                else
+                {
+                    return this.SelectedGameContainer.Challenges;
+                }
+            }
+        }
+
+        public ObservableCollection<KgsTrueGameChannel> SelectedGameContainerGames
+        {
+            get
+            {
+                if (this.SelectedGameContainer == null)
+                {
+                    return new ObservableCollection<KgsTrueGameChannel>();
+                }
+                else
+                {
+                    return this.SelectedGameContainer.Games;
+                }
             }
         }
 
@@ -132,7 +137,8 @@ namespace OmegaGo.UI.ViewModels
             set
             {
                 SetProperty(ref _selectedGameContainer, value);
-                RaisePropertyChanged(nameof(KgsHomeViewModel.SelectedGameContainerChannels));
+                RaisePropertyChanged(nameof(KgsHomeViewModel.SelectedGameContainerChallenges));
+                RaisePropertyChanged(nameof(KgsHomeViewModel.SelectedGameContainerGames));
             }
         }
 
@@ -142,7 +148,6 @@ namespace OmegaGo.UI.ViewModels
             set
             {
                 SetProperty(ref _selectedGameChannel, value);
-                this.JoinSelectedGameChannelCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -152,33 +157,21 @@ namespace OmegaGo.UI.ViewModels
             set
             {
                 SetProperty(ref _selectedRoom, value);
-                this.JoinRoomCommand.RaiseCanExecuteChanged();
-                this.UnjoinRoomCommand.RaiseCanExecuteChanged();
-                this.CreateChallengeCommand.RaiseCanExecuteChanged();
             }
         }
-
+        
         public LoginFormViewModel LoginForm { get; }
-
-        public bool ShowRobots
-        {
-            get { return _showRobots; }
-            set
-            {
-                SetProperty(ref _showRobots, value);
-                RefreshControls();
-            }
-        }
 
         public void Init()
         {
             Connections.Kgs.Events.LoginPhaseChanged += Events_LoginPhaseChanged;
             Connections.Kgs.Events.Disconnection += Events_Disconnection;
+            Connections.Kgs.Events.LoginEnded += EventsLoginEnded;
 
             if (Connections.Kgs.LoggedIn)
             {
                 this.LoginForm.FormVisible = false;
-                RefreshControls();
+                UpdateBindings();
             }
             else
             {
@@ -187,73 +180,87 @@ namespace OmegaGo.UI.ViewModels
                 {
                     this.LoginForm.FormEnabled = false;
                     this.LoginForm.LoginErrorMessage = Localizer.Igs_LoginAlreadyInProgress;
-                    this.LoginForm.LoginErrorMessageOpacity = 1;
+                    this.LoginForm.LoginErrorMessageVisible = true;
 
                 }
                 else
                 {
                     this.LoginForm.LoginErrorMessage = "";
-                    this.LoginForm.LoginErrorMessageOpacity = 0;
+                    this.LoginForm.LoginErrorMessageVisible = false;
                     this.LoginForm.FormEnabled = true;
                 }
             }
+        }
+
+        private void EventsLoginEnded(object sender, LoginResult result)
+        {
+            this.LoginForm.FormEnabled = true;
+            string msg;
+            switch (result)
+            {
+                case LoginResult.Success:
+                    return;
+                case LoginResult.FailureUserDoesNotExist:
+                    msg = Localizer.KgsBadUsername;
+                    break;
+                case LoginResult.FailureWrongPassword:
+                    msg = Localizer.KgsBadPassword;
+                    break;
+                case LoginResult.FailureBadConnection:
+                default:
+                    msg = Localizer.KgsConnectionFailure;
+                    break;
+            }
+            this.LoginForm.LoginErrorMessage = msg;
+            this.LoginForm.LoginErrorMessageVisible = true;
         }
 
         public override Task<bool> CanCloseViewModelAsync()
         {
             Connections.Kgs.Events.LoginPhaseChanged -= Events_LoginPhaseChanged;
             Connections.Kgs.Events.Disconnection -= Events_Disconnection;
+            Connections.Kgs.Events.LoginEnded -= EventsLoginEnded;
             return base.CanCloseViewModelAsync();
-        }
-
-        public async Task AttemptLoginCommand(string username, string password)
-        {
-            this.LoginForm.LoginErrorMessageOpacity = 1;
-            this.LoginForm.FormEnabled = false;
-
-            this.LoginForm.LoginErrorMessage = "Logging in as " + username + "...";
-            bool loginSuccess = await Connections.Kgs.LoginAsync(username, password);
-            this.LoginForm.FormEnabled = true;
-            if (loginSuccess)
-            {
-            }
-            else
-            {
-                this.LoginForm.LoginErrorMessage = "The username or password you entered is incorrect.";
-                this.LoginForm.LoginErrorMessageOpacity = 1;
-            }
         }
 
         private void Events_Disconnection(object sender, string e)
         {
             this.LoginForm.FormVisible = true;
             this.LoginForm.FormEnabled = true;
-            this.LoginForm.LoginErrorMessage = "You have been disconnected.";
+            this.LoginForm.LoginErrorMessage = Localizer.YouHaveBeenDisconnected;
         }
 
 
         private void Events_LoginPhaseChanged(object sender, KgsLoginPhase e)
         {
             this.LoginForm.LoginErrorMessage = Localizer.GetString("KgsLoginPhase_" + e.ToString());
+            UpdateBindings();
             if (e == KgsLoginPhase.Done)
             {
                 this.LoginForm.FormVisible = false;
-                this.LoginForm.LoginErrorMessageOpacity = 0;
-                RefreshControls();
+                this.LoginForm.LoginErrorMessageVisible = false;
             }
         }
 
-        private void RefreshControls()
+        private void UpdateBindings()
         {
-            this.AllRooms = new ObservableCollection<KgsRoom>(Connections.Kgs.Data.Rooms.Values);
-            this.GameContainers = new ObservableCollection<KgsGameContainer>(
-                Connections.Kgs.Data.Containers.Values.Where(v => v.Joined)
-                );
+            RaisePropertyChanged(nameof(AllRooms));
+            RaisePropertyChanged(nameof(GameContainers));
+            if (SelectedGameContainer == null)
+            {
+                SelectedGameContainer = GameContainers.FirstOrDefault();
+            }
+            RaisePropertyChanged(nameof(LoggedInUser));
         }
 
         private async void LoginForm_LoginClick(object sender, LoginEventArgs e)
         {
-            await AttemptLoginCommand(e.Username, e.Password);
+            string username = e.Username;
+            this.LoginForm.LoginErrorMessageVisible = true;
+            this.LoginForm.FormEnabled = false;
+
+            this.LoginForm.LoginErrorMessage = "...";
+            await Connections.Kgs.LoginAsync(username, e.Password);
         }
     }
 }

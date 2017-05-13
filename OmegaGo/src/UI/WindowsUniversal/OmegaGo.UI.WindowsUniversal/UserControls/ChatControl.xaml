@@ -6,88 +6,73 @@
     xmlns:local="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="using:OmegaGo.UI.UserControls.ViewModels"
-    xmlns:templateSelectors="using:OmegaGo.UI.WindowsUniversal.DataTemplateSelectors"
+    xmlns:online="using:OmegaGo.Core.Online.Chat"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance viewModels:ChatViewModel}"
     d:DesignHeight="300"
     d:DesignWidth="400"
-    MaxHeight="600"
-    DataContext="{x:Bind Path=ViewModel}"
     Loaded="layoutRoot_Loaded">
-
-    <UserControl.Resources>
-        <DataTemplate x:Key="IncomingDataTemplate">
-            <Border Background="#FFE5E5EA"
-                    CornerRadius="2"
-                    Padding="3" 
-                    Margin="0,0,2,2"
-                    HorizontalAlignment="Left">
-                <TextBlock Text="{Binding Path=Text}" 
-                           IsTextSelectionEnabled="True"
-                           Foreground="Black"
-                           TextWrapping="Wrap" />
-            </Border>
-        </DataTemplate>
-
-        <DataTemplate x:Key="OutgoingDataTemplate">
-            <Border CornerRadius="2"
-                    Padding="3" 
-                    Margin="2,0,0,2"
-                    HorizontalAlignment="Right">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0 0" EndPoint="1 1">
-                        <GradientStop Offset="0" Color="#FF279CFD" />
-                        <GradientStop Offset="1" Color="#FF057EFF" />
-                    </LinearGradientBrush>
-                </Border.Background>
-
-                <TextBlock Text="{Binding Path=Text}" 
-                           IsTextSelectionEnabled="True"
-                           Foreground="White"
-                           TextWrapping="Wrap" />
-            </Border>
-        </DataTemplate>
-    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ListView x:Name="messageListView" Grid.Row="0"
-                  ItemsSource="{Binding Path=Messages}">
+        <TextBlock x:Name="headerText" 
+                   Grid.Row="0"
+                   Text="{x:Bind Localizer.Chat}" TextAlignment="Center" 
+                   Style="{ThemeResource TitleTextBlockStyle}"/>
+
+        <Border Grid.Row="1" Grid.RowSpan="2">
+            <Border.Background>
+                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}"
+                                 Opacity="0.7"/>
+            </Border.Background>
+        </Border>
+
+        <ListView x:Name="messageListView"
+                  Grid.Row="1" Margin="5"
+                  ItemsSource="{x:Bind ViewModel.Messages}" SelectionMode="None"
+                  ItemContainerTransitions="{x:Null}">
             <ListView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="online:ChatMessage" >
                     <TextBlock TextWrapping="Wrap" IsTextSelectionEnabled="True">
-                        <Run Text="["></Run>
-                        <Run Text="{Binding Path=TimeString}"></Run>
-                        <Run Text="] "></Run>
-                        <Run Text="{Binding UserName}" FontWeight="Bold"></Run>
-                        <Run Text=": "></Run>
-                        <Run Text="{Binding Path=Text}"></Run>
+                        <Run Text="[" />
+                        <Run Text="{x:Bind TimeString}" />
+                        <Run Text="] " />
+                        <Run Text="{x:Bind UserName}" FontWeight="Bold" />
+                        <Run Text=": " />
+                        <Run Text="{x:Bind Text}" />
                     </TextBlock>
                 </DataTemplate>
             </ListView.ItemTemplate>
-            <!--
-            <ListView.ItemTemplateSelector>
-                <templateSelectors:ChatMessageDataTemplateSelector IncomingTemplate="{StaticResource IncomingDataTemplate}" OutgoingTemplate="{StaticResource OutgoingDataTemplate}" />
-            </ListView.ItemTemplateSelector>
-            -->
+            <ListView.Resources>
+                <Style TargetType="ListViewItem">
+                    <!--<Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>-->
+                    <Setter Property="MinHeight" Value="20"/>
+                </Style>
+            </ListView.Resources>
         </ListView>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <TextBox Grid.Column="0" 
-                     Text="{Binding Path=MessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" KeyDown="TextBox_KeyDown" />
-            <Button Grid.Column="1"
-                    Command="{Binding Path=SendMessageCommand}"
-                    Content="Send"/>
+            <TextBox Grid.Column="0" Margin="5"
+                     Text="{Binding ElementName=layoutRoot, 
+                                    Path=ViewModel.MessageText, 
+                                    Mode=TwoWay, 
+                                    UpdateSourceTrigger=PropertyChanged}" 
+                     KeyDown="TextBox_KeyDown" />
+            
+            <Button Grid.Column="1" Margin="0,5,5,5"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Command="{x:Bind ViewModel.SendMessageCommand}"
+                    Content="{Binding Path=Localizer.Send}"/>
         </Grid>
     </Grid>
 </local:UserControlBase>

@@ -17,6 +17,7 @@ using MvvmCross.Core.ViewModels;
 using System.Threading.Tasks;
 using System;
 using OmegaGo.UI.Services.Audio;
+using OmegaGo.UI.Services.GameTools;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -36,7 +37,6 @@ namespace OmegaGo.UI.ViewModels
         private bool _isSystemLogEnabled;
 
         private int _maximumMoveIndex;
-        private int _previousMoveIndex = -1;
         private int _selectedMoveIndex;
         private ITimer _portraitUpdateTimer;
 
@@ -56,6 +56,8 @@ namespace OmegaGo.UI.ViewModels
             // Register tool services
             ToolServices = 
                 new GameToolServices(
+                    Localizer,
+                    dialogService,
                     Game.Controller.Ruleset, 
                     Game.Controller.GameTree);
             ToolServices.PassSoundShouldBePlayed += ToolServices_PassSoundShouldBePlayed;
@@ -65,8 +67,8 @@ namespace OmegaGo.UI.ViewModels
             {
                 AnalyzeViewModel.OnNodeChanged();
                 RefreshBoard(node);
-                TimelineViewModel.SelectedTimelineNode = node;
-                TimelineViewModel.RaiseGameTreeChanged();
+                GameTreeViewModel.SelectedGameTreeNode = node;
+                GameTreeViewModel.RaiseGameTreeChanged();
             };
             Tool = null;
 
@@ -81,21 +83,30 @@ namespace OmegaGo.UI.ViewModels
             _isSystemLogEnabled = false;
 
             // Set up Timeline
-            TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
-            TimelineViewModel.TimelineSelectionChanged += (s, e) => 
+            GameTreeViewModel = new GameTreeViewModel(Game.Controller.GameTree);
+            GameTreeViewModel.GameTreeSelectionChanged += (s, e) => 
             {
                 ToolServices.Node = e;
+                BoardViewModel.BoardControlState.ShowTerritory =
+                    e.Equals(Game.Controller.GameTree.LastNode) &&
+                    (GamePhase == GamePhaseType.LifeDeathDetermination || GamePhase == GamePhaseType.Finished);
                 RefreshBoard(e);
                 AnalyzeViewModel.OnNodeChanged();
             };
 
             _portraitUpdateTimer = Mvx.Resolve<ITimerService>()
                 .StartTimer(TimeSpan.FromMilliseconds(100), UpdatePortraits);
+
+            Game.Controller.MoveUndone += (s, e) => { UpdateTimeline(); };
+
+            // When timeline selected node changes, check whether its not in the past. If it is then disable shadow stones.
+            TimelineChanged += (s, e) => BoardViewModel.BoardControlState.IsShadowDrawingEnabled = !IsTimelineInPast;
         }
 
+        public event EventHandler TimelineChanged;
 
         public AnalyzeViewModel AnalyzeViewModel { get; }
-        public TimelineViewModel TimelineViewModel { get; }
+        public GameTreeViewModel GameTreeViewModel { get; }
         public PlayerPortraitViewModel BlackPortrait { get; }
         public PlayerPortraitViewModel WhitePortrait { get; }
         
@@ -133,15 +144,24 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _isSystemLogEnabled, value); }
         }
 
+        public bool IsTimelineInPast
+        {
+            get { return _selectedMoveIndex != _maximumMoveIndex; }
+        }
+
         public int SelectedMoveIndex
         {
             get { return _selectedMoveIndex; }
             set
             {
                 SetProperty(ref _selectedMoveIndex, value);
-                GameTreeNode whatIsShowing =
-                    Game.Controller.GameTree.GameTreeRoot?.GetTimelineView.Skip(value).FirstOrDefault();
+                GameTreeNode whatIsShowing = Game.Controller.GameTree.PrimaryTimelineWithRoot.Skip(value).FirstOrDefault();
+                BoardViewModel.BoardControlState.ShowTerritory = 
+                    (_selectedMoveIndex == _maximumMoveIndex && (GamePhase == GamePhaseType.LifeDeathDetermination || GamePhase == GamePhaseType.Finished)) ? true : false;
                 RefreshBoard(whatIsShowing);
+
+                // Notify that timeline changed - used by LocalGameView to determine whether the player Can(Pass|Undo).
+                TimelineChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -194,7 +214,7 @@ namespace OmegaGo.UI.ViewModels
             if (IsAnalyzeModeEnabled)
             {
                 // Notify Timeline VM that the game timeline has changed
-                TimelineViewModel.RaiseGameTreeChanged();
+                GameTreeViewModel.RaiseGameTreeChanged();
                 await PlaySoundIfAppropriate(newNode);
                 tabInfo.IsBlinking = true;
                 return;
@@ -205,7 +225,9 @@ namespace OmegaGo.UI.ViewModels
             // Check for this case.
             if (newNode != null && tabInfo != null)
             {
-                RefreshBoard(Game.Controller.CurrentNode);
+                if(!IsTimelineInPast)
+                    RefreshBoard(Game.Controller.GameTree.LastNode); // TODO Vita, Aniko: This will not work well with neither timeline nor analyze mode, I think
+
                 UpdateTimeline();
                 RefreshInstructionCaption();
                 // It is ABSOLUTELY necessary for this to be the last statement in this method,
@@ -233,21 +255,23 @@ namespace OmegaGo.UI.ViewModels
             if (Tool != null)
                 Tool.Execute(ToolServices);
         }
-        
-        protected void UpdateTimeline()
+
+        protected void UpdateTimeline(bool setToLast = false)
         {
-            var primaryTimeline = Game.Controller.GameTree.PrimaryMoveTimeline;
-            int newNumber = primaryTimeline.Count() - 1;
-            bool autoUpdate = newNumber == 0 || SelectedMoveIndex >= newNumber - 1;
+            var primaryTimeline = Game.Controller.GameTree.PrimaryMoveTimelineWithRoot;
+            int newMaximumTimelineIndex = primaryTimeline.Count() - 1;
 
-            MaximumMoveIndex = newNumber;
-
-            if (autoUpdate && _previousMoveIndex != newNumber)
+            if (setToLast || SelectedMoveIndex == MaximumMoveIndex || SelectedMoveIndex >= newMaximumTimelineIndex)
             {
-                SelectedMoveIndex = newNumber;
+                // We have to keep the order as setting the selected move index fires timelinechanged event.
+                // Inheriting classes then use the IsTimelineInPast, which relies on the SelectedMoveIndex and MaximumMoveIndex.
+                MaximumMoveIndex = newMaximumTimelineIndex;
+                SelectedMoveIndex = newMaximumTimelineIndex;
             }
-
-            _previousMoveIndex = newNumber;
+            else
+            {
+                MaximumMoveIndex = newMaximumTimelineIndex;
+            }
         }
 
         ////////////////
@@ -260,13 +284,14 @@ namespace OmegaGo.UI.ViewModels
             Tool = AnalyzeViewModel.SelectedTool;
 
             BoardViewModel.Tool = Tool;
+            BoardViewModel.IsShadowDrawingEnabled = true;
             BoardViewModel.IsMarkupDrawingEnabled = true;
 
             // Set current game node to ToolServices and Timeline VM (for node highlight)
-            GameTreeNode currentNode = Game.Controller.CurrentNode;
+            GameTreeNode currentNode = Game.Controller.GameTree.LastNode; // TODO Aniko, Vita: It would be better if the current node was the node we are currently viewing, not the one that's current from the game's perspective.
 
-            ToolServices.Node = currentNode;
-            TimelineViewModel.SelectedTimelineNode = currentNode;
+            ToolServices.Node = BoardViewModel.GameTreeNode;
+            GameTreeViewModel.SelectedGameTreeNode = BoardViewModel.GameTreeNode;
         }
 
         private void DisableAnalyzeMode()
@@ -277,7 +302,10 @@ namespace OmegaGo.UI.ViewModels
             BoardViewModel.Tool = null;
             BoardViewModel.IsMarkupDrawingEnabled = false;
 
-            RefreshBoard(Game.Controller.CurrentNode);
+            RefreshBoard(Game.Controller.GameTree.LastNode);
+
+            // Update timeline to the last position
+            UpdateTimeline(true);
         }
 
         ////////////////

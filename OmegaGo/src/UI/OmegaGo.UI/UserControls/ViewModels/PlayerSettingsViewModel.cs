@@ -2,6 +2,7 @@
 using OmegaGo.Core.AI;
 using OmegaGo.Core.AI.FuegoSpace;
 using OmegaGo.Core.AI.Joker23.Players;
+using OmegaGo.UI.Localization;
 using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
@@ -193,6 +194,11 @@ namespace OmegaGo.UI.UserControls.ViewModels
                 if (FuegoMaxGames < 10)
                 {
                     errorMessage = _localizer.Validation_FuegoGamesTooFew;
+                    return false;
+                }
+                if (FuegoSingleton.Instance.CurrentGame != null)
+                {
+                    errorMessage = LocalizedStrings.AGameWithFuegoAlreadyOpen;
                     return false;
                 }
 

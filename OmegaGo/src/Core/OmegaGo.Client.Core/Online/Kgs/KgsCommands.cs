@@ -12,6 +12,10 @@ namespace OmegaGo.Core.Online.Kgs
 {
     /// <summary>
     /// Call methods of this class to send commands to KGS.
+    /// <para>
+    /// While these methods are asynchronous, they return immediately after the command is successfully sent. They do not wait
+    /// for a reply.
+    /// </para>
     /// </summary>
     /// <seealso cref="OmegaGo.Core.Online.Common.ICommonCommands" />
     public class KgsCommands : ICommonCommands
@@ -33,6 +37,10 @@ namespace OmegaGo.Core.Online.Kgs
             });
         }
 
+        /// <summary>
+        /// Asks to join the room and requests its description.
+        /// </summary>
+        /// <param name="room">The room we want to join.</param>
         public async Task JoinRoomAsync(KgsRoom room)
         {
             await kgsConnection.MakeUnattendedRequestAsync("JOIN_REQUEST", new
@@ -45,6 +53,10 @@ namespace OmegaGo.Core.Online.Kgs
             });
         }
 
+        /// <summary>
+        /// Asks to unjoin the room.
+        /// </summary>
+        /// <param name="room">The room we wish to exit.</param>
         public async Task UnjoinRoomAsync(KgsRoom room)
         {
             await kgsConnection.MakeUnattendedRequestAsync("UNJOIN_REQUEST", new
@@ -53,6 +65,10 @@ namespace OmegaGo.Core.Online.Kgs
             });
         }
 
+        /// <summary>
+        /// Asks to join one of the three global lists: ACTIVES, CHALLENGES or FANS.
+        /// </summary>
+        /// <param name="listName">Name of the global list to join.</param>
         public async Task GlobalListJoinRequestAsync(string listName)
         {
             await kgsConnection.MakeUnattendedRequestAsync("GLOBAL_LIST_JOIN_REQUEST", new
@@ -187,29 +203,68 @@ namespace OmegaGo.Core.Online.Kgs
             });
         }
 
-        public async Task<KgsChallenge> JoinAndSubmitSelfToChallengeAsync(KgsChallenge selectedItem)
+        public async Task JoinAndSubmitSelfToChallengeAsync(KgsChallenge selectedItem)
         {
             // Join
+            var simpleProposal = SubmitOurselvesIntoProposal(selectedItem);
+            ChallengeWaiter waiter = new Kgs.KgsCommands.ChallengeWaiter(kgsConnection, selectedItem.ChannelId, simpleProposal);
+            this.kgsConnection.Events.ChannelJoined += waiter.Joined;
+            this.kgsConnection.Events.ChannelUnjoined += waiter.Unjoined;
             await kgsConnection.MakeUnattendedRequestAsync("JOIN_REQUEST", new
             {
                 ChannelId = selectedItem.ChannelId
             });
-            await kgsConnection.WaitUntilJoinedAsync(selectedItem.ChannelId);
 
+        }
+        
+        class ChallengeWaiter
+        {
+            private readonly KgsConnection _connection;
+            private readonly int _channelId;
+            private readonly object _simpleProposal;
 
-            var simpleProposal = SubmitOurselvesIntoProposal(selectedItem);
-
-            await kgsConnection.MakeUnattendedRequestAsync("CHALLENGE_SUBMIT", simpleProposal);
-            return selectedItem;
+            public async void Joined(KgsChannel channel)
+            {
+                if (channel.ChannelId == _channelId)
+                {
+                    EndThis();
+                    await _connection.MakeUnattendedRequestAsync("CHALLENGE_SUBMIT", _simpleProposal);
+                }
+            }
+            public void Unjoined(KgsChannel channel)
+            {
+                if (channel.ChannelId == _channelId)
+                {
+                    EndThis();
+                }
+            }
+            private void EndThis()
+            {
+                _connection.Events.ChannelJoined -= Joined;
+                _connection.Events.ChannelUnjoined -= Unjoined;
+            }
+            public ChallengeWaiter(KgsConnection connection, int channelId, object simpleProposal)
+            {
+                _connection = connection;
+                _channelId = channelId;
+                _simpleProposal = simpleProposal;
+            }
         }
 
         private object SubmitOurselvesIntoProposal(KgsChallenge selectedItem)
         {
             var originalProposal = selectedItem.Proposal;
+            if (selectedItem.CreatorsNewProposal != null)
+            {
+                originalProposal = selectedItem.CreatorsNewProposal;
+            }
             var ourName = this.kgsConnection.Username;
             var upstreamProposal = originalProposal.ToUpstream();
-            var emptySeat = upstreamProposal.Players.First(pl => pl.Name == null);
-            emptySeat.Name = ourName;
+            var emptySeat = upstreamProposal.Players.FirstOrDefault(pl => pl.Name == null);
+            if (emptySeat != null)
+            {
+                emptySeat.Name = ourName;
+            }
             var simpleProposal = new
             {
                 ChannelId = selectedItem.ChannelId,
@@ -238,6 +293,14 @@ namespace OmegaGo.Core.Online.Kgs
             await kgsConnection.MakeUnattendedRequestAsync("UNJOIN_REQUEST", new
             {
                 ChannelId = channel.ChannelId
+            });
+        }
+
+        public async Task GenericUnjoinAsync(int channelId)
+        {
+            await kgsConnection.MakeUnattendedRequestAsync("UNJOIN_REQUEST", new
+            {
+                ChannelId = channelId
             });
         }
 

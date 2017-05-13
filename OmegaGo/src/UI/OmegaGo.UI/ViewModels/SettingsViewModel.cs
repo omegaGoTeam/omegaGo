@@ -104,7 +104,7 @@ namespace OmegaGo.UI.ViewModels
         // Display 
         public ObservableCollection<BoardTheme> BoardThemes { get; } =
             new ObservableCollection<BoardTheme>(
-                ((BoardTheme[]) Enum.GetValues(typeof(BoardTheme))).Except(new[] {BoardTheme.VirtualBoard}));
+                ((BoardTheme[]) Enum.GetValues(typeof(BoardTheme))));
 
         public int SelectedBoardTheme
         {

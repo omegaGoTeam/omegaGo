@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Online.Kgs;
 using OmegaGo.Core.Rules;
@@ -30,6 +31,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.Kgs
         private void MaybeMakeAMove()
         {
             int moveToMake = this.GameState.NumberOfMoves;
+            if (this.GameInfo.HandicapPlacementType == Phases.HandicapPlacement.HandicapPlacementType.Fixed)
+            {
+                moveToMake--;
+            }
             if (_storedMoves.ContainsKey(moveToMake))
             {
                 Move move = _storedMoves[moveToMake];
@@ -62,6 +67,19 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.Kgs
             {
                 _storedMoves[oneIndexMoveNumber - 1] = move;
                 MaybeMakeAMove();
+            }
+        }
+
+        public override void MoveUndone()
+        {
+            var timeline = (GameState.GameTree.PrimaryTimeline.ToList());
+            int latestStillExistingMove = timeline.Count - 1;
+            foreach (var storedTuple in _storedMoves.ToList())
+            {
+                if (storedTuple.Key > latestStillExistingMove)
+                {
+                    _storedMoves.Remove(storedTuple.Key);
+                }
             }
         }
     }

@@ -62,26 +62,30 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         /// Undoes the last move made, regardless of which player made it. This is called whenever the server commands
         /// us to undo, or whenever the user clicks to locally undo.
         /// </summary>
-        public void Undo()
+        public void Undo(int howManyMoves)
         {
+            Controller.OnDebuggingMessage("Undoing " + howManyMoves + " moves:");
             //is there a move to undo?
-            if (Controller.GameTree.LastNode != null)
+            for (int i = 0; i < howManyMoves; i++)
             {
-                Controller.GameTree.RemoveLastNode();
-                foreach(var player in this.Controller.Players)
+                if (!Controller.GameTree.LastNode.Equals(Controller.GameTree.GameTreeRoot))
                 {
-                    player.Agent.MoveUndone();
+                    Controller.GameTree.LastNode = Controller.GameTree.LastNode.Parent;
+                    foreach (var player in this.Controller.Players)
+                    {
+                        player.Agent.MoveUndone();
+                    }
+                    Controller.OnMoveUndone();
+                    Controller.SwitchTurnPlayer();
+                    Controller.OnDebuggingMessage("Move undone.");
                 }
-                Controller.OnMoveUndone();
-                Controller.SwitchTurnPlayer();
-                // TODO Petr What is this?
-                // Order here matters:
-                //(this._turnPlayer.Agent as OnlineAgent)?.Undo();
-                //_game.NumberOfMovesPlayed--;
-                Controller.TurnPlayer.Agent.PleaseMakeAMove();
-
-                Controller.OnCurrentNodeStateChanged();
+                else
+                {
+                    Controller.OnDebuggingMessage("Undo failed.");
+                }
             }
+            Controller.TurnPlayer.Agent.PleaseMakeAMove();
+            
         }
 
         /// <summary>
@@ -115,7 +119,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         /// <summary>
         /// Asks the first player to make a move
         /// </summary>
-        private void AskFirstPlayerToMove()
+        protected virtual void AskFirstPlayerToMove()
         {
             //decides who starts the game based on handicap information
             Controller.TurnPlayer = Controller.Info.NumberOfHandicapStones > 0 ?
@@ -178,8 +182,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                 throw new InvalidOperationException("It is not your turn.");
 
             //ask the ruleset to validate the move
-            MoveProcessingResult processingResult =
-                   Controller.Ruleset.ProcessMove(Controller.CurrentNode, move);
+            MoveProcessingResult processingResult = Controller.Ruleset.ProcessMove(Controller.GameTree.LastNode, move);
 
             //let the specific game controller alter the processing result to match game type
             AlterMoveProcessingResult(move, processingResult);
@@ -188,6 +191,22 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             //are we about to enter life and death phase?
             if (processingResult.Result == MoveResult.StartLifeAndDeath)
             {
+                if (player.Clock.IsViolating())
+                {
+                    if (HandleLocalClockOut(player))
+                    {
+                        return;
+                    }
+                }
+
+                //applies the legal move
+                Controller.OnDebuggingMessage(Controller.TurnPlayer + " moves: " + move);
+                ApplyMove(move, processingResult.NewBoard, processingResult.NewGroupState);
+
+                //switches players
+                Controller.SwitchTurnPlayer();
+
+                // moves next
                 GoToPhase(GamePhaseType.LifeDeathDetermination);
                 return;
             }
@@ -221,11 +240,22 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                 Controller.OnDebuggingMessage(Controller.TurnPlayer + " moves: " + move);
                 ApplyMove(move, processingResult.NewBoard, processingResult.NewGroupState);
 
-                //switches players
-                Controller.SwitchTurnPlayer();
+                DetermineNextTurnPlayer();
+
                 Controller.OnDebuggingMessage("Asking " + Controller.TurnPlayer + " to make a move.");
                 Controller.TurnPlayer.Agent.PleaseMakeAMove();
             }
+        }
+
+        /// <summary>
+        /// Passes the turn to the next player who's supposed to be on turn. This will usually be the other player 
+        /// than the one who played last. In free handicap placement, this may be different.
+        /// This method should only change <see cref="GameController.TurnPlayer"/> and do nothing else.
+        /// </summary>
+        protected virtual void DetermineNextTurnPlayer()
+        {
+            //switches players
+            Controller.SwitchTurnPlayer();
         }
 
         /// <summary>

@@ -32,6 +32,8 @@ namespace OmegaGo.Core.Online.Igs
         private static readonly Regex regexIncreaseTime = new Regex(@"9 Increase ([^']+)'s time by ([0-9]+) minutes");
         private static readonly Regex regexHasRunOutOfTime = new Regex(@"9 ([^ ]+) has run out of time.");
         private static readonly Regex regexKibitzHeading = new Regex(@"11 Kibitz ([^ ]+).*\[([0-9]+)\]");
+        private static Regex regexObservedScoreLine = new Regex(@"9 \{Game ([0-9]+): ([^ ]+) vs ([^ ]+) : W (.*) B (.*)\}");
+        private static Regex regexWhatObservedGameWasResigned = new Regex(@"9 {Game ([0-9]+):.*");
 
         // http://regexstorm.net/tester
         public static bool IsIrrelevantInterruptLine(IgsLine line)
@@ -73,6 +75,11 @@ namespace OmegaGo.Core.Online.Igs
             return null;
         }
 
+        /// <summary>
+        /// Attempts to parse a line as an IGS game heading starting with the code 15. If it fails, it returns null.
+        /// </summary>
+        /// <param name="line">The line, such as "15 Game 693 I: Robot730 (0 4500 -1) vs OmegaGo3 (0 4500 -1)".</param>
+        /// <returns></returns>
         public static GameHeading ParseGameHeading(IgsLine line)
         {
             Match match = regexGameHeading.Match(line.EntireLine);
@@ -163,7 +170,8 @@ empty string*/
             return new ScoreLine(match.Groups[1].Value,
                 match.Groups[3].Value,
                 match.Groups[4].Value.AsFloat(),
-                match.Groups[2].Value.AsFloat());
+                match.Groups[2].Value.AsFloat(),
+                -1);
         }
 
         internal static int ParseGameNumberFromHeading(IgsLine igsLine)
@@ -197,16 +205,38 @@ empty string*/
         {
             if (secondValueStones == -1)
             {
-                return new CanadianTimeInformation(TimeSpan.FromSeconds(firstValueTime), TimeSpan.Zero, 0);
+                return new CanadianTimeInformation(true, TimeSpan.FromSeconds(firstValueTime), TimeSpan.Zero, 0);
             }
-            return new CanadianTimeInformation(TimeSpan.Zero, TimeSpan.FromSeconds(firstValueTime),
-                secondValueStones);
+            return new CanadianTimeInformation(false, TimeSpan.Zero, TimeSpan.FromSeconds(firstValueTime), secondValueStones);
         }
 
         public static string WhoRanOutOfTime(IgsLine igsLine)
         {
             Match match = regexHasRunOutOfTime.Match(igsLine.EntireLine);
             return match.Groups[1].Value;
+        }
+
+        public static ScoreLine ParseObservedScoreLine(IgsLine infoLine)
+        {
+            Match match = regexObservedScoreLine.Match(infoLine.EntireLine);
+            if (match.Success)
+            {
+                return new ScoreLine(match.Groups[2].Value,
+                    match.Groups[3].Value,
+                    match.Groups[5].Value.AsFloat(),
+                    match.Groups[4].Value.AsFloat(),
+                    match.Groups[1].Value.AsInteger());
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static int WhatObservedGameWasResigned(IgsLine igsLine)
+        {
+            Match match = regexWhatObservedGameWasResigned.Match(igsLine.EntireLine);
+            return match.Groups[1].Value.AsInteger();
         }
     }
 }

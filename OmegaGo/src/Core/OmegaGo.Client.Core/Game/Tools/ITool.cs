@@ -1,4 +1,6 @@
 ﻿
+using System.Threading.Tasks;
+
 namespace OmegaGo.Core.Game.Tools
 {
     /// <summary>
@@ -11,5 +13,8 @@ namespace OmegaGo.Core.Game.Tools
         /// </summary>
         /// <param name="toolServices">Useful information.</param>
         void Execute(IToolServices toolServices);
+
+        void Set(IToolServices toolServices);
+        
     }
 }

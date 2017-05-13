@@ -10,7 +10,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
     /// </summary>
     internal static class FixedHandicapPositions
     {
-        //TODO Petr: check whether IGS places the handicap stone on the lower right or upper right.
         /// <summary>
         /// Fixed handicap positions for 9x9 board
         /// </summary>
@@ -20,7 +19,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
             new Position(2, 2),
             new Position(2, 6),
             new Position(6, 2),
-            new Position(4, 4)
+            new Position(4, 4),
+            new Position(2, 4),
+            new Position(6, 4),
+            new Position(4, 6),
+            new Position(4, 2)
         };
 
         /// <summary>

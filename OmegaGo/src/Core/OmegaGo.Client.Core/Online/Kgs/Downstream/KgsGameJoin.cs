@@ -37,9 +37,13 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         }
         public override void Process(KgsConnection connection)
         {
-            // TODO Petr : handle bad types
-            KgsGameInfo info = KgsGameInfo.FromGameJoin(this, connection);
-            if (info == null) return; // TODO Petr : warn the user that joining failed
+            KgsGameInfo info = KgsGameInfo.FromGameJoin(this);
+            if (info == null) return;
+            var channel = connection.Data.GetChannel(this.ChannelId);
+            if (channel == null)
+            {
+                channel = connection.Data.CreateGame(KgsTrueGameChannel.FromGameInfo(info, this.ChannelId));
+            }
 
 
             var blackPlayer = new KgsPlayerBuilder(Game.StoneColor.Black, connection)
@@ -64,7 +68,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
                 .BlackPlayer(blackPlayer)
                 .WhitePlayer(whitePlayer)
                 .Build();
-            connection.Data.JoinGame(ongame);
+            connection.Data.JoinGame(ongame, channel as KgsTrueGameChannel);
             foreach (var ev in SgfEvents)
             {
                 ev.ExecuteAsIncoming(connection, ongame);

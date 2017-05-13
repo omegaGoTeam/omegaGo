@@ -2,6 +2,34 @@
 -------------------
 Interesting snippets:
 --------------
+JOINING ROOM
+room = view list of rooms
+join [number] = switch to specified froom
+--------------
+NEGOTIATING GAME AGAINST ROBOT WITH HANDICAP
+match Robot730 B 19
+9 Requesting match in 75 min with Robot730 as White.
+1 5
+2
+15 Game 693 I: Robot730 (0 4500 -1) vs OmegaGo3 (0 4500 -1)
+15 Game 693 I: Robot730 (0 4500 -1) vs OmegaGo3 (0 4500 -1)
+15   0(B): Handicap 7
+2 Game saved.
+1 6
+9 Match [693] with Robot730 in 75 accepted.
+9 Please use say to talk to your opponent -- help say.
+1 6
+15 Game 693 I: Robot730 (0 4499 -1) vs OmegaGo3 (0 4500 -1)
+15   1(W): O17
+2
+1 6
+games 693
+7 [##]  white name [ rk ]      black name [ rk ] (Move size H Komi BY FR) (###)
+7 [693]    Robot730 [10k ] vs.    OmegaGo3 [17k ] (  2   19  7 -5.5  0 FI) (  0)
+1 6
+9 kouta left this room.
+1 6
+---------------
 SENT TO BOTH PLAYERS IN CASE OF DISPUTE
 (as a reaction to "match" or as standalone)
 5 There is a dispute regarding your match:

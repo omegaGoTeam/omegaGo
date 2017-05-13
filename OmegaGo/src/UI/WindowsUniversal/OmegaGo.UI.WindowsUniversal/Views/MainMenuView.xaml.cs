@@ -139,12 +139,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                         TutorialButton.Focus(FocusState.Programmatic);
                     }
                 });
-        }
-
-        private void EasterEgg_Tapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            AppShell.GetForCurrentView().ToggleEasterEgg();
-        }
+        }       
 
         private void BottomCommandBar_OnClosing(object sender, object e)
         {
@@ -156,6 +151,11 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             SoundsButton.IsCompact = false;
             LanguageMenuButton.IsCompact = false;
+        }
+
+        private void EasterEggButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            AppShell.GetForCurrentView().ToggleEasterEgg();
         }
     }
 }

@@ -158,7 +158,7 @@ namespace OmegaGo.Core.Online.Igs
         /// <summary>
         /// Checks if the user has been logged in
         /// </summary>
-        public bool LoggedIn => ConnectionEstablished && Composure == IgsComposure.Ok;
+        public bool LoggedIn { get; set; }
 
         public ServerId Name => ServerId.Igs;
         
@@ -166,7 +166,7 @@ namespace OmegaGo.Core.Online.Igs
 
         public IgsEvents Events { get; }
 
-        public IgsData Data { get; }
+        public IgsData Data { get; set; }
 
         /// <summary>
         /// Gets our username, if we're logged in.
@@ -243,12 +243,14 @@ namespace OmegaGo.Core.Online.Igs
                 }
                 catch
                 {
+                    Composure = IgsComposure.Disconnected;
                     return false;
                 }
                 ConnectionEstablished = true;
             }
             catch
             {
+                Composure = IgsComposure.Disconnected;
                 return false;
             }
             return true;
@@ -256,6 +258,7 @@ namespace OmegaGo.Core.Online.Igs
 
         private void ConnectionLost()
         {
+            LoggedIn = false;
             if (Composure == IgsComposure.Disconnected)
             {
                 return;
@@ -362,6 +365,7 @@ namespace OmegaGo.Core.Online.Igs
                 Events.RaiseLoginPhaseChanged(IgsLoginPhase.RefreshingUsers);
                 await Commands.ListOnlinePlayersAsync();
                 Events.RaiseLoginPhaseChanged(IgsLoginPhase.Done);
+                LoggedIn = true;
                 Events.RaiseLoginComplete(true);
                 return true;
             }
@@ -497,6 +501,7 @@ namespace OmegaGo.Core.Online.Igs
             {
             }
             _incomingMovesAreForThisGame = null;
+            this.Data = new IgsData();
             this.GamesBeingObserved.Clear();
             this.GamesYouHaveOpened.Clear();
             // _gamesInProgressOnIgs.Clear();
@@ -568,7 +573,10 @@ namespace OmegaGo.Core.Online.Igs
 
         private void OnIncomingHandicapInformation(IgsGame game, int stoneCount)
         {
-            _availableConnectors[game.Info.IgsIndex].HandicapFromServer(stoneCount);
+            if (game != null)
+            {
+                _availableConnectors[game.Info.IgsIndex].HandicapFromServer(stoneCount);
+            }
         }
 
 
@@ -607,5 +615,15 @@ namespace OmegaGo.Core.Online.Igs
             GetConnector(game.Info).ForceLifeDeathKillGroup(deadPosition);
         }
 
+        private void ResignObservedGame(int gameInWhichSomebodyResigned, StoneColor whoResigned)
+        {
+            var game = GamesYouHaveOpened.FirstOrDefault(gm => gm.Info.IgsIndex == gameInWhichSomebodyResigned);
+            if (game != null)
+            {
+                game.Controller.EndGame(GameEndInformation.CreateResignation(game.Controller.Players[whoResigned],
+                    game.Controller.Players));
+                DestroyGame(game.Info);
+            }
+        }
     }
 }

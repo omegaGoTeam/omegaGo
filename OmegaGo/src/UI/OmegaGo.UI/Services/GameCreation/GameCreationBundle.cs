@@ -45,6 +45,8 @@ namespace OmegaGo.UI.Services.GameCreation
         /// </summary>
         public abstract bool Playable { get; }
 
+        public virtual bool IsKgsChallengeCreation => false;
+
         /// <summary>
         /// Gets a value indicating whether this form represents something that can be accepted or refused (such as a match request). 
         /// </summary>
@@ -64,16 +66,19 @@ namespace OmegaGo.UI.Services.GameCreation
         /// <summary>
         /// Gets a value indicating whether the user may change their agent, if they're playing online. Used by servers.
         /// </summary>
-#if DEBUG
-        public bool IsUserAgentSelectable => YouVersusOnlineVisible;
-#else
+        //public bool IsUserAgentSelectable => YouVersusOnlineVisible;
         public bool IsUserAgentSelectable => false;
-#endif
 
         /// <summary>
         /// Gets a value indicating whether the rows for the name of your opponent, your color and your agent are visible. Used by servers.
         /// </summary>
         public bool YouVersusOnlineVisible => !BlackAndWhiteVisible;
+
+        /// <summary>
+        /// Gets a value indicating whether the row with your opponent's name should be displayed in the form.
+        /// </summary>
+        public bool ShowYourOpponent => YouVersusOnlineVisible &&
+                                        this.Style != GameCreationFormStyle.KgsChallengeCreation;
 
         /// <summary>
         /// Gets a value indicating whether the user may decline their opponent without aborting the form. Used by KGS.
@@ -123,7 +128,7 @@ namespace OmegaGo.UI.Services.GameCreation
         public bool ShowHandicapSlider => !IsIgs && !IsKgs;
 
         /// <summary>
-        /// Gets the name of the opponent to display as a TextBlock.
+        /// Gets the name of the opponent to display as a TextBlock. This should include rank, if it is known.
         /// </summary>
         public virtual string OpponentName => "Local";
 

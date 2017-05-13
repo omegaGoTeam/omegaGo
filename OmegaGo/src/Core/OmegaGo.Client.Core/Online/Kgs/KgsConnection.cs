@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Kgs.Downstream;
-using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
 
 namespace OmegaGo.Core.Online.Kgs
 {
@@ -37,12 +38,12 @@ namespace OmegaGo.Core.Online.Kgs
     /// <seealso cref="OmegaGo.Core.Online.Common.IServerConnection" />
     public class KgsConnection : IServerConnection
     {
-        private const string Uri = "https://metakgs.org/api/access";
+        private const string Uri = "https://gokgs.com/json/access";
+        private const string SecondaryUri = "https://metakgs.org/api/access";
         private string _username;
         private bool _getLoopRunning;
         private readonly HttpClient _httpClient;
         private readonly CookieContainer cookieContainer = new CookieContainer();
-        private readonly ConcurrentList<KgsRequest> requestsAwaitingResponse = new ConcurrentList<KgsRequest>();
         public KgsConnection()
         {
             this.Commands = new KgsCommands(this);
@@ -60,7 +61,13 @@ namespace OmegaGo.Core.Online.Kgs
 
         public KgsEvents Events { get; }
 
-        public KgsData Data { get; }
+        /// <summary>
+        /// Contains information downloaded from KGS. This information is continuously updated whenever we receive
+        /// up-to-date information from KGS. Events on this member fire when the data is updated and should be used to update the UI.
+        /// That may include closing tabs that are no longer relevant, such as challenge negotiation tabs.
+        /// Methods on this member affect data stored in the member and trigger events, but they never send information to the server.
+        /// </summary>
+        public KgsData Data { get; private set; }
 
         public ServerId Name => ServerId.Kgs;
 
@@ -79,7 +86,7 @@ namespace OmegaGo.Core.Online.Kgs
         /// Gets or sets a value indicating whether we're currently attempting to log in to KGS. If this is is false, then we're either
         /// disconnected or logged in.
         /// </summary>
-        public bool LoggingIn { get; private set; }
+        public bool LoggingIn { get; internal set; }
 
         /// <summary>
         /// This serializer is used to convert metatranslator's camelCase properties to our TitleCase properties.
@@ -104,8 +111,20 @@ namespace OmegaGo.Core.Online.Kgs
         {
             while (true)
             {
-                var response = await this._httpClient.GetAsync(Uri);
-                HandleResponse(response);
+                try
+                {
+                    var response = await this._httpClient.GetAsync(Uri);
+                    HandleResponse(response);
+                }
+                catch (TaskCanceledException)
+                {
+
+                }
+                catch (HttpRequestException)
+                {
+                    // This may be a disconnection or perhaps we went to sleep for a bit. 
+                    // Anyway, let's resume and hope for the best.
+                }
             }
         }
 
@@ -116,21 +135,15 @@ namespace OmegaGo.Core.Online.Kgs
                 string text = (await response.Content.ReadAsStringAsync()).Trim();
                 if (text != "" && text != "{}")
                 {
+                    Debug.WriteLine("KGS: Incoming.");
                     JObject downstreamObject = JObject.Parse(text);
                     JArray messages = downstreamObject.Value<JArray>("messages");
                     foreach(var jToken in messages)
                     {
                         var message = (JObject) jToken;
                         Events.RaiseIncomingMessage(JsonResponse.FromJObject(message));
-                        KgsRequest matchingRequest =
-                            requestsAwaitingResponse.FirstOrDefault(
-                                kgs => kgs.PossibleResponseTypes.Contains(message.GetValue("type").Value<string>()));
-                        if (matchingRequest != null)
-                        {
-                            matchingRequest.TaskCompletionSource.SetResult(message);
-                            requestsAwaitingResponse.Remove(matchingRequest);
-                        }
-                        else if (HandleInterruptResponse(message.GetValue("type").Value<string>(), message))
+                        Debug.WriteLine("INC:" + message.GetValue("type").Value<string>());
+                        if (HandleInterruptResponse(message.GetValue("type").Value<string>(), message))
                         {
 
                         }
@@ -140,7 +153,6 @@ namespace OmegaGo.Core.Online.Kgs
                         }
                     }
                 }
-                // response.c
             }
             else if (response.StatusCode == HttpStatusCode.NoContent)
             {
@@ -164,10 +176,17 @@ namespace OmegaGo.Core.Online.Kgs
         /// </summary>
         /// <param name="name">The user's username.</param>
         /// <param name="password">The user's password.</param>
-        public async Task<bool> LoginAsync(string name, string password)
+        public async Task LoginAsync(string name, string password)
         {
+            if (LoggedIn)
+            {
+                // Already connected.
+                return;
+            }
+            this.Data = new KgsData(this);
             LoggingIn = true;
             this._username = name;
+            Debug.WriteLine("Starting get loop");
             Events.RaiseLoginPhaseChanged(KgsLoginPhase.StartingGetLoop);
             if (!_getLoopRunning)
             {
@@ -177,52 +196,54 @@ namespace OmegaGo.Core.Online.Kgs
             if (LoggedIn)
             {
                 LoggingIn = false;
-                return true;
             }
             Events.RaiseLoginPhaseChanged(KgsLoginPhase.MakingLoginRequest);
-            LoginResponse response = await MakeRequestAsync<LoginResponse>("LOGIN", new
+            Debug.WriteLine("Making login request");
+          
+            if (!await MakeUnattendedRequestAsync("LOGIN", new
             {
-                name = name,
-                password = password,
-                locale = "en_US"
-            }, new[] {"LOGIN_SUCCESS", "LOGIN_FAILED_NO_SUCH_USER", "LOGIN_FAILED_BAD_PASSWORD", "LOGIN_FAILED_KEEP_OUT"});
-            if (response.Succeeded())
+                Name = name,
+                Password = password,
+                Locale = "en_US"
+            }))
             {
-                var roomsArray = new int[response.Rooms.Length];
-                for (int i = 0; i < response.Rooms.Length; i++)
-                {
-                    roomsArray[i] = response.Rooms[i].ChannelId;
-                }
-                Events.RaisePersonalInformationUpdate(response.You);
-                Events.RaiseSystemMessage("Requesting room names...");
-                Events.RaiseLoginPhaseChanged(KgsLoginPhase.RequestingRoomNames);
-                await MakeUnattendedRequestAsync("ROOM_NAMES_REQUEST", new {
-                        Rooms = roomsArray
-                    });
-                Events.RaiseSystemMessage("Joining global lists...");
-                Events.RaiseLoginPhaseChanged(KgsLoginPhase.JoiningGlobalLists);
-                await Commands.GlobalListJoinRequestAsync("CHALLENGES");
-                await Commands.GlobalListJoinRequestAsync("ACTIVES");
-                await Commands.GlobalListJoinRequestAsync("FANS");
-                Events.RaiseLoginPhaseChanged(KgsLoginPhase.Done);
-                Events.RaiseSystemMessage("On-login outgoing message burst complete.");
-                LoggedIn = true;
                 LoggingIn = false;
-                return true;
+                Events.RaiseLoginComplete(LoginResult.FailureBadConnection);
             }
-            LoggingIn = false;
-            return false;
+            if (!await MakeUnattendedRequestAsync("SYNC_REQUEST", new
+            {
+                CallbackKey = 7
+            }))
+            {
+
+                LoggingIn = false;
+                Events.RaiseLoginComplete(LoginResult.FailureBadConnection);
+            }
         }
         private async Task<PostRequestResult> SendPostRequest(string jsonContents)
         {
-           
-            var jsonContent = new StringContent(jsonContents,
+
+            try
+            {
+                var jsonContent = new StringContent(jsonContents,
                 Encoding.UTF8, "application/json");
-            var result = await _httpClient.PostAsync(Uri, jsonContent);
-            return new PostRequestResult(
-                result.IsSuccessStatusCode,
-                result.ReasonPhrase
-                );
+                var result = await _httpClient.PostAsync(Uri, jsonContent);
+                Debug.WriteLine("Post result content: " + await result.Content.ReadAsStringAsync());
+                if (!result.IsSuccessStatusCode)
+                {
+                    Events.RaiseErrorNotification("HTTP " + result.StatusCode);
+                }
+                return new PostRequestResult(
+                    result.IsSuccessStatusCode,
+                    result.ReasonPhrase
+                    );
+            }
+            catch (HttpRequestException)
+            {
+                // Connection failure.
+                LogoutAndDisconnect("Connection failed.");
+                return new PostRequestResult(false, "Connection error.");
+            }
         }
 
         /// <summary>
@@ -230,39 +251,16 @@ namespace OmegaGo.Core.Online.Kgs
         /// </summary>
         /// <param name="type">The TYPE field of the message, such as "UNJOIN".</param>
         /// <param name="data">An anonymous object that contains remaining information for the upstream message, such as ChannelId.</param>
-        /// <returns>Returns true. If it returns false, it's probably because we did not fully understand the communication protocol.</returns>
+        /// <returns>Returns true if there is no problem with the outgoing message and the connection did not fail.</returns>
         public async Task<bool> MakeUnattendedRequestAsync(string type, object data)
         {
             JObject jo = JObject.FromObject(data, Serializer);
             jo.Add("type", type.ToUpper());
             string contents = jo.ToString();
             Events.RaiseOutgoingRequest(contents);
+            Debug.WriteLine("Post: " + type);
             PostRequestResult postResult = await SendPostRequest(contents);
             return postResult.Successful;
-        }
-
-        private async Task<T> MakeRequestAsync<T>(string type, object data, params string[] possibleResponseTypes)
-            where T : KgsResponse
-        {
-            JObject jo = JObject.FromObject(data, Serializer);
-            jo.Add("type", type.ToUpper());
-            string contents = jo.ToString();
-            var kgsRequest = new KgsRequest(possibleResponseTypes);
-            requestsAwaitingResponse.Add(kgsRequest);
-            Events.RaiseOutgoingRequest(contents);
-            PostRequestResult postResult = await SendPostRequest(contents);
-            if (postResult.Successful)
-            {
-               var response = await kgsRequest.TaskCompletionSource.Task;
-               string responseText = response.ToString();
-               var returnValue = response.ToObject<T>(Serializer);
-                returnValue.FullText = responseText;
-               return returnValue;
-            }
-            else
-            {
-                return default(T);
-            }
         }
 
         /// <summary>
@@ -286,6 +284,28 @@ namespace OmegaGo.Core.Online.Kgs
                 }
             });
         }
+
+        /// <summary>
+        /// Cancels all ongoing games and informs the UI that we're disconnected. Sets the <see cref="LoggedIn"/> flag.
+        /// This does not send any information to the server and should only be called in response to a connection issue
+        /// or when the server logs us out. 
+        /// </summary>
+        /// <param name="reason">The reason.</param>
+        internal void LogoutAndDisconnect(string reason)
+        {
+            bool disconnectionIsNotRedundant = this.LoggedIn || this.LoggingIn;
+            this.LoggedIn = false;
+            if (disconnectionIsNotRedundant)
+            {
+                this.Events.RaiseDisconnection(reason);
+            }
+            foreach(var game in this.Data.Games.ToList())
+            {
+                GamePlayer whoDisconnected = game.Controller.Players.FirstOrDefault(pl => pl.Info.Name == this.Username);
+                game.Controller.EndGame(GameEndInformation.CreateDisconnection(whoDisconnected, game.Controller.Players));
+            }
+            this.Data.UnjoinEverything();
+        }
     }
 
     public class JsonResponse
@@ -303,22 +323,6 @@ namespace OmegaGo.Core.Online.Kgs
         public override string ToString()
         {
             return Type;
-        }
-    }
-
-    internal class ConcurrentList<T> : List<T>
-    {
-    }
-
-    internal class KgsRequest
-    {
-        public HashSet<string> PossibleResponseTypes;
-        public TaskCompletionSource<JObject> TaskCompletionSource;
-
-        public KgsRequest(string[] possibleResponseTypes)
-        {
-            this.PossibleResponseTypes = new HashSet<string>(possibleResponseTypes);
-            this.TaskCompletionSource = new TaskCompletionSource<JObject>();
         }
     }
 

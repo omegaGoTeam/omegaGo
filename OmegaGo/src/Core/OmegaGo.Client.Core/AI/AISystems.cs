@@ -16,7 +16,7 @@ namespace OmegaGo.Core.AI
     public static class AISystems
     {
         /// <summary>
-        /// Fuego AI builder. <see cref="Fuego"/> uses this to create the Fuego engine proper. 
+        /// Fuego AI builder. <see cref="FuegoSingleton"/> uses this to create the Fuego engine proper. 
         /// </summary>
         internal static IGtpEngineBuilder FuegoBuilder;
 
@@ -41,6 +41,7 @@ namespace OmegaGo.Core.AI
                         {
                             new DefeatistAI(),
                             new RandomAI(),
+                            new Deterministic.DeterministicAI(),
                             new RandomPlayerWrapper(),
                             new HeuristicPlayerWrapper(),
                             new Fluffy()
@@ -51,10 +52,11 @@ namespace OmegaGo.Core.AI
                     {
                         new DefeatistAI(),
                         new RandomAI(),
+                        new Deterministic.DeterministicAI(),
                         new RandomPlayerWrapper(),
                         new HeuristicPlayerWrapper(),
                         new Fluffy(),
-                        new Fuego()
+                        new FuegoSpace.Fuego()
                     };
             }
         }
@@ -67,6 +69,7 @@ namespace OmegaGo.Core.AI
         public static void RegisterFuegoBuilder(IGtpEngineBuilder builder)
         {
             FuegoBuilder = builder;
+            FuegoSingleton.Instance.AppWideInitialization();
             AISystems.RegistrationComplete = true;
         }        
     }

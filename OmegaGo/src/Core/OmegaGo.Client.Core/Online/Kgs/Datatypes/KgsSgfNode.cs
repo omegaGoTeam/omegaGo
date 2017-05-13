@@ -15,9 +15,15 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
     public class KgsSgfNode
     {
         /// <summary>
-        /// Gets or sets the index associated with a node. The root node of the tree has the index 0 and each games begins with this node already existing. The first node that has a move has the index 1.
+        /// Gets or sets the index associated with a node. The root node of the tree has the index 0 and each games begins with this node already existing. The first node that has a move has the index 1 (unless that move was undone).
         /// </summary>
-        public int Index { get; set; }
+        public int Index { get; }
+
+        /// <summary>
+        /// Gets the number of edges from the root node that one must traverse to reach this node. For example, if this is a grandson
+        /// of the root, then Layer is 2.
+        /// </summary>
+        public int Layer { get; }
         /// <summary>
         /// Gets the children of this node. Order matters.
         /// </summary>
@@ -29,14 +35,18 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
         /// </summary>
         public List<KgsSgfProperty> Properties { get; } = new List<KgsSgfProperty>();
 
-        public KgsSgfNode(int index)
+        public KgsSgfNode Parent { get; }
+
+        public KgsSgfNode(int index, int layer, KgsSgfNode parent)
         {
             Index = index;
+            Layer = layer;
+            Parent = parent;
         }
 
         public void AddChild(int childNodeId, int position, KgsGame game)
         {
-            var newNode = new KgsSgfNode(childNodeId);
+            var newNode = new KgsSgfNode(childNodeId, this.Layer + 1, this);
             Children.Insert(position, newNode);
             game.Controller.Nodes[childNodeId] = newNode;
         }
@@ -66,14 +76,14 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                 
                 case "RULES":
                     RulesDescription rules = prop;
-                    ongame.Info.BoardSize = new Game.GameBoardSize(rules.Size);
+                    ongame.Info.BoardSize = new GameBoardSize(rules.Size);
                     foreach(var player in ongame.Controller.Players)
                     {
                         player.Clock = rules.CreateTimeControl();
                     }
                     ongame.Info.NumberOfHandicapStones = rules.Handicap;
                     ongame.Info.Komi = rules.Komi;
-                    ongame.Info.RulesetType = KgsGameInfo.ConvertRuleset(rules.Rules);
+                    ongame.Info.RulesetType = KgsHelpers.ConvertRuleset(rules.Rules);
                     // TODO (Petr) ensure that even written late, these values are respected
                     break;
                 case "PLAYERNAME":
@@ -85,14 +95,23 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                 case "PHANTOMCLEAR":
                     // I don't know what to do with this yet.
                     break;
+                case "ADDSTONE":
+                    ongame.Controller.AddHandicapStonePosition(new Position(prop.Loc.X,
+                        KgsCoordinates.TheirsToOurs(prop.Loc.Y, ongame.Info.BoardSize)));
+                    break;
                 case "COMMENT":
                     // "Putti [2k]: hi\n
-                    var tuple = KgsRegex.ParseCommentAsChat(prop.Text);
-                    if (tuple != null)
+                    string[] splitByNewlines =
+                        prop.Text.Split(new string[] {"\n"}, StringSplitOptions.RemoveEmptyEntries);
+                    foreach(var s in splitByNewlines)
                     {
-                        var chatMessage = new ChatMessage(tuple.Item1, tuple.Item2,
-                            DateTimeOffset.Now, tuple.Item1 == ongame.Controller.Server.Username ? ChatMessageKind.Outgoing : ChatMessageKind.Incoming);
-                        ongame.Controller.KgsConnector.ChatMessageFromServer(chatMessage);
+                        var tuple = KgsRegex.ParseCommentAsChat(s);
+                        if (tuple != null)
+                        {
+                            var chatMessage = new ChatMessage(tuple.Item1, tuple.Item2,
+                                DateTimeOffset.Now, tuple.Item1 == ongame.Controller.Server.Username ? ChatMessageKind.Outgoing : ChatMessageKind.Incoming);
+                            ongame.Controller.KgsConnector.ChatMessageFromServer(chatMessage);
+                        }
                     }
                     break;
                 case "DEAD":
@@ -100,6 +119,8 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     {
                         ongame.Controller.SetPhase(Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination);
                     }
+                    ongame.Controller.BlackDoneReceived = false;
+                    ongame.Controller.WhiteDoneReceived = false;
                     ongame.Controller.KgsConnector.ForceKillGroup(new Position(prop.Loc.X, KgsCoordinates.TheirsToOurs(prop.Loc.Y, ongame.Info.BoardSize)));
                     break;
                 case "TIMELEFT":
@@ -112,7 +133,7 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     StoneColor color = propColor == "white" ? StoneColor.White : StoneColor.Black;
                     if (!prop.Loc.IsPass)
                     {
-                        XY whereTo = (XY) prop.Loc;
+                        XY whereTo = prop.Loc;
                         Position position = new Game.Position(whereTo.X, KgsCoordinates.TheirsToOurs(whereTo.Y, ongame.Info.BoardSize));
                         move = Move.PlaceStone(color, position);
                     }
@@ -124,7 +145,7 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     {
                         if (player.Agent is KgsAgent)
                         {
-                            ((KgsAgent) player.Agent).StoreMove(this.Index, color, move);
+                            ((KgsAgent) player.Agent).StoreMove(this.Layer, color, move);
                         }
                     }
                     break;
@@ -141,6 +162,8 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     {
                         ongame.Controller.SetPhase(Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination);
                     }
+                    ongame.Controller.BlackDoneReceived = false;
+                    ongame.Controller.WhiteDoneReceived = false;
                     ongame.Controller.KgsConnector.ForceRevivifyGroup(
                         new Position(prop.Loc.X, KgsCoordinates.TheirsToOurs(prop.Loc.Y, ongame.Info.BoardSize)));
                     break;

@@ -23,6 +23,7 @@ namespace OmegaGo.UI.WindowsUniversal.Fuego
             this.boardSize = boardSize;
             this._fuegoInstance = new FuegoInstance();
             this._fuegoInstance.StartGame((byte)boardSize);
+            this._fuegoInstance.HandleCommand("uct_max_memory 200000000");
         }
 
         public GtpResponse SendCommand(string command)

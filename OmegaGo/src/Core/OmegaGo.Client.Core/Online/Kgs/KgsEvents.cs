@@ -16,6 +16,7 @@ namespace OmegaGo.Core.Online.Kgs
     /// </summary>    
     public class KgsEvents : ICommonEvents
     {
+
         public event EventHandler<string> SystemMessage;
 
 
@@ -26,14 +27,18 @@ namespace OmegaGo.Core.Online.Kgs
         public event EventHandler<JsonResponse> IncomingMessage;
         public event EventHandler<JsonResponse> UnhandledMessage;
         public event EventHandler<string> Disconnection;
-        public event EventHandler<string> NotificationMessage;
+        public event EventHandler<string> NotificationErrorMessage;
         public event EventHandler<User> PersonalInformationUpdate;
         public event EventHandler<KgsLoginPhase> LoginPhaseChanged;
         public event EventHandler<GameInfo> UndoRequestReceived;
+        public event EventHandler<LoginResult> LoginEnded;
 
 #pragma warning disable CS0067 // KGS does not have a command for declining undos. To decline an undo, you're supposed to just ignore it.
         public event EventHandler<GameInfo> UndoDeclined;
 #pragma warning restore CS0067
+        public event Action SomethingChanged;
+        public event Action<KgsChannel> ChannelJoined;
+        public event Action<KgsChannel> ChannelUnjoined;
 
         internal void RaiseChallengeJoined(KgsChallenge createdChallenge)
         {
@@ -69,6 +74,11 @@ namespace OmegaGo.Core.Online.Kgs
             OutgoingRequest?.Invoke(this, request);
         }
 
+        internal void RaiseLoginComplete(LoginResult result)
+        {
+            LoginEnded?.Invoke(this, result);
+        }
+
         internal void RaiseGameJoined(KgsGame ongame)
         {
             GameJoined?.Invoke(this, ongame);
@@ -83,9 +93,28 @@ namespace OmegaGo.Core.Online.Kgs
             Unjoin?.Invoke(this, channel);
         }
 
-        public void RaiseNotification(string type)
+        public void RaiseErrorNotification(string type)
         {
-            NotificationMessage?.Invoke(this, type);
+            NotificationErrorMessage?.Invoke(this, type);
+        }
+
+        internal void RaiseUndoRequestReceived(KgsGame kgsGame)
+        {
+            UndoRequestReceived?.Invoke(this, kgsGame.Info);
+        }
+
+        internal void RaiseSomethingChanged()
+        {
+            SomethingChanged?.Invoke();
+        }
+
+        internal void RaiseChannelJoined(KgsChannel channel)
+        {
+            ChannelJoined?.Invoke(channel);
+        }
+        internal void RaiseChannelUnjoined(KgsChannel channel)
+        {
+            ChannelUnjoined?.Invoke(channel);
         }
     }
 }

@@ -14,6 +14,13 @@ namespace OmegaGo.Core.Sgf.Serializing
     /// </summary>
     public class SgfSerializer
     {
+        private readonly bool _createNewlines;
+
+        public SgfSerializer( bool createNewlines = false )
+        {
+            _createNewlines = createNewlines;
+        }
+
         /// <summary>
         /// Serializes a given SGF collection
         /// </summary>
@@ -23,7 +30,7 @@ namespace OmegaGo.Core.Sgf.Serializing
         {
             if (sgfCollection == null) throw new ArgumentNullException(nameof(sgfCollection));
 
-            return SerializeCollection(sgfCollection);
+            return SerializeCollection(sgfCollection).Trim();
         }
 
         /// <summary>
@@ -56,6 +63,7 @@ namespace OmegaGo.Core.Sgf.Serializing
             if (gameTree == null) throw new ArgumentNullException(nameof(gameTree));
 
             StringBuilder builder = new StringBuilder();
+            if (_createNewlines) builder.AppendLine();
             builder.Append('(');
 
             builder.Append(SerializeSequence(gameTree.Sequence));
@@ -66,6 +74,7 @@ namespace OmegaGo.Core.Sgf.Serializing
             }
 
             builder.Append(')');
+            if (_createNewlines) builder.AppendLine();
             return builder.ToString();
         }
 
@@ -83,6 +92,7 @@ namespace OmegaGo.Core.Sgf.Serializing
             foreach (var node in sequence)
             {
                 builder.Append(SerializeNode(node));
+                if (_createNewlines) builder.AppendLine();
             }
 
             return builder.ToString();

@@ -40,7 +40,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
             if ( max < min ) throw new ArgumentOutOfRangeException(nameof(max),$"Specified range for SGF ranged number parser is invalid ({min}-{max})");
             return (value) =>
             {
-                var parsedValue = (SgfNumberValue)SgfNumberValue.Parse(value);
+                var parsedValue = SgfNumberValue.Parse(value);
                 if (parsedValue.Value < min || max < parsedValue.Value)
                 {
                     throw new SgfParseException($"Property numeric value outside of the allowed range ({value} - only {min} - {max} allowed).");

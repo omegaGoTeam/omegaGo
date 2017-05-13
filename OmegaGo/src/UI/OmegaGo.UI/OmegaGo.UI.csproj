@@ -60,9 +60,13 @@
     <Compile Include="Converters\BoolDoubleConverter.cs" />
     <Compile Include="Converters\BoolNegationConverter.cs" />
     <Compile Include="Converters\ConcreteEnumLocalizingConverter.cs" />
+    <Compile Include="Converters\EmptyCollectionVisibilityConverter.cs" />
     <Compile Include="Converters\EnumLocalizingConverter.cs" />
     <Compile Include="Converters\EnumSelectionConverter.cs" />
     <Compile Include="Converters\LocalizingConverter.cs" />
+    <Compile Include="Converters\NonEmptyStringVisibilityConverter.cs" />
+    <Compile Include="Converters\PluralizingConverter.cs" />
+    <Compile Include="Converters\StringToUpperConverter.cs" />
     <Compile Include="Converters\TypeNameLocalizingConverter.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
@@ -76,16 +80,25 @@
     <Compile Include="Infrastructure\Tabbed\ITabInfo.cs" />
     <Compile Include="Infrastructure\Tabbed\ITabProvider.cs" />
     <Compile Include="Infrastructure\Tabbed\TabNavigationType.cs" />
+    <Compile Include="Models\Library\AppDataLibraryItemViewModel.cs" />
+    <Compile Include="Models\Library\ExternalSgfFileViewModel.cs" />
+    <Compile Include="Models\Library\LibraryItemGame.cs" />
+    <Compile Include="Models\Library\LibraryItemKind.cs" />
+    <Compile Include="Models\Library\LibraryItemViewModel.cs" />
     <Compile Include="Models\Statistics\StatisticsItem.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\AppPackage\IAppPackageService.cs" />
     <Compile Include="Services\Audio\ISfxPlayerService.cs" />
     <Compile Include="Services\Audio\SfxId.cs" />
     <Compile Include="Services\Audio\AudioFilePack.cs" />
     <Compile Include="Services\Audio\Sounds.cs" />
+    <Compile Include="Services\GameTools\GameToolServices.cs" />
+    <Compile Include="Services\Files\FileContentInfo.cs" />
+    <Compile Include="Services\Files\FileInfo.cs" />
     <Compile Include="Services\Help\EmbeddedResourceReading.cs" />
     <Compile Include="Services\Dialogs\IDialogService.cs" />
     <Compile Include="Services\Feedback\IFeedbackService.cs" />
@@ -176,15 +189,18 @@
     <Compile Include="UserControls\ViewModels\PlayerPortraitViewModel.cs" />
     <Compile Include="UserControls\ViewModels\PlayerSettingsViewModel.cs" />
     <Compile Include="UserControls\ViewModels\TimeControlSettingsViewModel.cs" />
-    <Compile Include="UserControls\ViewModels\TimelineViewModel.cs" />
+    <Compile Include="UserControls\ViewModels\GameTreeViewModel.cs" />
     <Compile Include="Services\Tsumego\TsumegoProblem.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewAiPlayer.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewHumanPlayer.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewPlayer.cs" />
+    <Compile Include="Utility\Collections\RangeCollection.cs" />
     <Compile Include="Utility\Rectangle.cs" />
     <Compile Include="Utility\Assistant.cs" />
+    <Compile Include="Utility\SgfExport.cs" />
+    <Compile Include="ViewModels\AnalyzeOnlyViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
-    <Compile Include="Models\LibraryItem.cs" />
+    <Compile Include="Models\Library\LibraryItem.cs" />
     <Compile Include="ViewModels\LiveGameViewModel.cs" />
     <Compile Include="ViewModels\ObserverGameViewModel.cs" />
     <Compile Include="ViewModels\OnlineGameViewModel.cs" />
@@ -282,6 +298,7 @@
     <EmbeddedResource Include="Services\Help\Data\comprules.html" />
     <EmbeddedResource Include="Services\Help\Data\humour.html" />
     <Content Include="LICENSE.txt" />
+    <Content Include="Services\Help\Data\omegaGo User Guide.html" />
     <Content Include="Services\Quests\ABOUT.txt" />
     <Content Include="Services\Quests\QuestCooldownSpecification.txt" />
     <Content Include="Services\Tutorial\DOCUMENTATION.txt" />

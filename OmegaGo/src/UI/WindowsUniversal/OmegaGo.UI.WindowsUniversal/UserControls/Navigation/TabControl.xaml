@@ -67,7 +67,7 @@
             </interactivity:Interaction.Behaviors>
             <Grid.ContextFlyout>
                 <MenuFlyout>
-                    <MenuFlyoutItem Command="{Binding GoBackCommand}" Text="{x:Bind Localizer.GoBack}" />
+                    <MenuFlyoutItem IsEnabled="{Binding Frame.CanGoBack}" Command="{Binding GoBackCommand}" Text="{x:Bind Localizer.GoBack}" />
                 </MenuFlyout>
             </Grid.ContextFlyout>
             <Grid.ColumnDefinitions>

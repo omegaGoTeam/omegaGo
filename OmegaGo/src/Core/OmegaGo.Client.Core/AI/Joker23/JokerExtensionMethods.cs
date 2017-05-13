@@ -7,6 +7,9 @@ using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.AI.Joker23
 {
+    /// <summary>
+    /// This class adds some Java methods to C# classes and contains auxiliary methods for interopability.
+    /// </summary>
     public static class JokerExtensionMethods
     {
         public static bool isEmpty<T>(this IList<T> list)

@@ -48,6 +48,7 @@ namespace FuegoLib
 
 	public:
 		FuegoInstance();
+		void Dispose();
 		void StartGame(unsigned char size);
 		Platform::String^ HandleCommand(Platform::String^ cmd);	
 	};

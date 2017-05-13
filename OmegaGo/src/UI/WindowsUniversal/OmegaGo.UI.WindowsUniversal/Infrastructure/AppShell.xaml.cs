@@ -77,7 +77,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             InitCheats();
             InitNotifications();
 
-            InitFeedback();
+            InitFeedback();            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -185,6 +185,12 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
                 return shell;
             }
             return null;
+        }
+
+
+        public void InitVisuals()
+        {
+            RefreshVisualSettings();
         }
 
         /// <summary>
@@ -302,7 +308,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             for (int ni = BubbleNotifications.Count - 1; ni >= 0; ni--)
             {
                 var notification = BubbleNotifications[ni];
-                if (notification.FirstAppeared.AddSeconds(4) < DateTime.Now)
+                if (notification.FirstAppeared.AddSeconds(8) < DateTime.Now)
                 {
                     BubbleNotifications.RemoveAt(ni);
                 }
@@ -359,6 +365,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
             AppTitleBar.Height = sender.Height;
+            DraggableTitleBarArea.Height = sender.Height;
             RightTitleBarMask.Width = sender.SystemOverlayRightInset;
             UpdateTitleBarLayout();
         }
@@ -441,12 +448,20 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             {
                 var minRightContentWidth = RightTitleBarMask.Width + FeedbackButton.ActualWidth +
                                            MinimumTouchAreaSize; //leeway for dragging
-                TabListContainer.MaxWidth = Window.Current.Bounds.Width - minRightContentWidth;
+
+                var tabListWidth = Window.Current.Bounds.Width - minRightContentWidth;
+                if (tabListWidth < 0)
+                {
+                    tabListWidth = 100;
+                }
+                TabListContainer.MaxWidth = tabListWidth;
             }
             else
             {
                 TabListContainer.MaxWidth = Window.Current.Bounds.Width;
+                AppTitleBar.Height = 32;
             }
         }
+
     }
 }

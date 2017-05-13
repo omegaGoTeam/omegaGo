@@ -11,4 +11,9 @@
     <converters:NativeTypeNameLocalizingConverter x:Key="TypeNameLocalizingConverter" />
     <converters:NativeEnumSelectionConverter x:Key="EnumSelectionConverter" />
     <converters:NativeBoolNegationConverter x:Key="BoolNegationConverter" />
+    <converters:ItemClickEventArgsConverter x:Key="ItemClickEventArgsConverter" />
+    <converters:NativeStringToUpperConverter x:Key="StringToUpperConverter" />
+    <converters:NativeEmptyCollectionVisibilityConverter x:Key="EmptyCollectionVisibilityConverter" />
+    <converters:NativeNonEmptyStringVisibilityConverter x:Key="NonEmptyStringVisibilityConverter" />
+    <converters:NativePluralizingConverter x:Key="PluralizingConverter" />
 </ResourceDictionary>

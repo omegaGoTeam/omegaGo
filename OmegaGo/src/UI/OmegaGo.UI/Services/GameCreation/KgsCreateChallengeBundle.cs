@@ -8,6 +8,7 @@ using MvvmCross.Platform;
 using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.Core.Online.Kgs.Structures;
+using OmegaGo.UI.Localization;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.Services.Online;
@@ -36,6 +37,7 @@ namespace OmegaGo.UI.Services.GameCreation
             vm.FormTitle = Localizer.Creation_KgsChallengeCreation;
             base.OnLoad(vm);
         }
+        public override bool IsKgsChallengeCreation => true;
         public override async Task CreateChallenge(GameCreationViewModel vm)
         {
             string rulesString = "chinese";
@@ -80,12 +82,11 @@ namespace OmegaGo.UI.Services.GameCreation
                     rules.TimeSystem = RulesDescription.TimeSystemNone;
                     break;
             }
-
-            // TODO Petr change these 'false's
-            await Connections.Kgs.Commands.CreateChallenge(_room, false, false,
+            
+            await Connections.Kgs.Commands.CreateChallenge(_room, vm.IsRankedGame, vm.IsPubliclyListedGame,
                     rules, vm.SelectedColor);
             Mvx.Resolve<IAppNotificationService>()
-                .TriggerNotification(new Notifications.BubbleNotification("Challenge is being created..."));
+                .TriggerNotification(new Notifications.BubbleNotification(LocalizedStrings.ChallengeIsBeingCreated, null, NotificationType.Info));
             vm.CloseSelf();
         }
     }

@@ -154,7 +154,8 @@
                                 <MenuFlyoutItem Text="{x:Bind Localizer.AnalyzeMode}" Command="{x:Bind VM.EnableAnalyzeModeCommand}" />
                                 <ToggleMenuFlyoutItem x:Name="focusButton" Text="{x:Bind Localizer.HideTabs}" Click="focusButton_Click" />
                                 <MenuFlyoutSeparator />
-                                <MenuFlyoutItem Text="{x:Bind Localizer.ExportSGF}" />
+                                <MenuFlyoutItem Text="{x:Bind Localizer.ExportSgfFile}" Command="{x:Bind VM.ExportSGFCommand}" />
+                                <MenuFlyoutItem Text="{x:Bind Localizer.SaveToLibrary}" Command="{x:Bind VM.SaveToLibraryCommand}" />
                                 <MenuFlyoutSeparator />
                                 <ToggleMenuFlyoutItem Text="{x:Bind Localizer.SystemLog}" IsChecked="{x:Bind VM.IsSystemLogEnabled, Mode=TwoWay}" />
                             </MenuFlyout>
@@ -254,10 +255,10 @@
                                     Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityConverter}, Mode=OneWay}">
                             <controls:AnalyzeControl  x:Name="analyzeControl"
                                                       ViewModel="{x:Bind VM.AnalyzeViewModel}" />
-                            <controls:TimelineControl x:Name="timelineControl"
+                            <controls:GameTreeControl x:Name="gameTreeControl"
                                                       HorizontalAlignment="Stretch"
                                                       Height="200"
-                                                      ViewModel="{x:Bind VM.TimelineViewModel}" />
+                                                      ViewModel="{x:Bind VM.GameTreeViewModel}" />
                         </StackPanel>
 
 
@@ -290,8 +291,9 @@
                 HorizontalAlignment="Stretch"
                 BorderBrush="Black" BorderThickness="1"
                 Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityInvertedConverter}, Mode=OneWay}">
-            <Slider Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" 
-                    Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"/>
+            <Slider x:Name="gameTimelineSlider" 
+                    Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" 
+                    Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=OneWay}"/>
         </Border>
     </Grid>
 </views:TransparencyViewBase>
