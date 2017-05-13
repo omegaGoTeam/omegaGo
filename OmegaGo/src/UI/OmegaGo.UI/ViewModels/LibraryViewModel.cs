@@ -200,7 +200,7 @@ namespace OmegaGo.UI.ViewModels
         private async Task OpenSgfFileAsync()
         {
             IsWorking = true;
-            var fileContents = await _filePicker.PickAndReadFileAsync(".sgf");            
+            var fileContents = await _filePicker.PickAndReadFileAsync(".sgf");
             OpenSgfFile(fileContents);
         }
 
@@ -271,7 +271,7 @@ namespace OmegaGo.UI.ViewModels
 
             //get the resuts, include only non-null items
             var allLoadingTask = Task.WhenAll(libraryLoadTasks);
-           
+
             //report progress periodically
             while (await Task.WhenAny(allLoadingTask, Task.Delay(100)) != allLoadingTask)
             {
@@ -280,9 +280,9 @@ namespace OmegaGo.UI.ViewModels
             }
 
 
-            var rawResults = await allLoadingTask;            
+            var rawResults = await allLoadingTask;
             //clean up results from invalid files
-            var results = rawResults.Where(i => i != null).OrderByDescending(i => i.FileLastModified).ToList();            
+            var results = rawResults.Where(i => i != null).OrderByDescending(i => i.FileLastModified).ToList();
             LibraryItems.ReplaceCollection(results.Select(li => new AppDataLibraryItemViewModel(li)));
             await SaveLibraryCacheAsync(results);
             IsWorking = false;
@@ -426,8 +426,9 @@ namespace OmegaGo.UI.ViewModels
         /// Stores current library cache to disk
         /// </summary>        
         private async Task SaveLibraryCacheAsync(IEnumerable<LibraryItem> libraryState)
-        {            
-            await _appDataFileService.WriteFileAsync(LibraryCacheFileName, JsonConvert.SerializeObject(libraryState), CacheFolderName);            
+        {
+            await _appDataFileService.WriteFileAsync(LibraryCacheFileName,
+                JsonConvert.SerializeObject(libraryState), CacheFolderName);
         }
 
         /// <summary>
