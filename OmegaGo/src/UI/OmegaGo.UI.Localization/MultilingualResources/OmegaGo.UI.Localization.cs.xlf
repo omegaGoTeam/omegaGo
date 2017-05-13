@@ -1837,7 +1837,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="GamesAndChallenges" translate="yes" xml:space="preserve">
           <source>Games and challenges</source>
-          <target state="translated">Hry v výzvy</target>
+          <target state="translated">Hry a výzvy</target>
         </trans-unit>
         <trans-unit id="Users" translate="yes" xml:space="preserve">
           <source>Users</source>
