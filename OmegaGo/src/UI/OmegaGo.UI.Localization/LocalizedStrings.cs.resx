@@ -1467,7 +1467,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
     <value>Vzdej se.</value>
   </data>
   <data name="Validation_BoardTooExtreme" xml:space="preserve">
-    <value>Prosím vyberte velikost 100x100 nebo menší. Váš počítač by nemusel zvládnout větší desku.</value>
+    <value>Prosím vyberte velikost 52x52 nebo menší.</value>
   </data>
   <data name="Validation_KomiTooExtreme" xml:space="preserve">
     <value>Prosím zvolte komi mezi -500 a 500.</value>
@@ -1508,18 +1508,6 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="GameTree" xml:space="preserve">
     <value>Herní strom</value>
   </data>
-  <data name="AgreeWithUndo" xml:space="preserve">
-    <value>Povolit vrácení tahu</value>
-  </data>
-  <data name="DisagreeWithUndo" xml:space="preserve">
-    <value>Odmítnout vrácení tahu</value>
-  </data>
-  <data name="YouHaveRequestedAnUndo" xml:space="preserve">
-    <value>Požádali jste soupeře o vrácení tahu.</value>
-  </data>
-  <data name="YourOppRequestedAnUndo" xml:space="preserve">
-    <value>Váš soupeř požádal o vrácení tahu.</value>
-  </data>
   <data name="Add1Minute" xml:space="preserve">
     <value>Přidat 1 minutu</value>
   </data>
@@ -1534,5 +1522,17 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   </data>
   <data name="CantPlayRanked" xml:space="preserve">
     <value>Hra nemůže být hodnocená. Bude vytvořená jako volná hra.</value>
+  </data>
+  <data name="AgreeWithUndo" xml:space="preserve">
+    <value>Povolit vrácení tahu</value>
+  </data>
+  <data name="DisagreeWithUndo" xml:space="preserve">
+    <value>Odmítnout vrácení tahu</value>
+  </data>
+  <data name="YouHaveRequestedAnUndo" xml:space="preserve">
+    <value>Požádali jste soupeře o vrácení tahu.</value>
+  </data>
+  <data name="YourOppRequestedAnUndo" xml:space="preserve">
+    <value>Váš soupeř požádal o vrácení tahu.</value>
   </data>
 </root>
