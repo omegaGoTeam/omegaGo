@@ -377,6 +377,7 @@ namespace OmegaGo.UI.ViewModels
             {
                 await _appDataFileService.DeleteFileAsync(SgfFolderName, libraryItem.FileName);
                 LibraryItems.Remove(libraryItem);
+                SelectedLibraryItem = null;
             }
         }
 

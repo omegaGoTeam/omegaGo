@@ -100,7 +100,7 @@
                     <core:CallMethodAction MethodName="Unblur" TargetObject="{Binding ElementName=MainView}" />
                 </core:DataTriggerBehavior>
             </interactivity:Interaction.Behaviors>
-            
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -182,29 +182,39 @@
         <Border Visibility="{x:Bind VM.SelectedItemShown, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Grid.RowSpan="4" Background="Transparent">
             <Border Margin="0,20,0,20" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColorBrush}" >
                 <ScrollViewer VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" HorizontalScrollMode="Disabled" Padding="20,0,20,0">
-                    <Grid Margin="0,20,0,20" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8" HorizontalAlignment="Center">
-                            <Button Command="{x:Bind VM.DeselectLibraryItemCommand}"  Style="{StaticResource NavigationBackButtonSmallStyle}" />
-                            <TextBlock VerticalAlignment="Center" TextAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" FontSize="16" TextWrapping="Wrap" Text="{x:Bind VM.SelectedLibraryItem.FileName, Mode=OneWay, Converter={StaticResource StringToUpperConverter}}" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" Grid.Row="1" Margin="0,0,0,8">
-                            <TextBlock Style="{ThemeResource CaptionTextBlockStyle}">
+                    <Grid>
+                        <Grid Margin="0,20,0,20" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8" HorizontalAlignment="Center">
+                                <Button Command="{x:Bind VM.DeselectLibraryItemCommand}"  Style="{StaticResource NavigationBackButtonSmallStyle}" />
+                                <TextBlock VerticalAlignment="Center" TextAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" FontSize="16" Margin="8,0,0,0" TextWrapping="Wrap" Text="{x:Bind VM.SelectedLibraryItem.FileName, Mode=OneWay}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" Grid.Row="1" Margin="0,0,0,8">
+                                <TextBlock Style="{ThemeResource CaptionTextBlockStyle}">
                                 <Run Text="{x:Bind VM.SelectedLibraryItem.GameCount, Mode=OneWay}" />                            
                                 <Run Text="{x:Bind VM.SelectedLibraryItem.GameCount, Mode=OneWay, Converter={StaticResource PluralizingConverter}, ConverterParameter=Game}" />
-                            </TextBlock>
-                        </StackPanel>
-                        <FlipView MaxWidth="250" MaxHeight="250" Grid.Row="2" ItemsSource="{x:Bind VM.SelectedLibraryItem.Games, Mode=OneWay}" SelectedItem="{Binding ElementName=MainView, Path=VM.SelectedLibraryItem.SelectedGame, Mode=TwoWay}">
-                            <FlipView.ItemTemplate>
-                                <DataTemplate x:DataType="library:LibraryItemGame">
-                                    <library1:LibraryItemGameControl Game="{x:Bind}" OpenGameCommand="{Binding ElementName=MainView, Path=VM.AnalyzeLibraryItemGameCommand}" />
-                                </DataTemplate>
-                            </FlipView.ItemTemplate>
-                        </FlipView>
+                                </TextBlock>
+                            </StackPanel>
+                            <FlipView MaxWidth="250" MaxHeight="250" Grid.Row="2" ItemsSource="{x:Bind VM.SelectedLibraryItem.Games, Mode=OneWay}" SelectedItem="{Binding ElementName=MainView, Path=VM.SelectedLibraryItem.SelectedGame, Mode=TwoWay}">
+                                <FlipView.ItemTemplate>
+                                    <DataTemplate x:DataType="library:LibraryItemGame">
+                                        <library1:LibraryItemGameControl Game="{x:Bind}" OpenGameCommand="{Binding ElementName=MainView, Path=VM.AnalyzeLibraryItemGameCommand}" />
+                                    </DataTemplate>
+                                </FlipView.ItemTemplate>
+                            </FlipView>
+                        </Grid>
+                        <CommandBar MaxWidth="400" Visibility="{x:Bind VM.SelectedLibraryItem.ShowCommands, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Background="Transparent" Style="{StaticResource OpenDownCommandBar}" ClosedDisplayMode="Minimal" Grid.Row="0">
+                            <CommandBar.SecondaryCommands>
+                                <AppBarButton Icon="Delete" IsCompact="False" Label="{Binding Source={StaticResource Localizer}, Path=Delete}" Command="{x:Bind VM.DeleteItemCommand, Mode=OneWay}" CommandParameter="{x:Bind VM.SelectedLibraryItem, Mode=OneWay}" />
+                                <AppBarButton Label="{Binding Source={StaticResource Localizer}, Path=Export}" Command="{x:Bind VM.ExportItemCommand, Mode=OneWay}" CommandParameter="{x:Bind VM.SelectedLibraryItem, Mode=OneWay}">
+                                    <BitmapIcon UriSource="/Assets/Icons/Commands/ExportFromLibrary.png" />
+                                </AppBarButton>
+                            </CommandBar.SecondaryCommands>
+                        </CommandBar>
                     </Grid>
                 </ScrollViewer>
             </Border>
