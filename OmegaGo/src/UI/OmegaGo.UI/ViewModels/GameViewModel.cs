@@ -58,6 +58,7 @@ namespace OmegaGo.UI.ViewModels
 
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => OnBoardTapped(e);
+            BoardViewModel.IsTouchInputOffsetEnabled = gameSettings.Display.AddTouchInputOffset;
             // Set empty node (should be in the beginning of every gametree) as current node for board rendering
             RefreshBoard(Game.Controller.GameTree.LastNode);
 

@@ -64,7 +64,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 var task = boardControl.InitializeVM(e.NewValue as BoardViewModel);
             }
         }
-        
+
         protected override Size MeasureOverride(Size availableSize)
         {
             if (double.IsInfinity(availableSize.Width))
@@ -78,7 +78,31 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             }
 
             return availableSize;
-        }        
+        }
+
+        private async Task InitializeVM(BoardViewModel viewModel)
+        {
+            if (viewModel == null)
+                return;
+
+            ViewModel.NodeChanged += (sender, node) => _currentGameTreeNode = node;
+            _currentGameTreeNode = ViewModel.GameTreeNode;
+            _boardControlState = ViewModel.BoardControlState;
+            _renderService = new RenderService(_boardControlState);
+            _inputService = new InputService(_boardControlState);
+
+            await RenderService.AwaitResources();
+
+            canvas.Draw += canvas_Draw;
+            canvas.Update += canvas_Update;
+
+            canvas.PointerMoved += canvas_PointerMoved;
+            canvas.PointerPressed += canvas_PointerPressed;
+            canvas.PointerReleased += canvas_PointerReleased;
+            canvas.PointerExited += Canvas_PointerExited;
+
+            _inputService.PointerTapped += (sender, ev) => ViewModel.BoardTap(ev);
+        }
 
         private void canvas_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
@@ -111,7 +135,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         {
             Point pointerPosition = e.GetCurrentPoint(canvas).Position;
 
-            if (e.Pointer.PointerDeviceType == PointerDeviceType.Touch)
+            if (ViewModel.IsTouchInputOffsetEnabled && e.Pointer.PointerDeviceType == PointerDeviceType.Touch)
                 pointerPosition.Y += TOUCHOFFSET;
 
             return pointerPosition;
@@ -131,30 +155,6 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         private void canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
             RenderService.Update(args.Timing.ElapsedTime);
-        }
-
-        private async Task InitializeVM(BoardViewModel viewModel)
-        {
-            if (viewModel == null)
-                return;
-
-            ViewModel.NodeChanged += (sender, node) => _currentGameTreeNode = node;
-            _currentGameTreeNode = ViewModel.GameTreeNode;
-            _boardControlState = ViewModel.BoardControlState;
-            _renderService = new RenderService(_boardControlState);
-            _inputService = new InputService(_boardControlState);
-
-            await RenderService.AwaitResources();
-            
-            canvas.Draw += canvas_Draw;
-            canvas.Update += canvas_Update;
-
-            canvas.PointerMoved += canvas_PointerMoved;
-            canvas.PointerPressed += canvas_PointerPressed;
-            canvas.PointerReleased += canvas_PointerReleased;
-            canvas.PointerExited += Canvas_PointerExited;
-
-            _inputService.PointerTapped += (sender, ev) => ViewModel.BoardTap(ev);
         }
     }
 }

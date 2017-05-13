@@ -4092,6 +4092,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply offset to touch input for better shadow items visibility on game board..
+        /// </summary>
+        public static string UseTouchInputOffset {
+            get {
+                return ResourceManager.GetString("UseTouchInputOffset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please choose a board size 100x100 or smaller. Your computer might not handle a larger board..
         /// </summary>
         public static string Validation_BoardTooExtreme {

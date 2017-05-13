@@ -1380,7 +1380,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
     <value>Výzvy</value>
   </data>
   <data name="GamesAndChallenges" xml:space="preserve">
-    <value>Hry v výzvy</value>
+    <value>Hry a výzvy</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>Uživatelé</value>
@@ -1483,5 +1483,8 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   </data>
   <data name="GameTree" xml:space="preserve">
     <value>Herní strom</value>
+  </data>
+  <data name="UseTouchInputOffset" xml:space="preserve">
+    <value>Přidat posunutí k dotykovému ovládání, aby šly lépe vidět stínové prvky na herní ploše.</value>
   </data>
 </root>

@@ -96,6 +96,12 @@ namespace OmegaGo.UI.Services.Settings
             set { SetSetting(nameof(AddGraceSecond), value, SettingLocality.Roamed); }
         }
 
+        public bool AddTouchInputOffset
+        {
+            get { return GetSetting(nameof(AddTouchInputOffset), () => false, SettingLocality.Roamed); }
+            set { SetSetting(nameof(AddTouchInputOffset), value, SettingLocality.Roamed); }
+        }
+
         public bool HighlightLastMove
         {
             get { return GetSetting(nameof(HighlightLastMove), () => true, SettingLocality.Roamed); }
