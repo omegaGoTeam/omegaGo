@@ -46,7 +46,7 @@ namespace OmegaGo.UI.ViewModels
             {
                 await Connections.Kgs.Commands.UnjoinRoomAsync(this.SelectedRoom);
             }
-        }, () => this.SelectedRoom != null && this.SelectedRoom.Joined));
+        }));
 
         public IMvxCommand JoinRoomCommand => _joinRoomCommand ?? (_joinRoomCommand = new MvxCommand(async () =>
         {
@@ -54,7 +54,7 @@ namespace OmegaGo.UI.ViewModels
             {
                 await Connections.Kgs.Commands.JoinRoomAsync(this.SelectedRoom);
             }
-        }, () => this.SelectedRoom != null && !this.SelectedRoom.Joined));
+        }));
         public IMvxCommand CreateChallengeCommand => _createChallengeCommand ?? (_createChallengeCommand = new MvxCommand(() =>
         {
             if (this.SelectedRoom != null && this.SelectedRoom.Joined)
@@ -62,7 +62,7 @@ namespace OmegaGo.UI.ViewModels
                 Mvx.RegisterSingleton<GameCreationBundle>(new KgsCreateChallengeBundle(this.SelectedRoom));
                 OpenInNewActiveTab<GameCreationViewModel>();
             }
-        }, () => this.SelectedRoom != null && this.SelectedRoom.Joined));
+        }));
         public ICommand JoinChannelCommand
             => _joinChannelCommand ?? (_joinChannelCommand = new MvxAsyncCommand<KgsChannel>(JoinChannelAsync));
 
@@ -157,24 +157,15 @@ namespace OmegaGo.UI.ViewModels
             set
             {
                 SetProperty(ref _selectedRoom, value);
-                MinorBindingsUpdate();
             }
         }
-
-        private void MinorBindingsUpdate()
-        {
-            this.JoinRoomCommand.RaiseCanExecuteChanged();
-            this.UnjoinRoomCommand.RaiseCanExecuteChanged();
-            this.CreateChallengeCommand.RaiseCanExecuteChanged();
-        }
-
+        
         public LoginFormViewModel LoginForm { get; }
 
         public void Init()
         {
             Connections.Kgs.Events.LoginPhaseChanged += Events_LoginPhaseChanged;
             Connections.Kgs.Events.Disconnection += Events_Disconnection;
-            Connections.Kgs.Data.SomethingChanged += MinorBindingsUpdate;
             Connections.Kgs.Events.LoginEnded += EventsLoginEnded;
 
             if (Connections.Kgs.LoggedIn)
@@ -228,7 +219,6 @@ namespace OmegaGo.UI.ViewModels
         {
             Connections.Kgs.Events.LoginPhaseChanged -= Events_LoginPhaseChanged;
             Connections.Kgs.Events.Disconnection -= Events_Disconnection;
-            Connections.Kgs.Data.SomethingChanged -= MinorBindingsUpdate;
             Connections.Kgs.Events.LoginEnded -= EventsLoginEnded;
             return base.CanCloseViewModelAsync();
         }
