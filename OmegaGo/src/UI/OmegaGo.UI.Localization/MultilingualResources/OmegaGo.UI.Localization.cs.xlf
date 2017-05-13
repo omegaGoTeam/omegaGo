@@ -2026,6 +2026,22 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>The game cannot be ranked. It will be created as a non-ranked game.</source>
           <target state="translated">Hra nemůže být hodnocená. Bude vytvořená jako volná hra.</target>
         </trans-unit>
+        <trans-unit id="AgreeWithUndo" translate="yes" xml:space="preserve">
+          <source>Allow undo</source>
+          <target state="translated">Povolit vrácení tahu</target>
+        </trans-unit>
+        <trans-unit id="DisagreeWithUndo" translate="yes" xml:space="preserve">
+          <source>Refuse undo</source>
+          <target state="translated">Odmítnout vrácení tahu</target>
+        </trans-unit>
+        <trans-unit id="YouHaveRequestedAnUndo" translate="yes" xml:space="preserve">
+          <source>You have requested an undo.</source>
+          <target state="translated">Požádali jste soupeře o vrácení tahu.</target>
+        </trans-unit>
+        <trans-unit id="YourOppRequestedAnUndo" translate="yes" xml:space="preserve">
+          <source>Your opponent requested his or her last move to be undone.</source>
+          <target state="translated">Váš soupeř požádal o vrácení tahu.</target>
+        </trans-unit>
       </group>
     </body>
   </file>

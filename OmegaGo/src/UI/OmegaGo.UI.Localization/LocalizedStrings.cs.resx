@@ -1508,6 +1508,18 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="GameTree" xml:space="preserve">
     <value>Herní strom</value>
   </data>
+  <data name="AgreeWithUndo" xml:space="preserve">
+    <value>Povolit vrácení tahu</value>
+  </data>
+  <data name="DisagreeWithUndo" xml:space="preserve">
+    <value>Odmítnout vrácení tahu</value>
+  </data>
+  <data name="YouHaveRequestedAnUndo" xml:space="preserve">
+    <value>Požádali jste soupeře o vrácení tahu.</value>
+  </data>
+  <data name="YourOppRequestedAnUndo" xml:space="preserve">
+    <value>Váš soupeř požádal o vrácení tahu.</value>
+  </data>
   <data name="Add1Minute" xml:space="preserve">
     <value>Přidat 1 minutu</value>
   </data>
