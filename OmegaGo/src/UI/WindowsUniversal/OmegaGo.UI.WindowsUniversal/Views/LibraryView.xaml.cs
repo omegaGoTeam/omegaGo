@@ -26,6 +26,14 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         private void LibraryView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             SystemNavigationManager.GetForCurrentView().BackRequested += LibraryView_BackRequested;
+            if (!VM.SelectedItemShown)
+            {
+                Unblur();
+            }
+            else
+            {
+                Blur();
+            }
         }
 
         private void LibraryView_BackRequested(object sender, BackRequestedEventArgs e)
