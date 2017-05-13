@@ -1952,35 +1952,35 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="Validation_BoardTooExtreme" translate="yes" xml:space="preserve">
           <source>Please choose a board size 100x100 or smaller. Your computer might not handle a larger board.</source>
-          <target state="new">Please choose a board size 100x100 or smaller. Your computer might not handle a larger board.</target>
+          <target state="translated">Prosím vyberte velikost 100x100 nebo menší. Váš počítač by nemusel zvládnout větší desku.</target>
         </trans-unit>
         <trans-unit id="Validation_KomiTooExtreme" translate="yes" xml:space="preserve">
           <source>Please choose komi between -500 and 500.</source>
-          <target state="new">Please choose komi between -500 and 500.</target>
+          <target state="translated">Prosím zvolte komi mezi -500 a 500.</target>
         </trans-unit>
         <trans-unit id="Validation_ExcessiveTimeError" translate="yes" xml:space="preserve">
           <source>A field ('{0}') has a value greater than 10000. Please choose a smaller value. </source>
-          <target state="new">A field ('{0}') has a value greater than 10000. Please choose a smaller value. </target>
+          <target state="translated">Jedno pole ('{0}') má hodnotu větší než 10 000. Prosím zvolte nižší hodnotu.</target>
         </trans-unit>
         <trans-unit id="KgsBadPassword" translate="yes" xml:space="preserve">
           <source>That is a wrong password for this user.</source>
-          <target state="new">That is a wrong password for this user.</target>
+          <target state="translated">Zadaný uživatel má jiné heslo.</target>
         </trans-unit>
         <trans-unit id="KgsBadUsername" translate="yes" xml:space="preserve">
           <source>There is no user with this name.</source>
-          <target state="new">There is no user with this name.</target>
+          <target state="translated">Uživatel s tímto jménem neexistuje.</target>
         </trans-unit>
         <trans-unit id="KgsConnectionFailure" translate="yes" xml:space="preserve">
           <source>Connection failure. Check your internet connection and try again.</source>
-          <target state="new">Connection failure. Check your internet connection and try again.</target>
+          <target state="translated">Chyba připojení. Zkontrolujte své připojení k internetu a zkuste znovu.</target>
         </trans-unit>
         <trans-unit id="CheckboxPublicGame" translate="yes" xml:space="preserve">
           <source>Show in list of all games</source>
-          <target state="new">Show in list of all games</target>
+          <target state="translated">Zobrazit v seznamu všech her</target>
         </trans-unit>
         <trans-unit id="CheckboxRankedGame" translate="yes" xml:space="preserve">
           <source>This game is ranked</source>
-          <target state="new">This game is ranked</target>
+          <target state="translated">Tato hra je hodnocená (ranked)</target>
         </trans-unit>
         <trans-unit id="BranchDeletionConfirmationText" translate="yes" xml:space="preserve">
           <source>Are you sure that you want to delete the selected branch?</source>
@@ -2008,23 +2008,23 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="Add1Minute" translate="yes" xml:space="preserve">
           <source>Add 1 minute</source>
-          <target state="new">Add 1 minute</target>
+          <target state="translated">Přidat 1 minutu</target>
         </trans-unit>
         <trans-unit id="Add1MinuteTooltip" translate="yes" xml:space="preserve">
           <source>Adds 1 minute to your opponent's clock</source>
-          <target state="new">Adds 1 minute to your opponent's clock</target>
+          <target state="translated">Přidá 1 minutu soupeři k dobru</target>
         </trans-unit>
         <trans-unit id="Add5Minutes" translate="yes" xml:space="preserve">
           <source>Add 5 minutes</source>
-          <target state="new">Add 5 minutes</target>
+          <target state="translated">Přidat 5 minut</target>
         </trans-unit>
         <trans-unit id="Add5MinutesTooltip" translate="yes" xml:space="preserve">
           <source>Adds 5 minutes to your opponent's clock</source>
-          <target state="new">Adds 5 minutes to your opponent's clock</target>
+          <target state="translated">Přidá 5 minut soupeři k dobru</target>
         </trans-unit>
         <trans-unit id="CantPlayRanked" translate="yes" xml:space="preserve">
           <source>The game cannot be ranked. It will be created as a non-ranked game.</source>
-          <target state="new">The game cannot be ranked. It will be created as a non-ranked game.</target>
+          <target state="translated">Hra nemůže být hodnocená. Bude vytvořená jako volná hra.</target>
         </trans-unit>
       </group>
     </body>
