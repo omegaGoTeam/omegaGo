@@ -1969,19 +1969,6 @@ namespace OmegaGo.UI.Services.Localization
 		public string YouShouldResign => LocalizeCaller();
 		/// <summary>
 		/// Please choose a board size of 52x52 or smaller.
-		/// That is a wrong password for this user.
-		/// </summary>
-		public string KgsBadPassword => LocalizeCaller();
-		/// <summary>
-		/// There is no user with this name.
-		/// </summary>
-		public string KgsBadUsername => LocalizeCaller();
-		/// <summary>
-		/// Connection failure. Check your internet connection and try again.
-		/// </summary>
-		public string KgsConnectionFailure => LocalizeCaller();
-		/// <summary>
-		/// Please choose a board size 100x100 or smaller. Your computer might not handle a larger board.
 		/// </summary>
 		public string Validation_BoardTooExtreme => LocalizeCaller();
 		/// <summary>
@@ -2054,6 +2041,17 @@ namespace OmegaGo.UI.Services.Localization
 		public string AgreeWithUndo => LocalizeCaller();
 		/// <summary>
 		/// Refuse undo
+		/// </summary>
+		public string DisagreeWithUndo => LocalizeCaller();
+		/// <summary>
+		/// You have requested an undo.
+		/// </summary>
+		public string YouHaveRequestedAnUndo => LocalizeCaller();
+		/// <summary>
+		/// Your opponent requested his or her last move to be undone.
+		/// </summary>
+		public string YourOppRequestedAnUndo => LocalizeCaller();
+		/// <summary>
 		/// Import SGF file
 		/// </summary>
 		public string ImportSgfFile => LocalizeCaller();
@@ -2084,19 +2082,14 @@ namespace OmegaGo.UI.Services.Localization
 		/// <summary>
 		/// games
 		/// </summary>
-		public string DisagreeWithUndo => LocalizeCaller();
 		public string Game2 => LocalizeCaller();
 		/// <summary>
-		/// You have requested an undo.
 		/// games
 		/// </summary>
-		public string YouHaveRequestedAnUndo => LocalizeCaller();
 		public string Game5 => LocalizeCaller();
 		/// <summary>
-		/// Your opponent requested his or her last move to be undone.
 		/// Analysis
 		/// </summary>
-		public string YourOppRequestedAnUndo => LocalizeCaller();
 		public string Analysis => LocalizeCaller();
 
         // 
