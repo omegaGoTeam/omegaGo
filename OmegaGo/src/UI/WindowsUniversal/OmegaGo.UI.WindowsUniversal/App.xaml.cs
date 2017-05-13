@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
+using Windows.Storage;
 using Windows.System.Profile;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -25,6 +26,10 @@ using OmegaGo.UI.WindowsUniversal.Fuego;
 using OmegaGo.UI.WindowsUniversal.Services.Settings;
 using OmegaGo.UI.WindowsUniversal.Services.Uncategorized;
 using Windows.UI.Xaml.Controls.Primitives;
+using MvvmCross.Core.ViewModels;
+using OmegaGo.UI.Infrastructure.Tabbed;
+using OmegaGo.UI.Services.Files;
+using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.WindowsUniversal
 {
@@ -53,12 +58,15 @@ namespace OmegaGo.UI.WindowsUniversal
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Init(e);
+            if (AppShell.GetForCurrentView() == null)
+            {
+                await InitAsync(e.SplashScreen);
+            }
         }
 
-        private async void Init(LaunchActivatedEventArgs e)
+        private async Task InitAsync(SplashScreen splash)
         {
             OptimizeDisplay();
 #if DEBUG
@@ -75,7 +83,7 @@ namespace OmegaGo.UI.WindowsUniversal
                 appShell = AppShell.CreateForWindow(Window.Current);
 
                 //create extended splash screen
-                ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen(e.SplashScreen, false);
+                ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen(splash, false);
                 //temporarily place splash into the root frame
                 appShell.UnderlyingFrame.Content = extendedSplash;
 
@@ -88,6 +96,25 @@ namespace OmegaGo.UI.WindowsUniversal
             CoreApplication.EnablePrelaunch(true);
             // Ensure the current window is active
             Window.Current.Activate();
+        }
+
+        protected override async void OnFileActivated(FileActivatedEventArgs args)
+        {
+            if (AppShell.GetForCurrentView() == null)
+            {
+                await InitAsync(args.SplashScreen);
+            }
+            var file = args.Files.OfType<StorageFile>().FirstOrDefault();
+            if (file != null)
+            {
+                var basicProperties = await file.GetBasicPropertiesAsync();
+                var contents = await FileIO.ReadTextAsync(file);
+                var fileInfo = new FileContentInfo(file.Name, basicProperties.Size, basicProperties.DateModified, contents);
+                Mvx.RegisterSingleton(new LibraryViewModel.NavigationModel() { SgfFileInfo = fileInfo });
+                AppShell.GetForCurrentView().TabManager.ProcessViewModelRequest(
+                    new MvxViewModelRequest(typeof(LibraryViewModel), new MvxBundle(), new MvxBundle(),
+                        MvxRequestedBy.UserAction), TabNavigationType.NewForegroundTab);
+            }
         }
 
         /// <summary>
@@ -137,7 +164,7 @@ namespace OmegaGo.UI.WindowsUniversal
         {
             if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
-                StatusBar statusBar = StatusBar.GetForCurrentView();                
+                StatusBar statusBar = StatusBar.GetForCurrentView();
                 statusBar.BackgroundOpacity = 1;
                 statusBar.BackgroundColor = (Color)App.Current.Resources["GameColor"];
                 statusBar.ForegroundColor = Colors.Black;
@@ -151,7 +178,7 @@ namespace OmegaGo.UI.WindowsUniversal
             if (shell == null) throw new NullReferenceException("Shell is not initialized");
             var setup = new Setup(shell);
             setup.Initialize();
-            
+
             //hide splash screen
             shell.UnderlyingFrame.Content = null;
             var start = Mvx.Resolve<IAsyncAppStart>();
@@ -160,13 +187,13 @@ namespace OmegaGo.UI.WindowsUniversal
         }
 
         private void InitializeStyle()
-        {            
+        {
             IGameSettings settingsService = Mvx.Resolve<IGameSettings>();
 
             ControlStyle controlStyle = settingsService.Display.ControlStyle;
             switch (controlStyle)
             {
-                case ControlStyle.Wood:                    
+                case ControlStyle.Wood:
                     Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["woodButtonStyle"]);
                     Application.Current.Resources.Add(typeof(ToggleButton), Application.Current.Resources["woodToggleButtonStyle"]);
                     break;

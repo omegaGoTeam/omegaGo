@@ -192,63 +192,61 @@
     </Style>
 
 
+    <Style TargetType="CommandBarOverflowPresenter" x:Key="CleanCommandBarOverflowPresenter">
+        <Setter Property="Background" Value="{ThemeResource CommandBarOverflowPresenterBackground}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource CommandBarOverflowPresenterBorderBrush}" />
+        <Setter Property="MaxWidth" Value="{ThemeResource CommandBarOverflowMaxWidth}" />
+        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
+        <Setter Property="AllowFocusOnInteraction" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CommandBarOverflowPresenter">
+                    <Border x:Name="LayoutRoot"
+                                        Padding="{TemplateBinding Padding}"
+                                        BorderBrush="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColorBrush}" BorderThickness="1">
+                        <Border.Background>
+                            <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.9" />
+                        </Border.Background>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="DisplayModeStates">
+                                <VisualState x:Name="DisplayModeDefault" />
+                                <VisualState x:Name="FullWidthOpenDown">
+                                    <VisualState.Setters>
+                                        <Setter Target="LayoutRoot.BorderThickness" Value="0,0,0,1" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="FullWidthOpenUp">
+                                    <VisualState.Setters>
+                                        <Setter Target="LayoutRoot.BorderThickness" Value="0,1,0,0" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <ScrollViewer HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                                  HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                                  VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                                  VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                                  ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}"
+                                                  AutomationProperties.AccessibilityView="Raw">
+                            <ItemsPresenter x:Name="ItemsPresenter" Margin="0,7,0,7" />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="CommandBar">
         <Setter Property="Background">
             <Setter.Value>
                 <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
             </Setter.Value>
         </Setter>
-        <Setter Property="CommandBarOverflowPresenterStyle">
-            <Setter.Value>
-                <Style TargetType="CommandBarOverflowPresenter">
-                    <Setter Property="Background" Value="{ThemeResource CommandBarOverflowPresenterBackground}" />
-                    <Setter Property="BorderBrush" Value="{ThemeResource CommandBarOverflowPresenterBorderBrush}" />
-                    <Setter Property="MaxWidth" Value="{ThemeResource CommandBarOverflowMaxWidth}" />
-                    <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
-                    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
-                    <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto" />
-                    <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-                    <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
-                    <Setter Property="AllowFocusOnInteraction" Value="False" />
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="CommandBarOverflowPresenter">
-                                <Border x:Name="LayoutRoot"
-                                    Padding="{TemplateBinding Padding}"
-                                    BorderBrush="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColorBrush}" BorderThickness="1">
-                                    <Border.Background>
-                                        <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.9" />
-                                    </Border.Background>
-                                    <VisualStateManager.VisualStateGroups>
-                                        <VisualStateGroup x:Name="DisplayModeStates">
-                                            <VisualState x:Name="DisplayModeDefault" />
-                                            <VisualState x:Name="FullWidthOpenDown">
-                                                <VisualState.Setters>
-                                                    <Setter Target="LayoutRoot.BorderThickness" Value="0,0,0,1" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                            <VisualState x:Name="FullWidthOpenUp">
-                                                <VisualState.Setters>
-                                                    <Setter Target="LayoutRoot.BorderThickness" Value="0,1,0,0" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                        </VisualStateGroup>
-                                    </VisualStateManager.VisualStateGroups>
-                                    <ScrollViewer HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
-                                              HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                              VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
-                                              VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-                                              ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}"
-                                              AutomationProperties.AccessibilityView="Raw">
-                                        <ItemsPresenter x:Name="ItemsPresenter" Margin="0,7,0,7" />
-                                    </ScrollViewer>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="CommandBarOverflowPresenterStyle" Value="{StaticResource CleanCommandBarOverflowPresenter}" />
     </Style>
 
     <Style TargetType="FlyoutPresenter">
@@ -1095,7 +1093,7 @@
                                         <TranslateTransform x:Name="OverflowContentRootTransform" X="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.OverflowContentHorizontalOffset}" />
                                     </Grid.RenderTransform>
                                     <CommandBarOverflowPresenter x:Name="SecondaryItemsControl"
-                                Style="{TemplateBinding CommandBarOverflowPresenterStyle}"
+                                Style="{StaticResource CleanCommandBarOverflowPresenter}"
                                 IsEnabled="False"
                                 IsTabStop="False">
                                         <CommandBarOverflowPresenter.RenderTransform>
@@ -1400,5 +1398,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-  
+
 </ResourceDictionary>

@@ -249,6 +249,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Analysis.
+        /// </summary>
+        public static string Analysis {
+            get {
+                return ResourceManager.GetString("Analysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Analyze.
+        /// </summary>
+        public static string Analyze {
+            get {
+                return ResourceManager.GetString("Analyze", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Analyze mode.
         /// </summary>
         public static string AnalyzeMode {
@@ -1095,6 +1113,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error saving file.
+        /// </summary>
+        public static string ErrorSavingFile {
+            get {
+                return ResourceManager.GetString("ErrorSavingFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Return to game.
         /// </summary>
         public static string Exit_ReturnToGame {
@@ -1187,6 +1214,15 @@ namespace OmegaGo.UI.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Export.
         /// </summary>
+        public static string Export {
+            get {
+                return ResourceManager.GetString("Export", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export.
+        /// </summary>
         public static string ExportCommand {
             get {
                 return ResourceManager.GetString("ExportCommand", resourceCulture);
@@ -1199,6 +1235,15 @@ namespace OmegaGo.UI.Localization {
         public static string ExportSGF {
             get {
                 return ResourceManager.GetString("ExportSGF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export SGF file....
+        /// </summary>
+        public static string ExportSgfFile {
+            get {
+                return ResourceManager.GetString("ExportSgfFile", resourceCulture);
             }
         }
         
@@ -1244,6 +1289,33 @@ namespace OmegaGo.UI.Localization {
         public static string Game {
             get {
                 return ResourceManager.GetString("Game", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to game.
+        /// </summary>
+        public static string Game1 {
+            get {
+                return ResourceManager.GetString("Game1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to games.
+        /// </summary>
+        public static string Game2 {
+            get {
+                return ResourceManager.GetString("Game2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to games.
+        /// </summary>
+        public static string Game5 {
+            get {
+                return ResourceManager.GetString("Game5", resourceCulture);
             }
         }
         
@@ -1788,6 +1860,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Import SGF file.
+        /// </summary>
+        public static string ImportSgfFile {
+            get {
+                return ResourceManager.GetString("ImportSgfFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Input.
         /// </summary>
         public static string InputPanel {
@@ -2063,6 +2144,15 @@ namespace OmegaGo.UI.Localization {
         public static string Library {
             get {
                 return ResourceManager.GetString("Library", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading... {0} of {1}.
+        /// </summary>
+        public static string LibraryLoadingFormatString {
+            get {
+                return ResourceManager.GetString("LibraryLoadingFormatString", resourceCulture);
             }
         }
         
@@ -2562,6 +2652,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open SGF file.
+        /// </summary>
+        public static string OpenSgfFile {
+            get {
+                return ResourceManager.GetString("OpenSgfFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Opponent passed.
         /// </summary>
         public static string OpponentPassed {
@@ -2985,6 +3084,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save to game library.
+        /// </summary>
+        public static string SaveToLibrary {
+            get {
+                return ResourceManager.GetString("SaveToLibrary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         public static string Search {
@@ -3053,6 +3161,24 @@ namespace OmegaGo.UI.Localization {
         public static string SfxVolume {
             get {
                 return ResourceManager.GetString("SfxVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game successfully exported to SGF..
+        /// </summary>
+        public static string SgfExportSuccessful {
+            get {
+                return ResourceManager.GetString("SgfExportSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game successfuly saved to library..
+        /// </summary>
+        public static string SgfSaveToLibrarySuccessful {
+            get {
+                return ResourceManager.GetString("SgfSaveToLibrarySuccessful", resourceCulture);
             }
         }
         
@@ -3341,6 +3467,15 @@ namespace OmegaGo.UI.Localization {
         public static string Strength {
             get {
                 return ResourceManager.GetString("Strength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Success.
+        /// </summary>
+        public static string Success {
+            get {
+                return ResourceManager.GetString("Success", resourceCulture);
             }
         }
         

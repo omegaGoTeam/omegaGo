@@ -14,7 +14,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
     /// </summary>
     class FilePickerService : IFilePickerService
     {
-        public async Task<FileInfo> PickAndReadFileAsync(params string[] extensions)
+        public async Task<FileContentInfo> PickAndReadFileAsync(params string[] extensions)
         {
             //prepare file picker
             FileOpenPicker fileOpen = new FileOpenPicker();
@@ -28,7 +28,8 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
                 try
                 {
                     string contents = await FileIO.ReadTextAsync(file);
-                    return new FileInfo(file.Name, contents);
+                    var basicProperties = await file.GetBasicPropertiesAsync();
+                    return new FileContentInfo(file.Name, basicProperties.Size, basicProperties.DateModified, contents);
                 }
                 catch
                 {
@@ -37,11 +38,12 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
             }
             return null;
         }
-        public async Task PickAndWriteSgfFileAsync(string filename, string contents)
+
+        public async Task<bool> PickAndWriteFileAsync(string suggestedFileName, string contents)
         {
             //prepare file picker
             FileSavePicker fileSave = new FileSavePicker();
-            fileSave.SuggestedFileName = filename;
+            fileSave.SuggestedFileName = suggestedFileName;
             fileSave.SuggestedStartLocation = PickerLocationId.Desktop;
             fileSave.FileTypeChoices.Add("SGF", new List<string>() {".sgf"});
             var file = await fileSave.PickSaveFileAsync();
@@ -50,12 +52,14 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
                 try
                 {
                     await FileIO.WriteTextAsync(file, contents);
+                    return true;
                 }
                 catch
                 {
                     //ignore write errors
                 }
             }
+            return false;
         }
     }
 }

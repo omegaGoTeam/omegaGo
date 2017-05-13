@@ -61,7 +61,7 @@
         </GridView>
         <Border Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind VM.IsWorking, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Grid.RowSpan="2">
             <Border.Background>
-                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.4" />
+                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="{ThemeResource LoadingViewOpacity}" />
             </Border.Background>
             <ProgressRing Width="50" Height="50" VerticalAlignment="Center" IsActive="{x:Bind VM.IsWorking, Mode=OneWay}" HorizontalAlignment="Center" />
         </Border>

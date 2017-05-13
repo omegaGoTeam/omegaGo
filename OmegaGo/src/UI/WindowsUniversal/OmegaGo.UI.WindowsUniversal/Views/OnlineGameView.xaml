@@ -162,7 +162,8 @@
                                                     ToolTipService.ToolTip="{x:Bind Localizer.Add5MinutesTooltip}">
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator />
-                                <MenuFlyoutItem Text="{x:Bind Localizer.ExportSGF}" />
+                                <MenuFlyoutItem Text="{x:Bind Localizer.ExportSgfFile}" Command="{x:Bind VM.ExportSGFCommand}" />
+                                <MenuFlyoutItem Text="{x:Bind Localizer.SaveToLibrary}" Command="{x:Bind VM.SaveToLibraryCommand}" />
                                 <MenuFlyoutSeparator />
                                 <ToggleMenuFlyoutItem Text="{x:Bind Localizer.SystemLog}" IsChecked="{x:Bind VM.IsSystemLogEnabled, Mode=TwoWay}" />
                             </MenuFlyout>

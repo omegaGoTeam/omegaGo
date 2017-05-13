@@ -154,7 +154,8 @@
                                 <MenuFlyoutItem Text="{x:Bind Localizer.AnalyzeMode}" Command="{x:Bind VM.EnableAnalyzeModeCommand}" />
                                 <ToggleMenuFlyoutItem x:Name="focusButton" Text="{x:Bind Localizer.HideTabs}" Click="focusButton_Click" />
                                 <MenuFlyoutSeparator />
-                                <MenuFlyoutItem Text="{x:Bind Localizer.ExportSGF}" Command="{x:Bind VM.ExportSGFCommand}" />
+                                <MenuFlyoutItem Text="{x:Bind Localizer.ExportSgfFile}" Command="{x:Bind VM.ExportSGFCommand}" />
+                                <MenuFlyoutItem Text="{x:Bind Localizer.SaveToLibrary}" Command="{x:Bind VM.SaveToLibraryCommand}" />
                                 <MenuFlyoutSeparator />
                                 <ToggleMenuFlyoutItem Text="{x:Bind Localizer.SystemLog}" IsChecked="{x:Bind VM.IsSystemLogEnabled, Mode=TwoWay}" />
                             </MenuFlyout>

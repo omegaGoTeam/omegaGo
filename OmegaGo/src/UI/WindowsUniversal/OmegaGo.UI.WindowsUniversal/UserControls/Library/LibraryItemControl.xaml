@@ -1,0 +1,52 @@
+﻿<userControls:UserControlBase
+    x:Class="OmegaGo.UI.WindowsUniversal.UserControls.Library.LibraryItemControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:OmegaGo.UI.WindowsUniversal.UserControls.Library"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:library="using:OmegaGo.UI.Models.Library"
+    xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
+    mc:Ignorable="d"
+    x:Name="MainControl"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    <Grid Width="250" Height="250">
+        <Border>
+            <Border.Background>
+                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="{StaticResource PagePanelOpacity}" />
+            </Border.Background>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding FileName}" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}" TextAlignment="Center" MaxLines="1" TextTrimming="CharacterEllipsis" Margin="0,0,0,4" />
+                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" Grid.Row="1" Margin="0,0,0,8">
+                    <TextBlock Style="{ThemeResource CaptionTextBlockStyle}">
+                        <Run Text="{Binding GameCount}" />                            
+                        <Run Text="{Binding GameCount, Converter={StaticResource PluralizingConverter}, ConverterParameter=Game}" />
+                    </TextBlock>
+                </StackPanel>
+                <FlipView Grid.Row="2" ItemsSource="{Binding Games}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
+                    <FlipView.ItemTemplate>
+                        <DataTemplate x:DataType="library:LibraryItemGame">
+                            <local:LibraryItemGameControl Game="{x:Bind}" OpenGameCommand="{Binding ElementName=MainControl, Path=AnalyzeGameCommand}" />
+                        </DataTemplate>
+                    </FlipView.ItemTemplate>
+                </FlipView>
+            </Grid>
+        </Border>
+        <CommandBar Background="Transparent" Style="{StaticResource OpenDownCommandBar}" ClosedDisplayMode="Minimal" Grid.Row="0">
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Icon="Delete" IsCompact="False" Label="{Binding Source={StaticResource Localizer}, Path=Delete}" Command="{x:Bind DeleteCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}" />
+                <AppBarButton Label="{Binding Source={StaticResource Localizer}, Path=Export}" Command="{x:Bind ExportCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}">
+                    <BitmapIcon UriSource="/Assets/Icons/Commands/ExportFromLibrary.png" />
+                </AppBarButton>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Grid>
+</userControls:UserControlBase>
+

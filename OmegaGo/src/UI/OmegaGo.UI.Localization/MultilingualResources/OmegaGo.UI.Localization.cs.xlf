@@ -2046,6 +2046,66 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Handicap is supported only for 9x9, 13x13 and 19x19.</source>
           <target state="new">Handicap is supported only for 9x9, 13x13 and 19x19.</target>
         </trans-unit>
+        <trans-unit id="ImportSgfFile" translate="yes" xml:space="preserve">
+          <source>Import SGF file</source>
+          <target state="new">Import SGF file</target>
+        </trans-unit>
+        <trans-unit id="OpenSgfFile" translate="yes" xml:space="preserve">
+          <source>Open SGF file</source>
+          <target state="new">Open SGF file</target>
+        </trans-unit>
+        <trans-unit id="Export" translate="yes" xml:space="preserve">
+          <source>Export</source>
+          <target state="new">Export</target>
+        </trans-unit>
+        <trans-unit id="LibraryLoadingFormatString" translate="yes" xml:space="preserve">
+          <source>Loading... {0} of {1}</source>
+          <target state="new">Loading... {0} of {1}</target>
+        </trans-unit>
+        <trans-unit id="Analyze" translate="yes" xml:space="preserve">
+          <source>Analyze</source>
+          <target state="new">Analyze</target>
+        </trans-unit>
+        <trans-unit id="Game1" translate="yes" xml:space="preserve">
+          <source>game</source>
+          <target state="new">game</target>
+        </trans-unit>
+        <trans-unit id="Game2" translate="yes" xml:space="preserve">
+          <source>games</source>
+          <target state="new">games</target>
+        </trans-unit>
+        <trans-unit id="Game5" translate="yes" xml:space="preserve">
+          <source>games</source>
+          <target state="new">games</target>
+        </trans-unit>
+        <trans-unit id="ErrorSavingFile" translate="yes" xml:space="preserve">
+          <source>Error saving file</source>
+          <target state="new">Error saving file</target>
+        </trans-unit>
+        <trans-unit id="Analysis" translate="yes" xml:space="preserve">
+          <source>Analysis</source>
+          <target state="new">Analysis</target>
+        </trans-unit>
+        <trans-unit id="ExportSgfFile" translate="yes" xml:space="preserve">
+          <source>Export SGF file...</source>
+          <target state="new">Export SGF file...</target>
+        </trans-unit>
+        <trans-unit id="SaveToLibrary" translate="yes" xml:space="preserve">
+          <source>Save to game library</source>
+          <target state="new">Save to game library</target>
+        </trans-unit>
+        <trans-unit id="SgfExportSuccessful" translate="yes" xml:space="preserve">
+          <source>Game successfully exported to SGF.</source>
+          <target state="new">Game successfully exported to SGF.</target>
+        </trans-unit>
+        <trans-unit id="SgfSaveToLibrarySuccessful" translate="yes" xml:space="preserve">
+          <source>Game successfuly saved to library.</source>
+          <target state="new">Game successfuly saved to library.</target>
+        </trans-unit>
+        <trans-unit id="Success" translate="yes" xml:space="preserve">
+          <source>Success</source>
+          <target state="new">Success</target>
+        </trans-unit>
       </group>
     </body>
   </file>
