@@ -279,6 +279,9 @@
     <Content Include="Assets\Icons\Commands\ImportToLibrary.scale-100.png" />
     <Content Include="Assets\Icons\Commands\ImportToLibrary.scale-150.png" />
     <Content Include="Assets\Icons\Commands\ImportToLibrary.scale-200.png" />
+    <Content Include="Assets\Icons\Commands\Logout.scale-100.png" />
+    <Content Include="Assets\Icons\Commands\Logout.scale-150.png" />
+    <Content Include="Assets\Icons\Commands\Logout.scale-200.png" />
     <Content Include="Assets\Icons\Commands\MultiplayerOptions.png" />
     <Content Include="Assets\Icons\Commands\Replace.scale-100.png" />
     <Content Include="Assets\Icons\Commands\Replace.scale-150.png" />
@@ -307,6 +310,9 @@
     <Content Include="Assets\Icons\Info\List.scale-100.png" />
     <Content Include="Assets\Icons\Info\List.scale-150.png" />
     <Content Include="Assets\Icons\Info\List.scale-200.png" />
+    <Content Include="Assets\Icons\Info\RankingInfo.scale-100.png" />
+    <Content Include="Assets\Icons\Info\RankingInfo.scale-150.png" />
+    <Content Include="Assets\Icons\Info\RankingInfo.scale-200.png" />
     <Content Include="Assets\Icons\Info\Rank.scale-100.png" />
     <Content Include="Assets\Icons\Info\Rank.scale-150.png" />
     <Content Include="Assets\Icons\Info\Rank.scale-200.png" />

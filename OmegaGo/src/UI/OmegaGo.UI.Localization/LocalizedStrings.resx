@@ -1688,6 +1688,27 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Success" xml:space="preserve">
     <value>Success</value>
   </data>
+  <data name="BetterDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="KgsChallengeManagementTitle" xml:space="preserve">
+    <value>Your KGS challenge</value>
+  </data>
+  <data name="ShortRanked" xml:space="preserve">
+    <value>Ranked</value>
+  </data>
+  <data name="ShortUnranked" xml:space="preserve">
+    <value>Free</value>
+  </data>
+  <data name="ShortUntimed" xml:space="preserve">
+    <value>Untimed</value>
+  </data>
+  <data name="IgsServerCaptionShort" xml:space="preserve">
+    <value>Pandanet - IGS</value>
+  </data>
+  <data name="Ranking" xml:space="preserve">
+    <value>Ranking</value>
+  </data>
   <data name="RankUpAt" xml:space="preserve">
     <value>Rank-up at</value>
   </data>

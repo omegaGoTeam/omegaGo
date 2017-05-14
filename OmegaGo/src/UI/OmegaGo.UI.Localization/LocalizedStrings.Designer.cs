@@ -492,6 +492,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string BetterDelete {
+            get {
+                return ResourceManager.GetString("BetterDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Black.
         /// </summary>
         public static string Black {
@@ -1842,6 +1851,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pandanet - IGS.
+        /// </summary>
+        public static string IgsServerCaptionShort {
+            get {
+                return ResourceManager.GetString("IgsServerCaptionShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pandanet is recommended if you don&apos;t have a KGS account and don&apos;t want to download an additional application to play Go online..
         /// </summary>
         public static string IgsServerInfo {
@@ -1928,6 +1946,15 @@ namespace OmegaGo.UI.Localization {
         public static string KgsBadUsername {
             get {
                 return ResourceManager.GetString("KgsBadUsername", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your KGS challenge.
+        /// </summary>
+        public static string KgsChallengeManagementTitle {
+            get {
+                return ResourceManager.GetString("KgsChallengeManagementTitle", resourceCulture);
             }
         }
         
@@ -2922,6 +2949,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ranking.
+        /// </summary>
+        public static string Ranking {
+            get {
+                return ResourceManager.GetString("Ranking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rank-up at.
         /// </summary>
         public static string RankUpAt {
@@ -3188,6 +3224,33 @@ namespace OmegaGo.UI.Localization {
         public static string SgfSaveToLibrarySuccessful {
             get {
                 return ResourceManager.GetString("SgfSaveToLibrarySuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ranked.
+        /// </summary>
+        public static string ShortRanked {
+            get {
+                return ResourceManager.GetString("ShortRanked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Free.
+        /// </summary>
+        public static string ShortUnranked {
+            get {
+                return ResourceManager.GetString("ShortUnranked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Untimed.
+        /// </summary>
+        public static string ShortUntimed {
+            get {
+                return ResourceManager.GetString("ShortUntimed", resourceCulture);
             }
         }
         
