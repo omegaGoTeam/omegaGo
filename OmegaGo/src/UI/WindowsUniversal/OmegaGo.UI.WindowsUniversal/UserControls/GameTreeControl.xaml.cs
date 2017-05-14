@@ -135,9 +135,9 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 viewModel.GameTreeRedrawRequested += GameTreeControl.GameTreeRedrawRequsted;
 
                 // GameTree scrolling
-                GameTreeControl.PointerEntered += GameTreeControl.GameTreeControl_PointerEntered;
-                GameTreeControl.PointerExited += GameTreeControl.GameTreeControl_PointerExited;
-                GameTreeControl.PointerWheelChanged += GameTreeControl.GameTreeControl_PointerWheelChanged;
+                GameTreeControl.gameTreeRoot.PointerEntered += GameTreeControl.GameTreeControl_PointerEntered;
+                GameTreeControl.gameTreeRoot.PointerExited += GameTreeControl.GameTreeControl_PointerExited;
+                GameTreeControl.gameTreeRoot.PointerWheelChanged += GameTreeControl.GameTreeControl_PointerWheelChanged;
 
                 // Arrows handling
                 // This control has public methods to navigate using arrow keys.
@@ -588,7 +588,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             BringNodeIntoView(ViewModel.GameTree.GameTreeRoot);
         }
                 
-        private void layoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void gameTreeRoot_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateGameTreeSize();
             verticalBar.ViewportSize = e.NewSize.Height;

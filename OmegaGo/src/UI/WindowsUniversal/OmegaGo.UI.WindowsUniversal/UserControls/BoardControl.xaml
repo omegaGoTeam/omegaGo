@@ -15,6 +15,9 @@
     <win2d:CanvasAnimatedControl 
                 x:Name="canvas" 
                 IsFixedTimeStep="False"
-                UseSharedDevice="True"/>
+                UseSharedDevice="True"
+                ManipulationMode="None"
+                IsHoldingEnabled="False"
+                IsRightTapEnabled="False"/>
     
 </local:UserControlBase>
