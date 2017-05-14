@@ -566,7 +566,7 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
           <target state="translated">Body na další hodnost:</target>
         </trans-unit>
         <trans-unit id="PlayAgainstAI" translate="yes" xml:space="preserve">
-          <source>Hrát proti umělé inteligenci</source>
+          <source>Play against AI</source>
           <target state="needs-review-translation">Hrát proti počítači</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Goes to solo menu</note>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
