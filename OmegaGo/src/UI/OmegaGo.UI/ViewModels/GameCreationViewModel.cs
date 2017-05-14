@@ -18,7 +18,6 @@ using System.Globalization;
 using System.Threading.Tasks;
 using OmegaGo.UI.Infrastructure.Tabbed;
 using OmegaGo.UI.Localization;
-using OmegaGo.UI.Services.Memory;
 
 namespace OmegaGo.UI.ViewModels
 {
