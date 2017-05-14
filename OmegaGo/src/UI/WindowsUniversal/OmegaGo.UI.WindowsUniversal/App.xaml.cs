@@ -48,7 +48,7 @@ namespace OmegaGo.UI.WindowsUniversal
             this.Suspending += OnSuspending;
 #if WITHOUT_FUEGO
 #else
-            OmegaGo.Core.AI.AISystems.RegisterFuegoBuilder(new FuegoBuilder());
+            OmegaGo.Core.AI.AISystems.RegisterFuegoBuilder(new FuegoBuilder(), Windows.System.MemoryManager.AppMemoryUsageLimit);
 #endif
             InitLanguage();
         }

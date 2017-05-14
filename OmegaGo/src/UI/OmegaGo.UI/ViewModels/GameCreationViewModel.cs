@@ -77,10 +77,6 @@ namespace OmegaGo.UI.ViewModels
             _customHeight = _gameSettings.Interface.BoardHeight;
             SetCustomBoardSize();
             
-            // Get possible players.
-            // This also filters out Fuego AI if current device is not capable of handling it.
-            PossiblePlayers = new ObservableCollection<GameCreationViewPlayer>(GetPossiblePlayers());
-
             _bundle = Mvx.GetSingleton<GameCreationBundle>();
             _bundle.OnLoad(this);
             this.OpponentName = _bundle.OpponentName;
@@ -204,7 +200,8 @@ namespace OmegaGo.UI.ViewModels
             this.BlackPlayerSettings.ChangePlayer(this.BlackPlayer);
         }));
 
-        public ObservableCollection<GameCreationViewPlayer> PossiblePlayers { get; }
+        public ObservableCollection<GameCreationViewPlayer> PossiblePlayers { get; } 
+            = new ObservableCollection<GameCreationViewPlayer>(PlayerList);
 
         public GameCreationViewPlayer BlackPlayer
         {
@@ -594,35 +591,6 @@ namespace OmegaGo.UI.ViewModels
                 }
             }
             return true;
-        }
-
-        private List<GameCreationViewPlayer> GetPossiblePlayers()
-        {
-            ulong requiredMemoryForFuego = 1_000_000_000ul; // 1GB
-            IMemoryService memoryService = Mvx.Resolve<IMemoryService>();
-            
-            if (memoryService.MemoryUsageLimit >= requiredMemoryForFuego)
-                return PlayerList;
-
-            List<GameCreationViewPlayer> players = new List<GameCreationViewPlayer>();
-
-            foreach (var player in PlayerList)
-            {
-                GameCreationViewAiPlayer AIPlayer = player as GameCreationViewAiPlayer;
-
-                if(AIPlayer != null)
-                {
-                    // AI Player
-
-                    // If AI Player is Fuego, skip it
-                    if (AIPlayer.AI is Core.AI.FuegoSpace.Fuego)
-                        continue;
-                }
-
-                players.Add(player);
-            }
-
-            return players;
         }
     }
 }
