@@ -2106,6 +2106,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Success</source>
           <target state="new">Success</target>
         </trans-unit>
+        <trans-unit id="KgsChallengeManagementTitle" translate="yes" xml:space="preserve">
+          <source>Your KGS challenge</source>
+          <target state="new">Your KGS challenge</target>
+        </trans-unit>
       </group>
     </body>
   </file>

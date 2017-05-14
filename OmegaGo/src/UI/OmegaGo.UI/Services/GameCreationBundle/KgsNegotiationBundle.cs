@@ -28,7 +28,6 @@ namespace OmegaGo.UI.Services.GameCreation
         protected KgsChallenge Challenge { get; }
 
         public override GameCreationFormStyle Style => GameCreationFormStyle.KgsChallengeNegotiation;
-        public override string TabTitle => Challenge.ToString();
         public override bool HandicapMayBeChanged => false;
         public override string OpponentName => _opponentName;
         public override bool Frozen => true;

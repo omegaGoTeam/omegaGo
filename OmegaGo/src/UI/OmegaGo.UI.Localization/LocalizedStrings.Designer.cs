@@ -1932,6 +1932,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your KGS challenge.
+        /// </summary>
+        public static string KgsChallengeManagementTitle {
+            get {
+                return ResourceManager.GetString("KgsChallengeManagementTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Finish 3 games on the KGS server..
         /// </summary>
         public static string KgsChallengeQuest_Description {
