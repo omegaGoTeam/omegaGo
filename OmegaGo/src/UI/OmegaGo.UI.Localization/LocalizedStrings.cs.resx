@@ -1598,4 +1598,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="ShortUntimed" xml:space="preserve">
     <value>Nečasováno</value>
   </data>
+  <data name="RankUpAt" xml:space="preserve">
+    <value>Další hodnost</value>
+  </data>
 </root>

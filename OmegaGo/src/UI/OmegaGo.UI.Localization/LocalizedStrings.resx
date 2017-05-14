@@ -644,7 +644,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>You will lose this quest and any progress towards it, but you will immediately gain a different random quest.</value>
   </data>
   <data name="Quest_TryThisNow" xml:space="preserve">
-    <value>Try this now</value>
+    <value>Try now</value>
   </data>
   <data name="Quest_TryThisNowTooltip" xml:space="preserve">
     <value>This will take you to a screen where you can work on this quest.</value>
@@ -1708,5 +1708,8 @@ I dare you to let two Fish play against each other. The game will never end (unl
   </data>
   <data name="Ranking" xml:space="preserve">
     <value>Ranking</value>
+  </data>
+  <data name="RankUpAt" xml:space="preserve">
+    <value>Rank-up at</value>
   </data>
 </root>

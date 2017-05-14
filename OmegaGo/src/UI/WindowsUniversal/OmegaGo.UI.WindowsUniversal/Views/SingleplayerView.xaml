@@ -7,11 +7,39 @@
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:quests="using:OmegaGo.UI.Services.Quests"
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
+    xmlns:singleplayer="using:OmegaGo.UI.WindowsUniversal.UserControls.Singleplayer"
+    xmlns:mainMenu="using:OmegaGo.UI.WindowsUniversal.UserControls.MainMenu"
     x:Name="SingleplayerViewLayout"
     Loaded="TransparencyViewBase_Loaded"
     mc:Ignorable="d">
 
-
+    <Page.Resources>
+        <Style x:Key="StatusPanelValueStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="4,0,0,6" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="LineHeight" Value="20" />
+            <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        </Style>
+        <Style x:Key="StatusPanelCaptionStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Opacity" Value="0.75" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Margin" Value="4,0,0,4" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        </Style>
+        <Style x:Key="SmallerStatusPanelCaptionStyle" TargetType="TextBlock" BasedOn="{StaticResource StatusPanelCaptionStyle}">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Margin" Value="4,0,0,0" />
+        </Style>
+        <Style x:Key="SmallerStatusPanelValueStyle" TargetType="TextBlock" BasedOn="{StaticResource StatusPanelValueStyle}">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Margin" Value="4,0,0,4" />
+        </Style>
+    </Page.Resources>
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -21,88 +49,137 @@
     </Page.Transitions>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MenuItemsControl.ItemsPanel" Value="{StaticResource ListItemsPanelTemplate}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MenuItemsControl.ItemsPanel" Value="{StaticResource GridItemsPanelTemplate}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <navigation:TitleControl Text="{x:Bind Localizer.SingleplayerMenu}" HorizontalAlignment="Center"></navigation:TitleControl>
-
-                <Button Content="{x:Bind Localizer.Tutorial}" Command="{Binding Path=GoToTutorial}"
-                        Margin="0,20,0,0" MaxWidth="300" HorizontalAlignment="Stretch" />
-                <Button Content="{x:Bind Localizer.SolvePuzzles}" Command="{Binding Path=GoToTsumegoMenu}"
-                        Margin="0,20,0,0" MaxWidth="300" HorizontalAlignment="Stretch" />
-                <Button Content="{x:Bind Localizer.PlayAgainstAI}" Command="{Binding Path=GoToLocalGame}"
-                        Margin="0,20,0,0" MaxWidth="300" HorizontalAlignment="Stretch" />
-                <Button Content="{x:Bind Localizer.Statistics}" Command="{Binding Path=GoToStatistics}"
-                        Margin="0,20,0,0" MaxWidth="300" HorizontalAlignment="Stretch" />
-
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="{x:Bind Localizer.PointsColon}" FontSize="26" Margin="0,0,10,0"></TextBlock>
-                    <TextBlock Text="{Binding Points}" FontSize="26" FontWeight="Bold"></TextBlock>
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="{x:Bind Localizer.OmegaGoRankColon}" FontSize="26" Margin="0,0,10,0"></TextBlock>
-                    <TextBlock Text="{Binding Rank}" FontSize="26" FontWeight="Bold"></TextBlock>
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="{x:Bind Localizer.NextRankAtColon}" FontSize="26" Margin="0,0,10,0"/>
-                    <TextBlock Text="{Binding NextRankPoints}" FontSize="26" FontWeight="Bold"/>
-                </StackPanel>
-
-                <TextBlock Text="{x:Bind Localizer.Quests}" Margin="0,20,0,0" HorizontalAlignment="Center" FontSize="26"/>
+                <ItemsControl x:Name="MenuItemsControl" ItemsPanel="{StaticResource ListItemsPanelTemplate}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <ItemsControl.ItemContainerTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </ItemsControl.ItemContainerTransitions>
+                    <ItemsControl.Items>
+                        <mainMenu:MainMenuButton Text="{x:Bind Localizer.Tutorial}" ToolTip="{x:Bind Localizer.TutorialToolTip}" Command="{x:Bind VM.GoToTutorial}">
+                            <mainMenu:MainMenuButton.Icon>
+                                <Viewbox>
+                                    <BitmapIcon UriSource="/Assets/MainMenu/Buttons/Tutorial.png" />
+                                </Viewbox>
+                            </mainMenu:MainMenuButton.Icon>
+                        </mainMenu:MainMenuButton>
+                        <mainMenu:MainMenuButton Text="{x:Bind Localizer.SolvePuzzles}" ToolTip="{x:Bind Localizer.SolvePuzzles}" Command="{x:Bind VM.GoToTsumegoMenu}">
+                            <mainMenu:MainMenuButton.Icon>
+                                <Viewbox>
+                                    <BitmapIcon UriSource="/Assets/MainMenu/Buttons/Puzzle.png" />
+                                </Viewbox>
+                            </mainMenu:MainMenuButton.Icon>
+                        </mainMenu:MainMenuButton>
+                        <mainMenu:MainMenuButton Text="{x:Bind Localizer.PlayAgainstAI}" ToolTip="{x:Bind Localizer.PlayAgainstAI}" Command="{x:Bind VM.GoToLocalGame}">
+                            <mainMenu:MainMenuButton.Icon>
+                                <Viewbox>
+                                    <BitmapIcon UriSource="/Assets/MainMenu/Buttons/Bot.png" />
+                                </Viewbox>
+                            </mainMenu:MainMenuButton.Icon>
+                        </mainMenu:MainMenuButton>
+                        <mainMenu:MainMenuButton Text="{x:Bind Localizer.Statistics}" ToolTip="{x:Bind Localizer.Statistics}" Command="{x:Bind VM.GoToStatistics}">
+                            <mainMenu:MainMenuButton.Icon>
+                                <Viewbox>
+                                    <BitmapIcon UriSource="/Assets/MainMenu/Buttons/Statistics.png" />
+                                </Viewbox>
+                            </mainMenu:MainMenuButton.Icon>
+                        </mainMenu:MainMenuButton>
+                    </ItemsControl.Items>
+                </ItemsControl>
+                <Grid Margin="0,20,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="48" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <BitmapIcon VerticalAlignment="Center" Grid.RowSpan="2" UriSource="/Assets/Icons/Info/Rank.png" Width="48" Height="48" />
+                        <TextBlock Grid.Column="1" Grid.Row="0" Style="{ThemeResource StatusPanelCaptionStyle}" Text="{x:Bind Localizer.OmegaGoRank}" />
+                        <TextBlock Grid.Column="1" Grid.Row="1" Style="{ThemeResource StatusPanelValueStyle}"  Text="{Binding Rank, FallbackValue=Apprentice}" />
+                    </Grid>
+                    <Grid Grid.Row="1" Margin="0,12,0,0" MaxWidth="300">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <BitmapIcon VerticalAlignment="Center" Grid.RowSpan="2" UriSource="/Assets/Icons/Info/XPs.png" Width="40" Height="40" />
+                            <TextBlock Grid.Column="1" Grid.Row="0" Style="{ThemeResource SmallerStatusPanelCaptionStyle}" Text="{x:Bind Localizer.Points}" />
+                            <TextBlock Grid.Column="1" Grid.Row="1" Style="{ThemeResource SmallerStatusPanelValueStyle}"  Text="{Binding Points, FallbackValue=205}" />
+                        </Grid>
+                        <Grid HorizontalAlignment="Center" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <BitmapIcon VerticalAlignment="Center" Grid.RowSpan="2" UriSource="/Assets/Icons/Info/RankUp.png" Width="40" Height="40"  />
+                            <TextBlock Grid.Column="1" Grid.Row="0" Style="{ThemeResource SmallerStatusPanelCaptionStyle}" Text="{x:Bind Localizer.RankUpAt}" />
+                            <TextBlock Grid.Column="1" Grid.Row="1" Style="{ThemeResource SmallerStatusPanelValueStyle}"  Text="{Binding NextRankPoints, FallbackValue=1200}" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <TextBlock Text="{x:Bind Localizer.Quests}" Margin="0,20,0,8" HorizontalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}"/>
                 <GridView SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Center" 
                           ItemsSource="{Binding ActiveQuests}">
+                    <ItemsControl.ItemContainerTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </ItemsControl.ItemContainerTransitions>
+                    <GridView.ItemContainerStyle>
+                        <Style TargetType="GridViewItem">
+                            <Setter Property="Margin" Value="8" />
+                        </Style>
+                    </GridView.ItemContainerStyle>
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="quests:ActiveQuest">
-                            <Border Background="Wheat" BorderBrush="Blue" BorderThickness="1" Width="300" Height="250">
-                                <Grid>
-                                    <StackPanel VerticalAlignment="Top">
-                                        <TextBlock TextAlignment="Center" Text="{Binding Quest.Name}" 
-                                                   Foreground="Black" FontSize="28" TextWrapping="Wrap" />
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <TextBlock  FontSize="22" Margin="0,0,10,0" Text="{Binding ElementName=SingleplayerViewLayout, Path=Localizer.RewardColon}" />
-                                            <TextBlock  Text="{Binding Quest.PointReward}"
-                                                        FontWeight="Bold" Foreground="Black" FontSize="22" />
-                                        </StackPanel>
-                                        <TextBlock  Text="{Binding Quest.Description}" Margin="0,10,0,0" TextAlignment="Center"
-                                                    FontSize="18" TextWrapping="Wrap" />
-                                        </StackPanel>
-                                        <StackPanel VerticalAlignment="Bottom">
-                                        <!-- Progress bar -->
-                                        <ProgressBar Minimum="0" Maximum="{Binding Quest.MaximumProgress}" 
-                                                     Value="{Binding Progress}" Height="20" Margin="0,10,0,0" />
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <TextBlock Text="{Binding Progress}" />
-                                            <TextBlock Text="/" />
-                                            <TextBlock Text="{Binding Quest.MaximumProgress}" />
-                                        </StackPanel>
-                                        <!-- Buttons -->
-                                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                            <Button Visibility="{Binding Quest.TryThisNowButtonVisible, Converter={StaticResource VisibilityConverter}}" Tag="{Binding}"
-                                                    Click="TryThisNow_Click" ToolTipService.ToolTip="{Binding ElementName=SingleplayerViewLayout, Path=Localizer.Quest_TryThisNowTooltip}">
-                                                <StackPanel Orientation="Vertical">
-                                                    <FontIcon Glyph="&#xE768;"/>
-                                                    <TextBlock Text="{Binding ElementName=SingleplayerViewLayout, Path=Localizer.Quest_TryThisNow}"/>
-                                                </StackPanel>
-                                            </Button>
-                                            <Button Visibility="{Binding ElementName=SingleplayerViewLayout, Path=VM.ExchangeIsPossible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}" Tag="{Binding}"
-                                                    Click="ExchangeQuest_Click" ToolTipService.ToolTip="{Binding ElementName=SingleplayerViewLayout, Path=Localizer.Quest_ReplaceTooltip}">
-                                                <StackPanel Orientation="Vertical">
-                                                    <FontIcon Glyph="&#xE72C;"/>
-                                                    <TextBlock Text="{Binding ElementName=SingleplayerViewLayout, Path=Localizer.Quest_Replace}"/>
-                                                </StackPanel>
-                                            </Button>
-                                            </StackPanel>
-                                        </StackPanel>
-                                </Grid>
-                            </Border>
+                            <singleplayer:QuestControl ActiveQuest="{x:Bind Mode=OneWay}" TryOutCommand="{Binding ElementName=SingleplayerViewLayout, Path=VM.TryOutQuestCommand}" ExchangeCommand="{Binding ElementName=SingleplayerViewLayout, Path=VM.ExchangeQuestCommand}" CanExchange="{Binding ElementName=SingleplayerViewLayout, Path=VM.ExchangeIsPossible}" />
                         </DataTemplate>
                     </GridView.ItemTemplate>
-                    <!-- A grid view maybe won't work... we need larger LastViewItems -->
-                    <quests:ExampleActiveQuest />
-                    <quests:ExampleActiveQuest />
                 </GridView>
-                <TextBlock Text="{x:Bind Localizer.QuestsFooter}" HorizontalAlignment="Center" Margin="0,0,0,20" TextWrapping="Wrap"></TextBlock>
+                <TextBlock Text="{x:Bind Localizer.QuestsFooter}" HorizontalAlignment="Center" TextAlignment="Center" Margin="12,8,12,20" TextWrapping="Wrap" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
