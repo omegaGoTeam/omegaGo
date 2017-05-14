@@ -41,7 +41,7 @@
                         <AdaptiveTrigger MinWindowWidth="600" MinWindowHeight="600" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="senseisLine.FontSize" Value="16" />
+                        <Setter Target="senseisLine.FontSize" Value="20" />
                         <Setter Target="senseisMessageTextBlock.FontSize" Value="26" />
                         <Setter Target="option1Text.FontSize" Value="26" />
                         <Setter Target="option2Text.FontSize" Value="26" />
@@ -67,7 +67,8 @@
                                  Opacity="0.8" />
             </Border.Background>
             <Viewbox Stretch="Uniform" 
-                     HorizontalAlignment="Stretch">
+                     HorizontalAlignment="Stretch" 
+                     StretchDirection="DownOnly">
                 <TextBlock  x:Name="senseisLine" 
                             TextWrapping="WrapWholeWords" TextTrimming="None" TextAlignment="Center"
                             Text="{x:Bind VM.SenseisMessage, Mode=OneWay}" />
