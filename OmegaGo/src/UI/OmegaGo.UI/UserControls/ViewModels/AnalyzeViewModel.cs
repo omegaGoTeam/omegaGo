@@ -104,7 +104,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public bool BackToGameVisible
         {
             get { return _backToGameVisible; }
-            set { SetProperty(ref _backToGameCommand, value); }
+            set { SetProperty(ref _backToGameVisible, value); }
         }
         public MvxCommand PassCommand => _passCommand ?? (_passCommand = new MvxCommand(
             () => { Pass(); }));
