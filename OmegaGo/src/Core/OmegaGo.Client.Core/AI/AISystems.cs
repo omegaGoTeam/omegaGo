@@ -66,8 +66,7 @@ namespace OmegaGo.Core.AI
         /// <param name="builder">The builder that can create Fuego instances.</param>
         public static void RegisterFuegoBuilder(IGtpEngineBuilder builder, ulong availableMemory)
         {
-            // TODO Could possibly return some information whether the registration was successful.
-            ulong requiredMemoryForFuego = 850_000_000ul; // 850MB
+            ulong requiredMemoryForFuego = 850000000ul; // 850MB
 
             if (availableMemory < requiredMemoryForFuego)
                 return;
