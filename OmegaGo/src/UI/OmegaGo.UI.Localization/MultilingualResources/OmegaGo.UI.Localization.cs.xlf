@@ -2109,7 +2109,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="RankUpAt" translate="yes" xml:space="preserve">
           <source>Rank-up at</source>
-          <target state="new">Rank-up at</target>
+          <target state="translated">Další hodnost</target>
         </trans-unit>
       </group>
     </body>
