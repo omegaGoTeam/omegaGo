@@ -14,10 +14,8 @@ using OmegaGo.Core.Time;
 using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.UserControls.ViewModels;
-using System;
 using System.Globalization;
 using System.Threading.Tasks;
-using OmegaGo.UI.Services.Online;
 using OmegaGo.UI.Infrastructure.Tabbed;
 using OmegaGo.UI.Localization;
 
@@ -67,8 +65,8 @@ namespace OmegaGo.UI.ViewModels
                 TimeControlStyle.Japanese
             };
 
-    // Non-backing fields
-    private GameCreationBundle _bundle;
+        // Non-backing fields
+        private GameCreationBundle _bundle;
 
 
         public GameCreationViewModel(IGameSettings gameSettings)
@@ -77,11 +75,11 @@ namespace OmegaGo.UI.ViewModels
             _customWidth = _gameSettings.Interface.BoardWidth;
             _customHeight = _gameSettings.Interface.BoardHeight;
             SetCustomBoardSize();
-
+            
             _bundle = Mvx.GetSingleton<GameCreationBundle>();
             _bundle.OnLoad(this);
             this.OpponentName = _bundle.OpponentName;
-
+            
             var thisTab = Mvx.Resolve<ITabProvider>().GetTabForViewModel(this);
             if (thisTab != null)
             {
@@ -94,7 +92,7 @@ namespace OmegaGo.UI.ViewModels
             get { return _blackSettings; }
             set { SetProperty(ref _blackSettings, value); }
         }
-        
+
         public PlayerSettingsViewModel WhitePlayerSettings
         {
             get { return _whiteSettings; }
@@ -201,8 +199,8 @@ namespace OmegaGo.UI.ViewModels
             this.BlackPlayerSettings.ChangePlayer(this.BlackPlayer);
         }));
 
-        public ObservableCollection<GameCreationViewPlayer> PossiblePlayers { get; } =
-            new ObservableCollection<GameCreationViewPlayer>(GameCreationViewModel.PlayerList);
+        public ObservableCollection<GameCreationViewPlayer> PossiblePlayers { get; } 
+            = new ObservableCollection<GameCreationViewPlayer>(PlayerList);
 
         public GameCreationViewPlayer BlackPlayer
         {
@@ -248,7 +246,7 @@ namespace OmegaGo.UI.ViewModels
                     SetProperty(ref _customWidth, parsed);
                     SetCustomBoardSize();
                 }
-            } 
+            }
         }
 
         public string CustomHeight
@@ -258,12 +256,14 @@ namespace OmegaGo.UI.ViewModels
             {
                 SetProperty(ref _customHeight, int.Parse(value));
                 SetCustomBoardSize();
-            } 
+            }
         }
         public bool UseRecommendedKomi
         {
             get { return _useRecommendedKomi; }
-            set { SetProperty(ref _useRecommendedKomi, value);
+            set
+            {
+                SetProperty(ref _useRecommendedKomi, value);
                 SetDefaultCompensation();
             }
         }
@@ -288,7 +288,8 @@ namespace OmegaGo.UI.ViewModels
         public string CustomSquareSize
         {
             get { return _customWidth.ToString(); }
-            set {
+            set
+            {
                 SetProperty(ref _customWidth, int.Parse(value));
                 SetProperty(ref _customHeight, int.Parse(value));
                 SetCustomBoardSize();
@@ -363,7 +364,7 @@ namespace OmegaGo.UI.ViewModels
         public IMvxCommand CreateChallengeCommand => _createChallengeCommand ?? (_createChallengeCommand = new MvxCommand(
             async () => { await CreateChallenge(); }));
 
-        
+
         public IMvxCommand DeclineSingleOpponentCommand
             => _declineSingleOpponentCommand ?? (_declineSingleOpponentCommand = new MvxCommand(
                 async () => { await DeclineSingleOpponent(); },
@@ -371,7 +372,7 @@ namespace OmegaGo.UI.ViewModels
         public IMvxCommand AcceptChallengeCommand
             => _acceptChallengeCommand ?? (_acceptChallengeCommand = new MvxCommand(
                 async () => { await AcceptChallenge(); },
-                ()=> Bundle.IsAcceptButtonEnabled()));
+                () => Bundle.IsAcceptButtonEnabled()));
 
         public IMvxCommand RefuseChallengeCommand
             => _refuseChallengeCommand ?? (_refuseChallengeCommand = new MvxCommand(
@@ -517,7 +518,7 @@ namespace OmegaGo.UI.ViewModels
             float compensation;
             if (float.TryParse(CompensationString, NumberStyles.Any, CultureInfo.InvariantCulture, out compensation))
             {
-                float fractionalpart = compensation - (int) compensation;
+                float fractionalpart = compensation - (int)compensation;
                 // ReSharper disable CompareOfFloatsByEqualityOperator
                 if (fractionalpart != 0 && fractionalpart != 0.5f)
                 {
