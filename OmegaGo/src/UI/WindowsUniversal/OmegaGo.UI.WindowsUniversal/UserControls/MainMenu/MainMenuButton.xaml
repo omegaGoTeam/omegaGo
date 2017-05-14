@@ -62,7 +62,7 @@
                 <ContentPresenter Content="{x:Bind Icon}" />
             </Viewbox>
             <Grid x:Name="TextArea">
-                <TextBlock x:Name="TextContent" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Text="{x:Bind Text}" Margin="12" />
+                <TextBlock x:Name="TextContent" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Text="{x:Bind Text}" Margin="12,10,12,10" />
             </Grid>
         </StackPanel>
     </Button>

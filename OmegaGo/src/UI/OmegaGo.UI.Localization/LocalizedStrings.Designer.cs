@@ -1851,6 +1851,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pandanet - IGS.
+        /// </summary>
+        public static string IgsServerCaptionShort {
+            get {
+                return ResourceManager.GetString("IgsServerCaptionShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pandanet is recommended if you don&apos;t have a KGS account and don&apos;t want to download an additional application to play Go online..
         /// </summary>
         public static string IgsServerInfo {

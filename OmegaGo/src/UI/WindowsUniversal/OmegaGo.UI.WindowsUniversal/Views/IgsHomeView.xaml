@@ -169,7 +169,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Pivot Name="IgsPivotControl" Grid.Row="1" Title="{x:Bind Localizer.IgsServerCaption}" SelectedIndex="{x:Bind VM.SelectedViewIndex, Mode=TwoWay}" Style="{StaticResource CenteredPivotStyle}">
+            <Pivot Name="IgsPivotControl" Grid.Row="1" Title="{x:Bind Localizer.IgsServerCaptionShort}" SelectedIndex="{x:Bind VM.SelectedViewIndex, Mode=TwoWay}" Style="{StaticResource CenteredPivotStyle}">
                 <Pivot.TitleTemplate>
                     <DataTemplate>
                         <navigation:TitleControl HorizontalAlignment="Center" Text="{Binding}" />
