@@ -22,6 +22,7 @@ namespace OmegaGo.UI.Services.GameCreation
 
         public override void OnLoad(GameCreationViewModel vm)
         {
+            // This is a memory leak. Might be worth fixing later.
             Connections.Kgs.Events.Disconnection += (o,reason) =>
             {
                 vm.CloseSelf();
