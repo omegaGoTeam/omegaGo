@@ -2733,7 +2733,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Play against AI.
+        ///   Looks up a localized string similar to Hrát proti umělé inteligenci.
         /// </summary>
         public static string PlayAgainstAI {
             get {

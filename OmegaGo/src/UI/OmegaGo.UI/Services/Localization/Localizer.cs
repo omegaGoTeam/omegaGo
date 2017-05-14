@@ -724,7 +724,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string Quest_ReplaceTooltip => LocalizeCaller();
 		/// <summary>
-		/// Try this now
+		/// Try now
 		/// </summary>
 		public string Quest_TryThisNow => LocalizeCaller();
 		/// <summary>
@@ -2111,6 +2111,34 @@ namespace OmegaGo.UI.Services.Localization
 		/// Success
 		/// </summary>
 		public string Success => LocalizeCaller();
+		/// <summary>
+		/// Delete
+		/// </summary>
+		public string BetterDelete => LocalizeCaller();
+		/// <summary>
+		/// Your KGS challenge
+		/// </summary>
+		public string KgsChallengeManagementTitle => LocalizeCaller();
+		/// <summary>
+		/// Ranked
+		/// </summary>
+		public string ShortRanked => LocalizeCaller();
+		/// <summary>
+		/// Free
+		/// </summary>
+		public string ShortUnranked => LocalizeCaller();
+		/// <summary>
+		/// Untimed
+		/// </summary>
+		public string ShortUntimed => LocalizeCaller();
+		/// <summary>
+		/// Pandanet - IGS
+		/// </summary>
+		public string IgsServerCaptionShort => LocalizeCaller();
+		/// <summary>
+		/// Ranking
+		/// </summary>
+		public string Ranking => LocalizeCaller();
 		/// <summary>
 		/// Rank-up at
 		/// </summary>

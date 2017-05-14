@@ -566,9 +566,10 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
           <target state="translated">Body na další hodnost:</target>
         </trans-unit>
         <trans-unit id="PlayAgainstAI" translate="yes" xml:space="preserve">
-          <source>Play against AI</source>
-          <target state="translated">Hrát proti počítači</target>
+          <source>Hrát proti umělé inteligenci</source>
+          <target state="needs-review-translation">Hrát proti počítači</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Goes to solo menu</note>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="Quests" translate="yes" xml:space="preserve">
           <source>Quests</source>
@@ -2130,6 +2131,14 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         <trans-unit id="RankUpAt" translate="yes" xml:space="preserve">
           <source>Rank-up at</source>
           <target state="translated">Další hodnost</target>
+        </trans-unit>
+        <trans-unit id="IgsServerCaptionShort" translate="yes" xml:space="preserve">
+          <source>Pandanet - IGS</source>
+          <target state="new">Pandanet - IGS</target>
+        </trans-unit>
+        <trans-unit id="Ranking" translate="yes" xml:space="preserve">
+          <source>Ranking</source>
+          <target state="new">Ranking</target>
         </trans-unit>
       </group>
     </body>
