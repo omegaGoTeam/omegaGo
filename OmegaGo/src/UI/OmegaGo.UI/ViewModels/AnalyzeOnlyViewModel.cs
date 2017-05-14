@@ -82,6 +82,7 @@ namespace OmegaGo.UI.ViewModels
             BoardViewModel.ToolServices = ToolServices;
 
             AnalyzeViewModel = new AnalyzeViewModel(ToolServices);
+            AnalyzeViewModel.BackToGameVisible = false;
             RegisterAnalyzeTools();
 
             // Set up Timeline
