@@ -73,8 +73,6 @@
 
                         <Setter Target="whitePortrait.(Grid.Column)" Value="0" />
                         <Setter Target="blackPortrait.(Grid.Column)" Value="1" />
-
-                        <Setter Target="systemLog.MaxHeight" Value="600" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -92,8 +90,6 @@
 
                         <Setter Target="whitePortrait.(Grid.ColumnSpan)" Value="2" />
                         <Setter Target="blackPortrait.(Grid.ColumnSpan)" Value="2" />
-
-                        <Setter Target="systemLog.MaxHeight" Value="600" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
