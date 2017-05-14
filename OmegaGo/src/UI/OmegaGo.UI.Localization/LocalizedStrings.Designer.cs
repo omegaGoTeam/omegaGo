@@ -3201,6 +3201,33 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ranked.
+        /// </summary>
+        public static string ShortRanked {
+            get {
+                return ResourceManager.GetString("ShortRanked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Free.
+        /// </summary>
+        public static string ShortUnranked {
+            get {
+                return ResourceManager.GetString("ShortUnranked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Untimed.
+        /// </summary>
+        public static string ShortUntimed {
+            get {
+                return ResourceManager.GetString("ShortUntimed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show coordinates.
         /// </summary>
         public static string ShowCoordinates {

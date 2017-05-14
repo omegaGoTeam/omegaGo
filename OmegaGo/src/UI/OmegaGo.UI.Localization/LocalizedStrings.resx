@@ -1694,4 +1694,13 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="KgsChallengeManagementTitle" xml:space="preserve">
     <value>Your KGS challenge</value>
   </data>
+  <data name="ShortRanked" xml:space="preserve">
+    <value>Ranked</value>
+  </data>
+  <data name="ShortUnranked" xml:space="preserve">
+    <value>Free</value>
+  </data>
+  <data name="ShortUntimed" xml:space="preserve">
+    <value>Untimed</value>
+  </data>
 </root>

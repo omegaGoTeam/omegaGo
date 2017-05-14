@@ -36,11 +36,11 @@
                 </Grid.RowDefinitions>
                 <StackPanel x:Name="RulesPanel" Width="100" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0">
                     <BitmapIcon UriSource="/Assets/Icons/Info/Ruleset.png" Width="24" HorizontalAlignment="Center" />
-                    <TextBlock Margin="8,0,0,0" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind Challenge.Proposal.Rules.Rules, Mode=OneWay}" />
+                    <TextBlock TextWrapping="Wrap" Margin="8,0,0,0" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind RulesInformation, Mode=OneWay}" />
                 </StackPanel>
                 <StackPanel x:Name="BoardSizePanel" Width="80" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0">
                     <BitmapIcon UriSource="/Assets/Icons/Info/Dimensions.png" Width="24" HorizontalAlignment="Center" />
-                    <TextBlock Margin="8,0,0,0" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Margin="8,0,0,0" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap">
                         <Run Text="{x:Bind Challenge.Proposal.Rules.Size, Mode=OneWay}" />
                         <Run Text="x" />
                         <Run Text="{x:Bind Challenge.Proposal.Rules.Size, Mode=OneWay}" />
@@ -48,11 +48,11 @@
                 </StackPanel>
                 <StackPanel x:Name="TimingPanel" Width="100" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1">
                     <BitmapIcon UriSource="/Assets/Icons/Info/Timing.png" Width="24" HorizontalAlignment="Center" />
-                    <TextBlock Margin="8,0,0,0" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind Challenge.Proposal.Rules.TimeSystem, Mode=OneWay}" />
+                    <TextBlock TextWrapping="Wrap" Margin="8,0,0,0" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind TimeSystemInformation, Mode=OneWay}" />
                 </StackPanel>
                 <StackPanel x:Name="HandicapPanel" Width="80" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1">
-                    <BitmapIcon UriSource="/Assets/Icons/Info/Handicap.png" Width="24" HorizontalAlignment="Center" />
-                    <TextBlock Margin="8,0,0,0" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind Challenge.Proposal.Rules.Handicap, Mode=OneWay}" />
+                    <BitmapIcon UriSource="/Assets/Icons/Info/Ruleset.png" Width="24" HorizontalAlignment="Center" />
+                    <TextBlock TextWrapping="Wrap" Margin="8,0,0,0" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind RankedInformation, Mode=OneWay}" />
                 </StackPanel>
             </Grid>
         </Grid>

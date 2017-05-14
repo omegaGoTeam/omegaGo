@@ -2114,6 +2114,18 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Delete</source>
           <target state="new">Delete</target>
         </trans-unit>
+        <trans-unit id="ShortRanked" translate="yes" xml:space="preserve">
+          <source>Ranked</source>
+          <target state="new">Ranked</target>
+        </trans-unit>
+        <trans-unit id="ShortUnranked" translate="yes" xml:space="preserve">
+          <source>Free</source>
+          <target state="new">Free</target>
+        </trans-unit>
+        <trans-unit id="ShortUntimed" translate="yes" xml:space="preserve">
+          <source>Untimed</source>
+          <target state="new">Untimed</target>
+        </trans-unit>
       </group>
     </body>
   </file>
