@@ -41,7 +41,6 @@ namespace OmegaGo.Core.AI
                         {
                             new DefeatistAI(),
                             new RandomAI(),
-                            new Deterministic.DeterministicAI(),
                             new RandomPlayerWrapper(),
                             new HeuristicPlayerWrapper(),
                             new Fluffy()
@@ -52,7 +51,6 @@ namespace OmegaGo.Core.AI
                     {
                         new DefeatistAI(),
                         new RandomAI(),
-                        new Deterministic.DeterministicAI(),
                         new RandomPlayerWrapper(),
                         new HeuristicPlayerWrapper(),
                         new Fluffy(),
