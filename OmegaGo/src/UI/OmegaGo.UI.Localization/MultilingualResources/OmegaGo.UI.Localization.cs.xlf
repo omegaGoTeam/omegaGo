@@ -2044,67 +2044,87 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="Validation_ImproperHandicapForSize" translate="yes" xml:space="preserve">
           <source>Handicap is supported only for 9x9, 13x13 and 19x19.</source>
-          <target state="new">Handicap is supported only for 9x9, 13x13 and 19x19.</target>
+          <target state="translated">Handicap je podporován jen na 9x9, 13x13 a 19x19.</target>
         </trans-unit>
         <trans-unit id="ImportSgfFile" translate="yes" xml:space="preserve">
           <source>Import SGF file</source>
-          <target state="new">Import SGF file</target>
+          <target state="translated">Importovat soubor SGF...</target>
         </trans-unit>
         <trans-unit id="OpenSgfFile" translate="yes" xml:space="preserve">
           <source>Open SGF file</source>
-          <target state="new">Open SGF file</target>
+          <target state="translated">Otevřít soubor SGF...</target>
         </trans-unit>
         <trans-unit id="Export" translate="yes" xml:space="preserve">
           <source>Export</source>
-          <target state="new">Export</target>
+          <target state="translated">Exportovat</target>
         </trans-unit>
         <trans-unit id="LibraryLoadingFormatString" translate="yes" xml:space="preserve">
           <source>Loading... {0} of {1}</source>
-          <target state="new">Loading... {0} of {1}</target>
+          <target state="translated">Načítám... {0} of {1}</target>
         </trans-unit>
         <trans-unit id="Analyze" translate="yes" xml:space="preserve">
           <source>Analyze</source>
-          <target state="new">Analyze</target>
+          <target state="translated">Otevřít</target>
         </trans-unit>
         <trans-unit id="Game1" translate="yes" xml:space="preserve">
           <source>game</source>
-          <target state="new">game</target>
+          <target state="translated">hra</target>
         </trans-unit>
         <trans-unit id="Game2" translate="yes" xml:space="preserve">
           <source>games</source>
-          <target state="new">games</target>
+          <target state="translated">hry</target>
         </trans-unit>
         <trans-unit id="Game5" translate="yes" xml:space="preserve">
           <source>games</source>
-          <target state="new">games</target>
+          <target state="translated">her</target>
         </trans-unit>
         <trans-unit id="ErrorSavingFile" translate="yes" xml:space="preserve">
           <source>Error saving file</source>
-          <target state="new">Error saving file</target>
+          <target state="translated">Chyba při ukládání souboru</target>
         </trans-unit>
         <trans-unit id="Analysis" translate="yes" xml:space="preserve">
           <source>Analysis</source>
-          <target state="new">Analysis</target>
+          <target state="translated">Analýza</target>
         </trans-unit>
         <trans-unit id="ExportSgfFile" translate="yes" xml:space="preserve">
           <source>Export SGF file...</source>
-          <target state="new">Export SGF file...</target>
+          <target state="translated">Exportovat jako SGF...</target>
         </trans-unit>
         <trans-unit id="SaveToLibrary" translate="yes" xml:space="preserve">
           <source>Save to game library</source>
-          <target state="new">Save to game library</target>
+          <target state="translated">Uložit do knihovny</target>
         </trans-unit>
         <trans-unit id="SgfExportSuccessful" translate="yes" xml:space="preserve">
           <source>Game successfully exported to SGF.</source>
-          <target state="new">Game successfully exported to SGF.</target>
+          <target state="translated">Hra byly úspěšně exportována.</target>
         </trans-unit>
         <trans-unit id="SgfSaveToLibrarySuccessful" translate="yes" xml:space="preserve">
           <source>Game successfuly saved to library.</source>
-          <target state="new">Game successfuly saved to library.</target>
+          <target state="translated">Hra byla uložena do knihovny.</target>
         </trans-unit>
         <trans-unit id="Success" translate="yes" xml:space="preserve">
           <source>Success</source>
-          <target state="new">Success</target>
+          <target state="translated">Úspěch</target>
+        </trans-unit>
+        <trans-unit id="KgsChallengeManagementTitle" translate="yes" xml:space="preserve">
+          <source>Your KGS challenge</source>
+          <target state="translated">Tvoje výzva KGS</target>
+        </trans-unit>
+        <trans-unit id="BetterDelete" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="translated">Smazat</target>
+        </trans-unit>
+        <trans-unit id="ShortRanked" translate="yes" xml:space="preserve">
+          <source>Ranked</source>
+          <target state="translated">Hodnocená</target>
+        </trans-unit>
+        <trans-unit id="ShortUnranked" translate="yes" xml:space="preserve">
+          <source>Free</source>
+          <target state="translated">Volná</target>
+        </trans-unit>
+        <trans-unit id="ShortUntimed" translate="yes" xml:space="preserve">
+          <source>Untimed</source>
+          <target state="translated">Nečasováno</target>
         </trans-unit>
       </group>
     </body>

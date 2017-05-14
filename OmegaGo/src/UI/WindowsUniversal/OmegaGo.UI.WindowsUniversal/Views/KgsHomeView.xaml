@@ -37,11 +37,20 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="LargeScreenLogoutButton.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="GamesChallengesInnerPivot.Visibility" Value="Collapsed" />
                         <Setter Target="GamesChallengesInnerGrid.Visibility" Value="Visible" />
+                        <Setter Target="LargeScreenLogoutButton.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -108,7 +117,7 @@
                             </ComboBox>
                         </StackPanel>
 
-                        <Grid Grid.Row="1" x:Name="GamesChallengesInnerGrid" Visibility="Collapsed">
+                        <Grid Grid.Row="1" x:Name="GamesChallengesInnerGrid" Margin="0,8,0,0"  Visibility="Collapsed">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
@@ -120,7 +129,7 @@
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <TextBlock Text="{x:Bind Localizer.Games}" Margin="0,0,0,8" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                                <Grid x:Name="GameListHeader" Visibility="Visible" Grid.Row="1" Margin="12,0,12,8" HorizontalAlignment="Stretch">
+                                <!--<Grid x:Name="GameListHeader" Visibility="Visible" Grid.Row="1" Margin="12,0,12,8" HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
@@ -129,7 +138,7 @@
                                     <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=White}" Style="{StaticResource FormHeadingTextBlockStyle}" />
                                     <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=Black}" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="1" />
                                     <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=BoardSize}" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="2" />
-                                </Grid>
+                                </Grid>-->
                                 <ListView Grid.Row="2" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind VM.SelectedGameContainerGames, Mode=OneWay}"
                                        Style="{StaticResource LobbyListViewStyle}">
                                     <interactivity:Interaction.Behaviors>
@@ -151,7 +160,7 @@
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <TextBlock Text="{x:Bind Localizer.Challenges}" Margin="0,0,0,8" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                                <Grid x:Name="ChallengeHeader" Visibility="Visible" Grid.Row="1" Margin="12,0,12,8" HorizontalAlignment="Stretch">
+                                <!--<Grid x:Name="ChallengeHeader" Visibility="Visible" Grid.Row="1" Margin="12,0,12,8" HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="2*" />
@@ -159,7 +168,7 @@
 
                                     <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=Name}" Style="{StaticResource FormHeadingTextBlockStyle}" />
                                     <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=Details}" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="1" />
-                                </Grid>
+                                </Grid>-->
                                 <ListView Grid.Row="2" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind VM.SelectedGameContainerChallenges, Mode=OneWay}"
                                           Style="{StaticResource LobbyListViewStyle}">
                                     <interactivity:Interaction.Behaviors>
@@ -366,9 +375,9 @@
                         <StackPanel Orientation="Horizontal" Margin="12,0,0,0" VerticalAlignment="Top" Height="48">
                             <FontIcon VerticalAlignment="Center" Glyph="&#xE2AF;" FontFamily="Segoe MDL2 Assets" />
                             <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{x:Bind VM.LoggedInUser, Mode=OneWay}"/>
-                            <Button Command="{x:Bind VM.LogoutCommand}" Margin="8,0,0,0">
+                            <Button x:Name="LargeScreenLogoutButton" Visibility="Collapsed" Command="{x:Bind VM.LogoutCommand}" Margin="8,0,0,0">
                                 <StackPanel Orientation="Horizontal">
-                                    <PathIcon Style="{StaticResource LogoutIcon}" />
+                                    <BitmapIcon UriSource="/Assets/Icons/Commands/Logout.png" Width="20" Height="20" />
                                     <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{x:Bind Localizer.Logout, Mode=OneWay}"/>
                                 </StackPanel>
                             </Button>

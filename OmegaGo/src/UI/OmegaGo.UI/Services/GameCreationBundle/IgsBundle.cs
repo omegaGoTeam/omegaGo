@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.UI.Services.Online;
 using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.Services.GameCreation
@@ -23,6 +24,11 @@ namespace OmegaGo.UI.Services.GameCreation
             vm.IgsLimitation = true;
             vm.SelectedRuleset = Core.Rules.RulesetType.Japanese;
             vm.TimeControlStyles.Remove(Core.Time.TimeControlStyle.Japanese);
+            // This is a memory leak. Might be worth fixing later.
+            Connections.Igs.Events.Disconnected += (o, e) =>
+            {
+                vm.CloseSelf();
+            };
         }
     }
 }
