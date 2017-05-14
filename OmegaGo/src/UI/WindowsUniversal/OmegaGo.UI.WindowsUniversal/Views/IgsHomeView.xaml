@@ -132,10 +132,19 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="LargeScreenLogoutButton.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="600" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="GameListHeader.Visibility" Value="Visible" />
+                        <Setter Target="LargeScreenLogoutButton.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -331,9 +340,9 @@
                         <StackPanel Orientation="Horizontal" Margin="12,0,0,0" VerticalAlignment="Top" Height="48">
                             <FontIcon VerticalAlignment="Center" Glyph="&#xE2AF;" FontFamily="Segoe MDL2 Assets" />
                             <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{x:Bind VM.LoggedInUser, Mode=OneWay}"/>
-                            <Button Command="{x:Bind VM.LogoutCommand}" Margin="8,0,0,0">
+                            <Button x:Name="LargeScreenLogoutButton" Visibility="Collapsed" Command="{x:Bind VM.LogoutCommand}" Margin="8,0,0,0">
                                 <StackPanel Orientation="Horizontal">
-                                    <PathIcon Style="{StaticResource LogoutIcon}" />
+                                    <BitmapIcon UriSource="/Assets/Icons/Commands/Logout.png" Width="20" Height="20" />
                                     <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{x:Bind Localizer.Logout, Mode=OneWay}"/>
                                 </StackPanel>
                             </Button>

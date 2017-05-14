@@ -1703,4 +1703,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="ShortUntimed" xml:space="preserve">
     <value>Untimed</value>
   </data>
+  <data name="Ranking" xml:space="preserve">
+    <value>Ranking</value>
+  </data>
 </root>

@@ -49,11 +49,6 @@ namespace OmegaGo.UI.UserControls.ViewModels
             get { return _toolServices; }
         }
 
-
-        public void Init()
-        {
-            SelectedTool = StonePlacementTool;
-        }
         /// <summary>
         /// Gets the currently selected tool.
         /// </summary>
@@ -159,6 +154,11 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public bool IsCrossToolSelected
         {
             get { return SelectedTool == CrossMarkupTool; }
+        }
+
+        public void Init()
+        {
+            SelectedTool = StonePlacementTool;
         }
 
         /// <summary>

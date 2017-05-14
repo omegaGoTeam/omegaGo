@@ -39,6 +39,9 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls.Multiplayer.Kgs
             var control = d as KgsChallengeListItemControl;
             control.OnPropertyChanged(nameof(Author));
             control.OnPropertyChanged(nameof(AuthorRank));
+            control.OnPropertyChanged(nameof(RulesInformation));
+            control.OnPropertyChanged(nameof(RankedInformation));
+            control.OnPropertyChanged(nameof(TimeSystemInformation));
         }
 
         public KgsChallenge Challenge
