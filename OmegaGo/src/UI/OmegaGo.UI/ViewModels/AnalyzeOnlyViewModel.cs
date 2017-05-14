@@ -76,14 +76,19 @@ namespace OmegaGo.UI.ViewModels
             BoardViewModel.BoardTapped += (s, e) => OnBoardTapped(e);
             BoardViewModel.GameTreeNode = GameTree.GameTreeRoot;
             BoardViewModel.IsMarkupDrawingEnabled = true;
+            BoardViewModel.IsShadowDrawingEnabled = true;
 
 
             // Initialize analyze mode and register tools
             BoardViewModel.ToolServices = ToolServices;
 
+            ToolServices.Node = GameTree.GameTreeRoot;
+
             AnalyzeViewModel = new AnalyzeViewModel(ToolServices);
             AnalyzeViewModel.BackToGameVisible = false;
             RegisterAnalyzeTools();
+            Tool = AnalyzeViewModel.StonePlacementTool;
+            AnalyzeViewModel.SelectedTool = Tool;
 
             // Set up Timeline
             GameTreeViewModel = new GameTreeViewModel(GameTree);
@@ -93,6 +98,7 @@ namespace OmegaGo.UI.ViewModels
                 RefreshBoard(e);
                 AnalyzeViewModel.OnNodeChanged();
             };
+            GameTreeViewModel.SelectedGameTreeNode = GameTree.GameTreeRoot;
         }
 
         public ICommand ExportSGFCommand => _exportSGFCommand ??

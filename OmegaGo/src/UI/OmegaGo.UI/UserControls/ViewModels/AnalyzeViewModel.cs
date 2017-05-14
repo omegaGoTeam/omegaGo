@@ -49,13 +49,18 @@ namespace OmegaGo.UI.UserControls.ViewModels
             get { return _toolServices; }
         }
 
+
+        public void Init()
+        {
+            SelectedTool = StonePlacementTool;
+        }
         /// <summary>
         /// Gets the currently selected tool.
         /// </summary>
         public ITool SelectedTool
         {
             get { return (_selectedTool ?? StonePlacementTool); }
-            private set
+            set
             {
                 SetProperty(ref _selectedTool, value);
                 value.Set(_toolServices);
