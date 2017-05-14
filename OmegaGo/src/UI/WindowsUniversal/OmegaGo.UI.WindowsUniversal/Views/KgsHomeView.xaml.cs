@@ -55,6 +55,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             {
                 Unblur();
             }
+            else
+            {
+                Blur();
+            }
         }
     }
 }

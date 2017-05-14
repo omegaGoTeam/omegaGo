@@ -30,6 +30,8 @@ using OmegaGo.Core.Sgf.Serializing;
 using OmegaGo.UI.Services.AppPackage;
 using OmegaGo.UI.Services.Files;
 using OmegaGo.UI.Services.Localization;
+using OmegaGo.UI.Services.Notifications;
+using OmegaGo.UI.Utility;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -40,13 +42,14 @@ namespace OmegaGo.UI.ViewModels
         private readonly IDialogService _dialogService;
         private readonly UiConnector _uiConnector;
         private readonly IQuestsManager _questsManager;
-        
+
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseStartHandlers;
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseEndHandlers;
- 
+
         private GamePhaseType _gamePhase;
 
         private ICommand _exportSGFCommand = null;
+        private ICommand _saveToLibraryCommand = null;
 
         public GameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
         {
@@ -76,12 +79,15 @@ namespace OmegaGo.UI.ViewModels
             Game.Controller.GamePhaseChanged += (s, e) => OnGamePhaseChanged(e);
             ObserveDebuggingMessages();
         }
-        
+
         public IGame Game => _game;
         public ObservableCollection<string> Log { get; } = new ObservableCollection<string>();
 
         public ICommand ExportSGFCommand => _exportSGFCommand ??
-                                               (_exportSGFCommand = new MvxAsyncCommand(ExportSGF));
+                                               (_exportSGFCommand = new MvxAsyncCommand(ExportSGFAsync));
+
+        public ICommand SaveToLibraryCommand => _saveToLibraryCommand ??
+                                                (_saveToLibraryCommand = new MvxAsyncCommand(SaveToLibraryAsync));
 
 
         protected IGameSettings GameSettings => _gameSettings;
@@ -91,6 +97,8 @@ namespace OmegaGo.UI.ViewModels
         protected UiConnector UiConnector => _uiConnector;
 
         protected IQuestsManager QuestsManager => _questsManager;
+
+        protected virtual string SuggestedGameFileName => $"{TabTitle}_{DateTimeOffset.Now:dd-MM-yyyy}.sgf";
 
         public BoardViewModel BoardViewModel
         {
@@ -154,7 +162,7 @@ namespace OmegaGo.UI.ViewModels
                 _phaseEndHandlers.ItemOrDefault(phaseState.PreviousPhase.Type)?
                     .Invoke(phaseState.PreviousPhase);
             }
-            
+
             if (phaseState.NewPhase != null)
             {
                 _phaseStartHandlers.ItemOrDefault(phaseState.NewPhase.Type)?
@@ -164,7 +172,7 @@ namespace OmegaGo.UI.ViewModels
             // Define publicly the new phase
             GamePhase = phaseState.NewPhase.Type;
         }
-        
+
 
         ////////////////
         // Game View Model Services      
@@ -217,7 +225,42 @@ namespace OmegaGo.UI.ViewModels
         /// Exports SGF
         /// </summary>
         /// <returns></returns>
-        private Task ExportSGF()
+        private async Task ExportSGFAsync()
+        {
+            try
+            {
+                var sgf = ConvertStateToSgf();
+                if (await SgfExport.ExportAsync(SuggestedGameFileName, sgf))
+                {
+                    Mvx.Resolve<IAppNotificationService>()
+                        .TriggerNotification(new BubbleNotification(Localizer.SgfExportSuccessful, Localizer.Success,
+                            NotificationType.Success));
+                }
+            }
+            catch (Exception ex)
+            {
+                //ignore
+            }
+        }
+
+        /// <summary>
+        /// Saves game to library
+        /// </summary>
+        private async Task SaveToLibraryAsync()
+        {
+            try
+            {
+                var sgf = ConvertStateToSgf();
+                await SgfExport.SaveToLibraryAsync(SuggestedGameFileName, sgf);
+                Mvx.Resolve<IAppNotificationService>().TriggerNotification(new BubbleNotification(Localizer.SgfSaveToLibrarySuccessful, Localizer.Success, NotificationType.Success));
+            }
+            catch (Exception ex)
+            {
+                //ignore
+            }
+        }
+
+        private string ConvertStateToSgf()
         {
             var appPackage = Mvx.Resolve<IAppPackageService>();
             GameTreeToSgfConverter converter = new GameTreeToSgfConverter(
@@ -225,9 +268,7 @@ namespace OmegaGo.UI.ViewModels
                 Game.Info,
                 Game.Controller.GameTree);
             var sgfGameTree = converter.Convert();
-            string serializedSGF = new SgfSerializer(true).Serialize(new SgfCollection(new []{sgfGameTree}));
-            Debug.WriteLine(serializedSGF);
-            return Task.FromResult((object) null);
+            return new SgfSerializer(true).Serialize(new SgfCollection(new[] { sgfGameTree }));
         }
 
         ////////////////

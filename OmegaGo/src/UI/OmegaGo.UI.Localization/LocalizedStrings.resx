@@ -644,7 +644,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>You will lose this quest and any progress towards it, but you will immediately gain a different random quest.</value>
   </data>
   <data name="Quest_TryThisNow" xml:space="preserve">
-    <value>Try this now</value>
+    <value>Try now</value>
   </data>
   <data name="Quest_TryThisNowTooltip" xml:space="preserve">
     <value>This will take you to a screen where you can work on this quest.</value>
@@ -1642,6 +1642,75 @@ I dare you to let two Fish play against each other. The game will never end (unl
   </data>
   <data name="YourOppRequestedAnUndo" xml:space="preserve">
     <value>Your opponent requested his or her last move to be undone.</value>
+  </data>
+  <data name="ImportSgfFile" xml:space="preserve">
+    <value>Import SGF file</value>
+  </data>
+  <data name="OpenSgfFile" xml:space="preserve">
+    <value>Open SGF file</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="LibraryLoadingFormatString" xml:space="preserve">
+    <value>Loading... {0} of {1}</value>
+  </data>
+  <data name="Analyze" xml:space="preserve">
+    <value>Analyze</value>
+  </data>
+  <data name="ErrorSavingFile" xml:space="preserve">
+    <value>Error saving file</value>
+  </data>
+  <data name="Game1" xml:space="preserve">
+    <value>game</value>
+  </data>
+  <data name="Game2" xml:space="preserve">
+    <value>games</value>
+  </data>
+  <data name="Game5" xml:space="preserve">
+    <value>games</value>
+  </data>
+  <data name="Analysis" xml:space="preserve">
+    <value>Analysis</value>
+  </data>
+  <data name="ExportSgfFile" xml:space="preserve">
+    <value>Export SGF file...</value>
+  </data>
+  <data name="SaveToLibrary" xml:space="preserve">
+    <value>Save to game library</value>
+  </data>
+  <data name="SgfExportSuccessful" xml:space="preserve">
+    <value>Game successfully exported to SGF.</value>
+  </data>
+  <data name="SgfSaveToLibrarySuccessful" xml:space="preserve">
+    <value>Game successfuly saved to library.</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="BetterDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="KgsChallengeManagementTitle" xml:space="preserve">
+    <value>Your KGS challenge</value>
+  </data>
+  <data name="ShortRanked" xml:space="preserve">
+    <value>Ranked</value>
+  </data>
+  <data name="ShortUnranked" xml:space="preserve">
+    <value>Free</value>
+  </data>
+  <data name="ShortUntimed" xml:space="preserve">
+    <value>Untimed</value>
+  </data>
+  <data name="IgsServerCaptionShort" xml:space="preserve">
+    <value>Pandanet - IGS</value>
+  </data>
+  <data name="Ranking" xml:space="preserve">
+    <value>Ranking</value>
+  </data>
+  <data name="RankUpAt" xml:space="preserve">
+    <value>Rank-up at</value>
   </data>
   <data name="UseTouchInputOffset" xml:space="preserve">
     <value>Apply offset to touch input for better shadow items visibility on game board.</value>

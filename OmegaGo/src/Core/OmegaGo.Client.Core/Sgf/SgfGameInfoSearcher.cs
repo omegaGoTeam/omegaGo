@@ -10,7 +10,7 @@ namespace OmegaGo.Core.Sgf
     /// <summary>
     /// Searches the game info in a given SGF game tree
     /// </summary>
-    internal class SgfGameInfoSearcher
+    public class SgfGameInfoSearcher
     {
         private readonly SgfGameTree _gameTree;        
         private readonly Dictionary<string, SgfProperty> _gameInfoProperties = new Dictionary<string, SgfProperty>();

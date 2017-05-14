@@ -12,6 +12,8 @@ namespace OmegaGo.UI.Services.Settings
     /// </summary>
     public class GameSettings : IGameSettings
     {
+        private const string LaunchCountKey = "LaunchCount";
+
         private readonly ISettingsService _settings;
 
         public GameSettings(ISettingsService settings)
@@ -25,7 +27,7 @@ namespace OmegaGo.UI.Services.Settings
             this.Statistics = new StatisticsRecords(_settings);
             this.Interface = new InterfaceMementos(_settings);
         }
-        
+
         public InterfaceMementos Interface { get; }
         public AudioSettings Audio { get; }
         public DisplaySettings Display { get; }
@@ -49,6 +51,12 @@ namespace OmegaGo.UI.Services.Settings
                 if (!GameLanguages.SupportedLanguages.ContainsKey(value)) throw new ArgumentException(nameof(value));
                 _settings.SetSetting(LanguageSettingKey, value, SettingLocality.Roamed);
             }
+        }
+
+        public int LaunchCount
+        {
+            get { return _settings.GetSetting(LaunchCountKey, () => 0); }
+            set { _settings.SetSetting(LaunchCountKey, value); }
         }
     }
 }

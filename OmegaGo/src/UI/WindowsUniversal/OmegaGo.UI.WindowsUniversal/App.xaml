@@ -12,6 +12,7 @@
                 <ResourceDictionary Source="/Resources/Colors.xaml" />
                 <ResourceDictionary Source="/Resources/Converters.xaml" />
                 <ResourceDictionary Source="/Resources/IconStyles.xaml" />
+                <ResourceDictionary Source="/Resources/ItemTemplates.xaml" />
                 <ResourceDictionary Source="/Resources/TextBlockStyles.xaml" />
                 <ResourceDictionary Source="/Resources/ControlStyles.xaml" />
                 <ResourceDictionary Source="/Resources/TitleBarStyles.xaml" />

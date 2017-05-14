@@ -93,6 +93,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="Behaviors\Actions\OpenAttachedFlyoutAction.cs" />
     <Compile Include="Bootstrap\VisibilityPluginBootstrap.cs" />
     <Compile Include="Converters\GamePhaseVisibilityConverter.cs" />
     <Compile Include="Converters\ItemClickEventArgsConverter.cs" />
@@ -149,6 +150,12 @@
     <Compile Include="UserControls\ChatControl.xaml.cs">
       <DependentUpon>ChatControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Library\LibraryItemControl.xaml.cs">
+      <DependentUpon>LibraryItemControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Library\LibraryItemGameControl.xaml.cs">
+      <DependentUpon>LibraryItemGameControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\LoginFormControl.xaml.cs">
       <DependentUpon>LoginFormControl.xaml</DependentUpon>
     </Compile>
@@ -187,6 +194,9 @@
     </Compile>
     <Compile Include="UserControls\GameTreeControl.xaml.cs">
       <DependentUpon>GameTreeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Singleplayer\QuestControl.xaml.cs">
+      <DependentUpon>QuestControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\UserControlBase.cs" />
     <Compile Include="Views\AnalyzeOnlyView.xaml.cs">
@@ -260,7 +270,22 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Icons\Commands\ExportFromLibrary.scale-100.png" />
+    <Content Include="Assets\Icons\Commands\ExportFromLibrary.scale-150.png" />
+    <Content Include="Assets\Icons\Commands\ExportFromLibrary.scale-200.png" />
+    <Content Include="Assets\Icons\Commands\ImportFile.scale-100.png" />
+    <Content Include="Assets\Icons\Commands\ImportFile.scale-150.png" />
+    <Content Include="Assets\Icons\Commands\ImportFile.scale-200.png" />
+    <Content Include="Assets\Icons\Commands\ImportToLibrary.scale-100.png" />
+    <Content Include="Assets\Icons\Commands\ImportToLibrary.scale-150.png" />
+    <Content Include="Assets\Icons\Commands\ImportToLibrary.scale-200.png" />
+    <Content Include="Assets\Icons\Commands\Logout.scale-100.png" />
+    <Content Include="Assets\Icons\Commands\Logout.scale-150.png" />
+    <Content Include="Assets\Icons\Commands\Logout.scale-200.png" />
     <Content Include="Assets\Icons\Commands\MultiplayerOptions.png" />
+    <Content Include="Assets\Icons\Commands\Replace.scale-100.png" />
+    <Content Include="Assets\Icons\Commands\Replace.scale-150.png" />
+    <Content Include="Assets\Icons\Commands\Replace.scale-200.png" />
     <Content Include="Assets\Icons\Info\Channel.scale-100.png" />
     <Content Include="Assets\Icons\Info\Channel.scale-150.png" />
     <Content Include="Assets\Icons\Info\Channel.scale-200.png" />
@@ -279,9 +304,21 @@
     <Content Include="Assets\Icons\Info\Handicap.scale-100.png" />
     <Content Include="Assets\Icons\Info\Handicap.scale-150.png" />
     <Content Include="Assets\Icons\Info\Handicap.scale-200.png" />
+    <Content Include="Assets\Icons\Info\Label.scale-100.png" />
+    <Content Include="Assets\Icons\Info\Label.scale-150.png" />
+    <Content Include="Assets\Icons\Info\Label.scale-200.png" />
     <Content Include="Assets\Icons\Info\List.scale-100.png" />
     <Content Include="Assets\Icons\Info\List.scale-150.png" />
     <Content Include="Assets\Icons\Info\List.scale-200.png" />
+    <Content Include="Assets\Icons\Info\RankingInfo.scale-100.png" />
+    <Content Include="Assets\Icons\Info\RankingInfo.scale-150.png" />
+    <Content Include="Assets\Icons\Info\RankingInfo.scale-200.png" />
+    <Content Include="Assets\Icons\Info\Rank.scale-100.png" />
+    <Content Include="Assets\Icons\Info\Rank.scale-150.png" />
+    <Content Include="Assets\Icons\Info\Rank.scale-200.png" />
+    <Content Include="Assets\Icons\Info\RankUp.scale-100.png" />
+    <Content Include="Assets\Icons\Info\RankUp.scale-150.png" />
+    <Content Include="Assets\Icons\Info\RankUp.scale-200.png" />
     <Content Include="Assets\Icons\Info\Room.scale-100.png" />
     <Content Include="Assets\Icons\Info\Room.scale-150.png" />
     <Content Include="Assets\Icons\Info\Room.scale-200.png" />
@@ -292,6 +329,15 @@
     <Content Include="Assets\Icons\Info\Timing.scale-100.png" />
     <Content Include="Assets\Icons\Info\Timing.scale-150.png" />
     <Content Include="Assets\Icons\Info\Timing.scale-200.png" />
+    <Content Include="Assets\Icons\Info\XPPlus.scale-100.png" />
+    <Content Include="Assets\Icons\Info\XPPlus.scale-150.png" />
+    <Content Include="Assets\Icons\Info\XPPlus.scale-200.png" />
+    <Content Include="Assets\Icons\Info\XPs.scale-100.png" />
+    <Content Include="Assets\Icons\Info\XPs.scale-150.png" />
+    <Content Include="Assets\Icons\Info\XPs.scale-200.png" />
+    <Content Include="Assets\Icons\TitleBar\Analyze.scale-100.png" />
+    <Content Include="Assets\Icons\TitleBar\Analyze.scale-150.png" />
+    <Content Include="Assets\Icons\TitleBar\Analyze.scale-200.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-100.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-150.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-200.png" />
@@ -338,10 +384,12 @@
     <Content Include="Assets\Logos\Square310x310Logo.scale-200.png" />
     <Content Include="Assets\Logos\Square44x44Logo.targetsize-256_altform-unplated.png" />
     <Content Include="Assets\MainMenu\bambooForest.jpg" />
+    <Content Include="Assets\MainMenu\Buttons\Bot.png" />
     <Content Include="Assets\MainMenu\Buttons\Help.png" />
     <Content Include="Assets\MainMenu\Buttons\Library.png" />
     <Content Include="Assets\MainMenu\Buttons\Local.png" />
     <Content Include="Assets\MainMenu\Buttons\Multiplayer.png" />
+    <Content Include="Assets\MainMenu\Buttons\Puzzle.png" />
     <Content Include="Assets\MainMenu\Buttons\Settings.png" />
     <Content Include="Assets\MainMenu\Buttons\SinglePlayer.png" />
     <Content Include="Assets\MainMenu\Buttons\Statistics.png" />
@@ -424,6 +472,11 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="Resources\ItemTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="Resources\TextBlockStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -470,6 +523,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ChatControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Library\LibraryItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Library\LibraryItemGameControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -526,6 +587,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AnalyzeOnlyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Singleplayer\QuestControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

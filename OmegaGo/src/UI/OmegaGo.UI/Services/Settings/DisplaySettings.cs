@@ -18,7 +18,7 @@ namespace OmegaGo.UI.Services.Settings
         {
             get
             {
-                int theSetting = GetSetting(nameof(ControlStyle), () => (int)ControlStyle.Wood, SettingLocality.Roamed);
+                int theSetting = GetSetting(nameof(ControlStyle), () => (int)ControlStyle.OperatingSystem, SettingLocality.Roamed);
                 return (ControlStyle)theSetting;
             }
             set { SetSetting(nameof(ControlStyle), (int)value, SettingLocality.Roamed); }

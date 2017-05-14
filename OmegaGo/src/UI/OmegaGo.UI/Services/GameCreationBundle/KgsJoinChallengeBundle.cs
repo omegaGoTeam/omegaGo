@@ -13,6 +13,7 @@ namespace OmegaGo.UI.Services.GameCreation
     public class KgsJoinChallengeBundle : KgsNegotiationBundle
     {
         public override bool CanDeclineSingleOpponent => false;
+        public override string TabTitle => OpponentName + " (KGS)";
 
         public KgsJoinChallengeBundle(KgsChallenge challenge) : base(challenge)
         {

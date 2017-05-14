@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Online.Kgs.Structures;
+using OmegaGo.UI.Localization;
 using OmegaGo.UI.Services.Online;
 using OmegaGo.UI.ViewModels;
 
@@ -12,6 +13,7 @@ namespace OmegaGo.UI.Services.GameCreation
 {
     public class KgsChallengeManagementBundle : KgsNegotiationBundle { 
         public override bool CanDeclineSingleOpponent => true;
+        public override string TabTitle => LocalizedStrings.KgsChallengeManagementTitle;
 
         public KgsChallengeManagementBundle(KgsChallenge challenge) : base(challenge)
         {

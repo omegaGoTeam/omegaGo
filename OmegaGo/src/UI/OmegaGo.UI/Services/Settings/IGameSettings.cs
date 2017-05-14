@@ -16,6 +16,8 @@ namespace OmegaGo.UI.Services.Settings
         /// </summary>
         string Language { get; set; }
 
+        int LaunchCount { get; set; }
+
         QuestsSettings Quests { get; }
         TsumegoSettings Tsumego { get; }
         InterfaceMementos Interface { get; }

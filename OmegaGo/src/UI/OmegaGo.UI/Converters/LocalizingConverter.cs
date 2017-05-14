@@ -17,6 +17,6 @@ namespace OmegaGo.UI.Converters
     {
         private static readonly Lazy<ILocalizationService> Localizer = new Lazy<ILocalizationService>( Mvx.Resolve<ILocalizationService> );        
 
-        protected override string Convert(string value, Type targetType, object parameter, CultureInfo culture ) => Localizer.Value[ value.ToString() ];
+        protected override string Convert(string value, Type targetType, object parameter, CultureInfo culture ) => Localizer.Value[ value ];
     }
 }

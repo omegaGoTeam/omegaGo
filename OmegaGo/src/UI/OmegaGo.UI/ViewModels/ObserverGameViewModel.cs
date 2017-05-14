@@ -28,7 +28,7 @@ namespace OmegaGo.UI.ViewModels
             ChatViewModel = new ChatViewModel((Game.Controller as RemoteGameController).Chat, (Game.Controller as RemoteGameController).Connectors.First(connector => connector is IRemoteConnector) as IRemoteConnector);
         }
 
-        public ChatViewModel ChatViewModel { get; private set; }
+        public ChatViewModel ChatViewModel { get; private set; }        
 
         public override async void Init()
         {
@@ -45,7 +45,7 @@ namespace OmegaGo.UI.ViewModels
 
                 await this.DialogService.ShowAsync(contents, LocalizedStrings.YouAreObservingAProfessionalGame);
             }
-        }
+        }        
 
         public override void Appearing()
         {            

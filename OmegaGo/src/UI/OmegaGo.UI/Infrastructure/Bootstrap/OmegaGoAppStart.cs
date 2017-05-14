@@ -1,6 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
+using OmegaGo.UI.Services.Files;
+using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.Infrastructure.Bootstrap
@@ -14,11 +18,26 @@ namespace OmegaGo.UI.Infrastructure.Bootstrap
         /// Application has been started      
         /// <param name="startArgs">Startup arguments</param>
         /// </summary>        
-        public Task StartAsync( AppStartArgs startArgs = null )
-        {            
+        public async Task StartAsync(AppStartArgs startArgs = null)
+        {
+            await BeforeLaunchAsync();
             ShowViewModel<MainMenuViewModel>();
             OnAppStarted();
-            return Task.FromResult(false);
+        }
+
+        private async Task BeforeLaunchAsync()
+        {
+            var settingsService = Mvx.Resolve<IGameSettings>();
+            if (settingsService.LaunchCount == 0)
+            {
+                //copy sample SGF file to library
+                var appPackageService = Mvx.Resolve<IAppPackageFileService>();
+                var appDataService = Mvx.Resolve<IAppDataFileService>();
+                var fileName = "AlphaGo1.sgf";
+                var content = await appPackageService.ReadFileFromRelativePathAsync(Path.Combine("SGF", fileName));
+                await appDataService.WriteFileAsync(fileName, content, LibraryViewModel.SgfFolderName);
+            }
+            settingsService.LaunchCount++;
         }
 
         /// <summary>
@@ -31,7 +50,7 @@ namespace OmegaGo.UI.Infrastructure.Bootstrap
         /// </summary>
         private void OnAppStarted()
         {
-            AppStarted?.Invoke( this, EventArgs.Empty );
+            AppStarted?.Invoke(this, EventArgs.Empty);
         }
     }
 }

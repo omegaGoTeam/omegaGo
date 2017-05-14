@@ -1535,6 +1535,72 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="YourOppRequestedAnUndo" xml:space="preserve">
     <value>Váš soupeř požádal o vrácení tahu.</value>
   </data>
+  <data name="Validation_ImproperHandicapForSize" xml:space="preserve">
+    <value>Handicap je podporován jen na 9x9, 13x13 a 19x19.</value>
+  </data>
+  <data name="ImportSgfFile" xml:space="preserve">
+    <value>Importovat soubor SGF...</value>
+  </data>
+  <data name="OpenSgfFile" xml:space="preserve">
+    <value>Otevřít soubor SGF...</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Exportovat</value>
+  </data>
+  <data name="LibraryLoadingFormatString" xml:space="preserve">
+    <value>Načítám... {0} of {1}</value>
+  </data>
+  <data name="Analyze" xml:space="preserve">
+    <value>Otevřít</value>
+  </data>
+  <data name="Game1" xml:space="preserve">
+    <value>hra</value>
+  </data>
+  <data name="Game2" xml:space="preserve">
+    <value>hry</value>
+  </data>
+  <data name="Game5" xml:space="preserve">
+    <value>her</value>
+  </data>
+  <data name="ErrorSavingFile" xml:space="preserve">
+    <value>Chyba při ukládání souboru</value>
+  </data>
+  <data name="Analysis" xml:space="preserve">
+    <value>Analýza</value>
+  </data>
+  <data name="ExportSgfFile" xml:space="preserve">
+    <value>Exportovat jako SGF...</value>
+  </data>
+  <data name="SaveToLibrary" xml:space="preserve">
+    <value>Uložit do knihovny</value>
+  </data>
+  <data name="SgfExportSuccessful" xml:space="preserve">
+    <value>Hra byly úspěšně exportována.</value>
+  </data>
+  <data name="SgfSaveToLibrarySuccessful" xml:space="preserve">
+    <value>Hra byla uložena do knihovny.</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Úspěch</value>
+  </data>
+  <data name="KgsChallengeManagementTitle" xml:space="preserve">
+    <value>Tvoje výzva KGS</value>
+  </data>
+  <data name="BetterDelete" xml:space="preserve">
+    <value>Smazat</value>
+  </data>
+  <data name="ShortRanked" xml:space="preserve">
+    <value>Hodnocená</value>
+  </data>
+  <data name="ShortUnranked" xml:space="preserve">
+    <value>Volná</value>
+  </data>
+  <data name="ShortUntimed" xml:space="preserve">
+    <value>Nečasováno</value>
+  </data>
+  <data name="RankUpAt" xml:space="preserve">
+    <value>Další hodnost</value>
+  </data>
   <data name="UseTouchInputOffset" xml:space="preserve">
     <value>Přidat posunutí k dotykovému ovládání, aby šly lépe vidět stínové prvky na herní ploše.</value>
   </data>

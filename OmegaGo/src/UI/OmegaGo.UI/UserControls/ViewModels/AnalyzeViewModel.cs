@@ -55,7 +55,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public ITool SelectedTool
         {
             get { return (_selectedTool ?? StonePlacementTool); }
-            private set
+            set
             {
                 SetProperty(ref _selectedTool, value);
                 value.Set(_toolServices);
@@ -99,6 +99,13 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         public MvxCommand BackToGameCommand => _backToGameCommand ?? (_backToGameCommand = new MvxCommand(
             () => { BackToGame(); }));
+
+        private bool _backToGameVisible = true;
+        public bool BackToGameVisible
+        {
+            get { return _backToGameVisible; }
+            set { SetProperty(ref _backToGameVisible, value); }
+        }
         public MvxCommand PassCommand => _passCommand ?? (_passCommand = new MvxCommand(
             () => { Pass(); }));
 
@@ -147,6 +154,11 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public bool IsCrossToolSelected
         {
             get { return SelectedTool == CrossMarkupTool; }
+        }
+
+        public void Init()
+        {
+            SelectedTool = StonePlacementTool;
         }
 
         /// <summary>

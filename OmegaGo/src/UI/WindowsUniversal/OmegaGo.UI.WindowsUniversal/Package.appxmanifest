@@ -25,6 +25,18 @@
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\Logos\SplashScreen.png" BackgroundColor="#FDD270" />
       </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="sgf">
+            <uap:DisplayName>SGF file</uap:DisplayName>
+            <uap:InfoTip>Open SGF file in omegaGo for analysis</uap:InfoTip>
+            <uap:EditFlags OpenIsSafe="true" />
+            <uap:SupportedFileTypes>
+              <uap:FileType ContentType="application/x-go-sgf">.sgf</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+      </Extensions>
     </Application>
   </Applications>
   <Capabilities>
