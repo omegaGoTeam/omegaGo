@@ -41,7 +41,10 @@
         </Border>
         <CommandBar Background="Transparent" Style="{StaticResource OpenDownCommandBar}" ClosedDisplayMode="Minimal" Grid.Row="0">
             <CommandBar.SecondaryCommands>
-                <AppBarButton Icon="Delete" IsCompact="False" Label="{Binding Source={StaticResource Localizer}, Path=Delete}" Command="{x:Bind DeleteCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}" />
+                <AppBarButton Icon="Delete" IsCompact="False" Label="{Binding Source={StaticResource Localizer}, Path=BetterDelete}" Command="{x:Bind DeleteCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}" >
+
+                    <BitmapIcon UriSource="/Assets/Icons/Commands/ExportFromLibrary.png" />
+                </AppBarButton>
                 <AppBarButton Label="{Binding Source={StaticResource Localizer}, Path=Export}" Command="{x:Bind ExportCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}">
                     <BitmapIcon UriSource="/Assets/Icons/Commands/ExportFromLibrary.png" />
                 </AppBarButton>
