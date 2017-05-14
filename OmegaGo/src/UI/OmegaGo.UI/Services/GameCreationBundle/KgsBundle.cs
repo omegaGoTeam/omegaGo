@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.UI.Services.Online;
 using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.Services.GameCreation
@@ -21,6 +22,10 @@ namespace OmegaGo.UI.Services.GameCreation
 
         public override void OnLoad(GameCreationViewModel vm)
         {
+            Connections.Kgs.Events.Disconnection += (o,reason) =>
+            {
+                vm.CloseSelf();
+            };
         }
     }
 }
