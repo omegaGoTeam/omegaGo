@@ -14,13 +14,30 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <Style x:Key="StatusPanelValueStyle" TargetType="TextBlock" BasedOn="{StaticResource SubtitleTextBlockStyle}">
-            <Setter Property="HorizontalAlignment" Value="Center" />
+        <Style x:Key="StatusPanelValueStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="FontSize" Value="24" />
             <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="4,0,0,6" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="LineHeight" Value="20" />
+            <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
         </Style>
-        <Style x:Key="StatusPanelCaptionStyle" TargetType="TextBlock" BasedOn="{StaticResource SubtitleTextBlockStyle}">
-            <Setter Property="HorizontalAlignment" Value="Center" />
+        <Style x:Key="StatusPanelCaptionStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Opacity" Value="0.75" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Margin" Value="4,0,0,4" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        </Style>
+        <Style x:Key="SmallerStatusPanelCaptionStyle" TargetType="TextBlock" BasedOn="{StaticResource StatusPanelCaptionStyle}">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Margin" Value="4,0,0,0" />
+        </Style>
+        <Style x:Key="SmallerStatusPanelValueStyle" TargetType="TextBlock" BasedOn="{StaticResource StatusPanelValueStyle}">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Margin" Value="4,0,0,4" />
         </Style>
     </Page.Resources>
     <Page.Transitions>
@@ -92,37 +109,77 @@
                         </mainMenu:MainMenuButton>
                     </ItemsControl.Items>
                 </ItemsControl>
-                <StackPanel Margin="0,20,0,0">
-
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                        <TextBlock Style="{ThemeResource StatusPanelCaptionStyle}" Text="{x:Bind Localizer.OmegaGoRank}" />
-                        <TextBlock Style="{ThemeResource StatusPanelValueStyle}" FontSize="26"  Text="{Binding Rank, FallbackValue=Apprentice}" />
-                    </StackPanel>
-                    <Grid Margin="0,12,0,0" HorizontalAlignment="Center">
+                <Grid Margin="0,20,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid HorizontalAlignment="Center">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="48" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
-                            <TextBlock  Style="{ThemeResource StatusPanelCaptionStyle}" Text="{x:Bind Localizer.Points}" />
-                            <TextBlock Style="{ThemeResource StatusPanelValueStyle}" Text="{Binding Points, FallbackValue=205}" />
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Center">
-                            <TextBlock  Style="{ThemeResource StatusPanelCaptionStyle}"  Text="{x:Bind Localizer.RankUpAt}" />
-                            <TextBlock Style="{ThemeResource StatusPanelValueStyle}" Text="{Binding NextRankPoints, FallbackValue=1200}" />
-                        </StackPanel>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <BitmapIcon VerticalAlignment="Center" Grid.RowSpan="2" UriSource="/Assets/Icons/Info/Rank.png" Width="48" Height="48" />
+                        <TextBlock Grid.Column="1" Grid.Row="0" Style="{ThemeResource StatusPanelCaptionStyle}" Text="{x:Bind Localizer.OmegaGoRank}" />
+                        <TextBlock Grid.Column="1" Grid.Row="1" Style="{ThemeResource StatusPanelValueStyle}"  Text="{Binding Rank, FallbackValue=Apprentice}" />
                     </Grid>
-                </StackPanel>
-                <TextBlock Text="{x:Bind Localizer.Quests}" Margin="0,20,0,8" HorizontalAlignment="Center" Style="{ThemeResource SubtitleTextBlockStyle}" FontSize="26"/>
+                    <Grid Grid.Row="1" Margin="0,12,0,0" MaxWidth="300">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <BitmapIcon VerticalAlignment="Center" Grid.RowSpan="2" UriSource="/Assets/Icons/Info/XPs.png" Width="40" Height="40" />
+                            <TextBlock Grid.Column="1" Grid.Row="0" Style="{ThemeResource SmallerStatusPanelCaptionStyle}" Text="{x:Bind Localizer.Points}" />
+                            <TextBlock Grid.Column="1" Grid.Row="1" Style="{ThemeResource SmallerStatusPanelValueStyle}"  Text="{Binding Points, FallbackValue=205}" />
+                        </Grid>
+                        <Grid HorizontalAlignment="Center" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <BitmapIcon VerticalAlignment="Center" Grid.RowSpan="2" UriSource="/Assets/Icons/Info/RankUp.png" Width="40" Height="40"  />
+                            <TextBlock Grid.Column="1" Grid.Row="0" Style="{ThemeResource SmallerStatusPanelCaptionStyle}" Text="{x:Bind Localizer.RankUpAt}" />
+                            <TextBlock Grid.Column="1" Grid.Row="1" Style="{ThemeResource SmallerStatusPanelValueStyle}"  Text="{Binding NextRankPoints, FallbackValue=1200}" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <TextBlock Text="{x:Bind Localizer.Quests}" Margin="0,20,0,8" HorizontalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}"/>
                 <GridView SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Center" 
                           ItemsSource="{Binding ActiveQuests}">
+                    <ItemsControl.ItemContainerTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </ItemsControl.ItemContainerTransitions>
+                    <GridView.ItemContainerStyle>
+                        <Style TargetType="GridViewItem">
+                            <Setter Property="Margin" Value="8" />
+                        </Style>
+                    </GridView.ItemContainerStyle>
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="quests:ActiveQuest">
-                            <singleplayer:QuestControl />
+                            <singleplayer:QuestControl ActiveQuest="{x:Bind Mode=OneWay}" TryOutCommand="{Binding ElementName=SingleplayerViewLayout, Path=VM.TryOutQuestCommand}" ExchangeCommand="{Binding ElementName=SingleplayerViewLayout, Path=VM.ExchangeQuestCommand}" CanExchange="{Binding ElementName=SingleplayerViewLayout, Path=VM.ExchangeIsPossible}" />
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>
-                <TextBlock Text="{x:Bind Localizer.QuestsFooter}" HorizontalAlignment="Center" Margin="0,0,0,20" TextWrapping="Wrap"></TextBlock>
+                <TextBlock Text="{x:Bind Localizer.QuestsFooter}" HorizontalAlignment="Center" TextAlignment="Center" Margin="12,8,12,20" TextWrapping="Wrap" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

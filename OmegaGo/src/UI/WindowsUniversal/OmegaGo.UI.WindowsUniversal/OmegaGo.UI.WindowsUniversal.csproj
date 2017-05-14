@@ -280,6 +280,9 @@
     <Content Include="Assets\Icons\Commands\ImportToLibrary.scale-150.png" />
     <Content Include="Assets\Icons\Commands\ImportToLibrary.scale-200.png" />
     <Content Include="Assets\Icons\Commands\MultiplayerOptions.png" />
+    <Content Include="Assets\Icons\Commands\Replace.scale-100.png" />
+    <Content Include="Assets\Icons\Commands\Replace.scale-150.png" />
+    <Content Include="Assets\Icons\Commands\Replace.scale-200.png" />
     <Content Include="Assets\Icons\Info\Channel.scale-100.png" />
     <Content Include="Assets\Icons\Info\Channel.scale-150.png" />
     <Content Include="Assets\Icons\Info\Channel.scale-200.png" />
@@ -304,6 +307,12 @@
     <Content Include="Assets\Icons\Info\List.scale-100.png" />
     <Content Include="Assets\Icons\Info\List.scale-150.png" />
     <Content Include="Assets\Icons\Info\List.scale-200.png" />
+    <Content Include="Assets\Icons\Info\Rank.scale-100.png" />
+    <Content Include="Assets\Icons\Info\Rank.scale-150.png" />
+    <Content Include="Assets\Icons\Info\Rank.scale-200.png" />
+    <Content Include="Assets\Icons\Info\RankUp.scale-100.png" />
+    <Content Include="Assets\Icons\Info\RankUp.scale-150.png" />
+    <Content Include="Assets\Icons\Info\RankUp.scale-200.png" />
     <Content Include="Assets\Icons\Info\Room.scale-100.png" />
     <Content Include="Assets\Icons\Info\Room.scale-150.png" />
     <Content Include="Assets\Icons\Info\Room.scale-200.png" />
@@ -314,6 +323,12 @@
     <Content Include="Assets\Icons\Info\Timing.scale-100.png" />
     <Content Include="Assets\Icons\Info\Timing.scale-150.png" />
     <Content Include="Assets\Icons\Info\Timing.scale-200.png" />
+    <Content Include="Assets\Icons\Info\XPPlus.scale-100.png" />
+    <Content Include="Assets\Icons\Info\XPPlus.scale-150.png" />
+    <Content Include="Assets\Icons\Info\XPPlus.scale-200.png" />
+    <Content Include="Assets\Icons\Info\XPs.scale-100.png" />
+    <Content Include="Assets\Icons\Info\XPs.scale-150.png" />
+    <Content Include="Assets\Icons\Info\XPs.scale-200.png" />
     <Content Include="Assets\Icons\TitleBar\Analyze.scale-100.png" />
     <Content Include="Assets\Icons\TitleBar\Analyze.scale-150.png" />
     <Content Include="Assets\Icons\TitleBar\Analyze.scale-200.png" />

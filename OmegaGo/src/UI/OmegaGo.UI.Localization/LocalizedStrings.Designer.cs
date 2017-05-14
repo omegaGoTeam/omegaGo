@@ -2796,7 +2796,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Try this now.
+        ///   Looks up a localized string similar to Try now.
         /// </summary>
         public static string Quest_TryThisNow {
             get {

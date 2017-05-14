@@ -36,12 +36,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             (ViewModel as ViewModelBase)?.Appearing();
         }
 
-        private void ViewBase_Loaded(object sender, RoutedEventArgs e)
-        {
-            //remove transitions
-            Transitions.Clear();
-        }
-
         /// <summary>
         /// Title of the window (defaults to empty string)
         /// </summary>

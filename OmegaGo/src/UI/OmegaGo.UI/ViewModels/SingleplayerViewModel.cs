@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
@@ -19,7 +20,16 @@ namespace OmegaGo.UI.ViewModels
     public class SingleplayerViewModel : ViewModelBase
     {
         private readonly IGameSettings _gameSettings;
-        
+
+        private ICommand _tryOutQuestCommand = null;
+        private ICommand _exchangeQuestCommand = null;
+
+
+        public SingleplayerViewModel(IGameSettings gameSettings)
+        {            
+            _gameSettings = gameSettings;
+        }
+
         public IMvxCommand GoToTutorial => new MvxCommand(() => ShowViewModel<TutorialViewModel>());
         public MvxCommand GoToStatistics => new MvxCommand(() => ShowViewModel<StatisticsViewModel>());
         public MvxCommand GoToTsumegoMenu => new MvxCommand(() => ShowViewModel<TsumegoMenuViewModel>());
@@ -30,6 +40,12 @@ namespace OmegaGo.UI.ViewModels
             ShowViewModel<GameCreationViewModel>();
         });
 
+        public ICommand TryOutQuestCommand => _tryOutQuestCommand ??
+                                              (_tryOutQuestCommand = new MvxCommand<ActiveQuest>(TryOutQuest));
+
+        public ICommand ExchangeQuestCommand => _exchangeQuestCommand ??
+                                                (_exchangeQuestCommand = new MvxCommand<ActiveQuest>(ExchangeQuest));
+
         public int Points => this._gameSettings.Quests.Points;
 
         public string Rank => Ranks.GetRankName(Localizer, Points);
@@ -38,23 +54,18 @@ namespace OmegaGo.UI.ViewModels
 
         public bool ExchangeIsPossible => QuestCooldownActions.IsExchangePossible(_gameSettings);
 
-        public ObservableCollection<ActiveQuest> ActiveQuests { get; set; }
+        public ObservableCollection<ActiveQuest> ActiveQuests { get; } = new ObservableCollection<ActiveQuest>();
 
-        public SingleplayerViewModel(IGameSettings gameSettings)
-        {
-            ActiveQuests = new ObservableCollection<ActiveQuest>();
-            _gameSettings = gameSettings;
-        }
-      
+
         public void Load()
         {
             ActiveQuests.Clear();
 
             QuestCooldownActions.CheckForNewQuests(_gameSettings);
-            foreach(var quest in _gameSettings.Quests.ActiveQuests)
+            foreach (var quest in _gameSettings.Quests.ActiveQuests)
             {
                 ActiveQuests.Add(quest);
-            }            
+            }
         }
 
         public void ExchangeQuest(ActiveQuest activeQuest)
@@ -69,10 +80,10 @@ namespace OmegaGo.UI.ViewModels
                 _gameSettings.Quests.LastQuestExchangedWhen = DateTime.Now;
             }
 
-            RaisePropertyChanged(nameof(ExchangeIsPossible));
+            RaisePropertyChanged(() => ExchangeIsPossible);
         }
 
-        public void TryThisNow(ActiveQuest activeQuest)
+        public void TryOutQuest(ActiveQuest activeQuest)
         {
             Type model = activeQuest.Quest.GetViewModelToTry();
 

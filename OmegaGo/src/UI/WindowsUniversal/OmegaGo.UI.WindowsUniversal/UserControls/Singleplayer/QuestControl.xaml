@@ -10,48 +10,65 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Border Padding="12" Width="250" Height="200">
+    <Border Padding="12" Width="300" Height="300">
         <Border.Background>
             <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="{ThemeResource PagePanelOpacity}" />
         </Border.Background>
         <Grid>
-            <StackPanel VerticalAlignment="Top">
-                <TextBlock TextAlignment="Center" Text="{Binding Quest.Name}" 
-                           Foreground="Black" FontSize="28" TextWrapping="Wrap" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock  FontSize="22" Margin="0,0,10,0" Text="{x:Bind Localizer.RewardColon}" />
-                    <TextBlock  Text="{Binding Quest.PointReward}"
-                                FontWeight="Bold" Foreground="Black" FontSize="22" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <TextBlock TextAlignment="Center" Text="{x:Bind ActiveQuest.Quest.Name, Mode=OneWay}" 
+                           FontWeight="SemiBold" TextWrapping="Wrap" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4,0,0">
+                    <BitmapIcon UriSource="/Assets/Icons/Info/XPPlus.png" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Margin="0,0,8,0" Width="32" Height="32" />
+                    <TextBlock  Text="{x:Bind ActiveQuest.Quest.PointReward, Mode=OneWay, FallbackValue=100}" VerticalAlignment="Center" Style="{ThemeResource SubtitleTextBlockStyle}"
+                                />
                 </StackPanel>
-                <TextBlock  Text="{Binding Quest.Description}" Margin="0,10,0,0" TextAlignment="Center"
-                            FontSize="18" TextWrapping="Wrap" />
+
             </StackPanel>
-            <StackPanel VerticalAlignment="Bottom">
+            <ScrollViewer Margin="-12,8" Padding="12,0,12,0" Grid.Row="1" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                <TextBlock Text="{x:Bind ActiveQuest.Quest.Description, Mode=OneWay}" TextAlignment="Center" TextWrapping="Wrap"/>
+            </ScrollViewer>
+            <StackPanel Grid.Row="2">
                 <!-- Progress bar -->
-                <ProgressBar Minimum="0" Maximum="{Binding Quest.MaximumProgress}" 
-                             Value="{Binding Progress}" Height="20" Margin="0,10,0,0" />
+                <ProgressBar Minimum="0" Maximum="{x:Bind ActiveQuest.Quest.MaximumProgress, Mode=OneWay}" 
+                             Value="{x:Bind ActiveQuest.Progress, Mode=OneWay}" Height="20" Margin="0,10,0,0" />
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="{Binding Progress}" />
+                    <TextBlock Text="{x:Bind ActiveQuest.Progress, Mode=OneWay}" />
                     <TextBlock Text="/" />
-                    <TextBlock Text="{Binding Quest.MaximumProgress}" />
+                    <TextBlock Text="{x:Bind ActiveQuest.Quest.MaximumProgress, Mode=OneWay}" />
                 </StackPanel>
                 <!-- Buttons -->
-                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                    <Button Visibility="{Binding Quest.TryThisNowButtonVisible, Converter={StaticResource VisibilityConverter}}" Tag="{Binding}"
-                            ToolTipService.ToolTip="{Binding ElementName=SingleplayerViewLayout, Path=Localizer.Quest_TryThisNowTooltip}">
-                        <StackPanel Orientation="Vertical">
-                            <FontIcon Glyph="&#xE768;"/>
-                            <TextBlock Text="{Binding ElementName=SingleplayerViewLayout, Path=Localizer.Quest_TryThisNow}"/>
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <!--<AppBarButton Label="{x:Bind Localizer.Quest_TryThisNow}" Icon="Play" IsCompact="False" Margin="0,0,4,0" />
+                    <AppBarButton Label="{x:Bind Localizer.Quest_Replace}" IsCompact="False"  Margin="4,0,0,0"> 
+                        <AppBarButton.Icon>
+                            <BitmapIcon UriSource="/Assets/Icons/Commands/Replace.png" Width="20" Height="20" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>-->
+                    <Button Margin="0,0,4,0"  HorizontalAlignment="Stretch" Visibility="{x:Bind ActiveQuest.Quest.TryThisNowButtonVisible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}" Command="{x:Bind TryOutCommand, Mode=OneWay}" CommandParameter="{x:Bind ActiveQuest, Mode=OneWay}"
+                            ToolTipService.ToolTip="{x:Bind Localizer.Quest_TryThisNowTooltip}">
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon Glyph="&#xE768;" Margin="0,0,8,0" />
+                            <TextBlock Text="{x:Bind Localizer.Quest_TryThisNow}"/>
                         </StackPanel>
                     </Button>
-                    <Button Visibility="{Binding ElementName=SingleplayerViewLayout, Path=VM.ExchangeIsPossible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}" Tag="{Binding}"
-                            ToolTipService.ToolTip="{Binding ElementName=SingleplayerViewLayout, Path=Localizer.Quest_ReplaceTooltip}">
-                        <StackPanel Orientation="Vertical">
-                            <FontIcon Glyph="&#xE72C;"/>
-                            <TextBlock Text="{Binding ElementName=SingleplayerViewLayout, Path=Localizer.Quest_Replace}"/>
+                    <Button Margin="4,0,0,0" Grid.Column="1" HorizontalAlignment="Stretch" Visibility="{x:Bind CanExchange, Converter={StaticResource VisibilityConverter}, Mode=OneWay}"  Command="{x:Bind ExchangeCommand, Mode=OneWay}" CommandParameter="{x:Bind ActiveQuest, Mode=OneWay}"
+                            ToolTipService.ToolTip="{x:Bind Localizer.Quest_ReplaceTooltip}">
+                        <StackPanel Orientation="Horizontal">
+                            <BitmapIcon UriSource="/Assets/Icons/Commands/Replace.png" Width="20" Height="20" Margin="0,0,8,0" />
+                            <TextBlock Text="{x:Bind Localizer.Quest_Replace}"/>
                         </StackPanel>
                     </Button>
-                </StackPanel>
+                </Grid>
             </StackPanel>
         </Grid>
     </Border>
