@@ -1,5 +1,6 @@
 ﻿using OmegaGo.UI.ViewModels;
 using System;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 
@@ -66,6 +67,19 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                         break;
                 }
             }
+        }
+
+        private void layoutRoot_Loaded(object sender, RoutedEventArgs e)
+        {
+            systemLog.Items.VectorChanged += (s, ev) =>
+            {
+                if (ev.CollectionChange == CollectionChange.ItemInserted)
+                {
+                    object newObject = systemLog.Items[(int)ev.Index];
+
+                    systemLog.ScrollIntoView(newObject);
+                }
+            };
         }
     }
 }

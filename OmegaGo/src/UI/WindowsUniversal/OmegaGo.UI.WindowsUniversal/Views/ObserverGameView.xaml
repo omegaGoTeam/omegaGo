@@ -7,8 +7,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    xmlns:models="using:OmegaGo.UI.Models.Log"
     xmlns:converters="using:OmegaGo.UI.WindowsUniversal.Converters"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Loaded="layoutRoot_Loaded">
 
     <Page.Transitions>
         <TransitionCollection>
@@ -78,8 +80,6 @@
 
                         <Setter Target="whitePortrait.(Grid.Column)" Value="0" />
                         <Setter Target="blackPortrait.(Grid.Column)" Value="1" />
-
-                        <Setter Target="systemLog.MaxHeight" Value="600" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -97,8 +97,6 @@
 
                         <Setter Target="whitePortrait.(Grid.ColumnSpan)" Value="2" />
                         <Setter Target="blackPortrait.(Grid.ColumnSpan)" Value="2" />
-
-                        <Setter Target="systemLog.MaxHeight" Value="600" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -204,7 +202,7 @@
                                   Grid.ColumnSpan="2"
                                   Margin="10" Height="400"
                                   Visibility="{x:Bind VM.IsSystemLogEnabled, Mode=OneWay, Converter={StaticResource boolVisibilityConverter}}"
-                                  Background="White" Foreground="Black"
+                                  ItemContainerTransitions="{x:Null}"
                                   ItemsSource="{x:Bind VM.Log}">
                             <ListView.Resources>
                                 <Style TargetType="ListViewItem">
@@ -213,9 +211,14 @@
                                 </Style>
                             </ListView.Resources>
 
+                            <ListView.Background>
+                                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}"
+                                                 Opacity="0.7"/>
+                            </ListView.Background>
+
                             <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding}" TextWrapping="WrapWholeWords" />
+                                <DataTemplate x:DataType="models:LogMessage">
+                                    <TextBlock Text="{x:Bind Text}" TextWrapping="WrapWholeWords" />
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>

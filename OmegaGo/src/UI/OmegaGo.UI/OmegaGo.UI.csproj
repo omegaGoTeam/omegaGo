@@ -85,6 +85,7 @@
     <Compile Include="Models\Library\LibraryItemGame.cs" />
     <Compile Include="Models\Library\LibraryItemKind.cs" />
     <Compile Include="Models\Library\LibraryItemViewModel.cs" />
+    <Compile Include="Models\Log\LogMessage.cs" />
     <Compile Include="Models\Statistics\StatisticsItem.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
