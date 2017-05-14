@@ -18,7 +18,7 @@ namespace OmegaGo.UI.Services.Settings
         {
             get
             {
-                int theSetting = GetSetting(nameof(ControlStyle), () => (int)ControlStyle.Wood, SettingLocality.Roamed);
+                int theSetting = GetSetting(nameof(ControlStyle), () => (int)ControlStyle.OperatingSystem, SettingLocality.Roamed);
                 return (ControlStyle)theSetting;
             }
             set { SetSetting(nameof(ControlStyle), (int)value, SettingLocality.Roamed); }
@@ -94,6 +94,12 @@ namespace OmegaGo.UI.Services.Settings
         {
             get { return GetSetting(nameof(AddGraceSecond), () => true, SettingLocality.Roamed); }
             set { SetSetting(nameof(AddGraceSecond), value, SettingLocality.Roamed); }
+        }
+
+        public bool AddTouchInputOffset
+        {
+            get { return GetSetting(nameof(AddTouchInputOffset), () => false, SettingLocality.Roamed); }
+            set { SetSetting(nameof(AddTouchInputOffset), value, SettingLocality.Roamed); }
         }
 
         public bool HighlightLastMove

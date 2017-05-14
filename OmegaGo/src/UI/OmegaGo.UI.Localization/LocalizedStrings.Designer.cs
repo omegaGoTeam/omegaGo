@@ -2733,7 +2733,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Play against AI.
+        ///   Looks up a localized string similar to Hrát proti umělé inteligenci.
         /// </summary>
         public static string PlayAgainstAI {
             get {
@@ -2823,7 +2823,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Try this now.
+        ///   Looks up a localized string similar to Try now.
         /// </summary>
         public static string Quest_TryThisNow {
             get {
@@ -2954,6 +2954,15 @@ namespace OmegaGo.UI.Localization {
         public static string Ranking {
             get {
                 return ResourceManager.GetString("Ranking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rank-up at.
+        /// </summary>
+        public static string RankUpAt {
+            get {
+                return ResourceManager.GetString("RankUpAt", resourceCulture);
             }
         }
         
@@ -4304,6 +4313,15 @@ namespace OmegaGo.UI.Localization {
         public static string Users {
             get {
                 return ResourceManager.GetString("Users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Apply offset to touch input for better shadow items visibility on game board..
+        /// </summary>
+        public static string UseTouchInputOffset {
+            get {
+                return ResourceManager.GetString("UseTouchInputOffset", resourceCulture);
             }
         }
         

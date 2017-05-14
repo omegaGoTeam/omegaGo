@@ -21,8 +21,8 @@
                         <Setter Target="Button.Height" Value="50" />
                         <Setter Target="TextContent.Margin" Value="12,0" />
                         <Setter Target="RelativeContainer.Orientation" Value="Horizontal" />
-                        <Setter Target="IconContent.Width" Value="24" />
-                        <Setter Target="IconContent.Height" Value="24" />
+                        <Setter Target="IconContent.Width" Value="28" />
+                        <Setter Target="IconContent.Height" Value="28" />
                         <Setter Target="Button.Margin" Value="12,4,12,4" />
                     </VisualState.Setters>
                 </VisualState>
@@ -35,8 +35,8 @@
                         <Setter Target="Button.Height" Value="70" />
                         <Setter Target="TextContent.Margin" Value="12,0" />
                         <Setter Target="RelativeContainer.Orientation" Value="Horizontal" />
-                        <Setter Target="IconContent.Width" Value="24" />
-                        <Setter Target="IconContent.Height" Value="24" />
+                        <Setter Target="IconContent.Width" Value="32" />
+                        <Setter Target="IconContent.Height" Value="32" />
                         <Setter Target="Button.Margin" Value="12,4,12,4" />
                     </VisualState.Setters>
                 </VisualState>
@@ -52,7 +52,7 @@
                         <Setter Target="IconContent.Height" Value="64" />
                         <Setter Target="TextContent.FontSize" Value="20" />
                         <Setter Target="TextArea.Height" Value="70" />
-                        <Setter Target="Button.Margin" Value="10" />
+                        <Setter Target="Button.Margin" Value="8" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -62,7 +62,7 @@
                 <ContentPresenter Content="{x:Bind Icon}" />
             </Viewbox>
             <Grid x:Name="TextArea">
-                <TextBlock x:Name="TextContent" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Text="{x:Bind Text}" Margin="12,10,12,10" />
+                <TextBlock x:Name="TextContent" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Text="{x:Bind Text}" Margin="12,0,12,0" />
             </Grid>
         </StackPanel>
     </Button>

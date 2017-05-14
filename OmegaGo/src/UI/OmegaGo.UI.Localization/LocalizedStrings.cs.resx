@@ -1598,4 +1598,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="ShortUntimed" xml:space="preserve">
     <value>Nečasováno</value>
   </data>
+  <data name="RankUpAt" xml:space="preserve">
+    <value>Další hodnost</value>
+  </data>
+  <data name="UseTouchInputOffset" xml:space="preserve">
+    <value>Přidat posunutí k dotykovému ovládání, aby šly lépe vidět stínové prvky na herní ploše.</value>
+  </data>
 </root>

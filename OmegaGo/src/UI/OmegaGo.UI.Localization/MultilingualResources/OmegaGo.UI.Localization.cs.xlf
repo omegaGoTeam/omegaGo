@@ -567,8 +567,9 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
         </trans-unit>
         <trans-unit id="PlayAgainstAI" translate="yes" xml:space="preserve">
           <source>Play against AI</source>
-          <target state="translated">Hrát proti počítači</target>
+          <target state="needs-review-translation">Hrát proti počítači</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Goes to solo menu</note>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="Quests" translate="yes" xml:space="preserve">
           <source>Quests</source>
@@ -583,8 +584,9 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
           <target state="translated">Ztratíte tento quest, ale okamžitě získáte jiný, náhodně vybraný, quest.</target>
         </trans-unit>
         <trans-unit id="Quest_TryThisNow" translate="yes" xml:space="preserve">
-          <source>Try this now</source>
-          <target state="translated">Zkusit nyní</target>
+          <source>Try now</source>
+          <target state="needs-review-translation">Zkusit nyní</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="Quest_TryThisNowTooltip" translate="yes" xml:space="preserve">
           <source>This will take you to a screen where you can work on this quest.</source>
@@ -2125,6 +2127,22 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         <trans-unit id="ShortUntimed" translate="yes" xml:space="preserve">
           <source>Untimed</source>
           <target state="translated">Nečasováno</target>
+        </trans-unit>
+        <trans-unit id="RankUpAt" translate="yes" xml:space="preserve">
+          <source>Rank-up at</source>
+          <target state="translated">Další hodnost</target>
+        </trans-unit>
+        <trans-unit id="IgsServerCaptionShort" translate="yes" xml:space="preserve">
+          <source>Pandanet - IGS</source>
+          <target state="new">Pandanet - IGS</target>
+        </trans-unit>
+        <trans-unit id="Ranking" translate="yes" xml:space="preserve">
+          <source>Ranking</source>
+          <target state="new">Ranking</target>
+        </trans-unit>
+        <trans-unit id="UseTouchInputOffset" translate="yes" xml:space="preserve">
+          <source>Apply offset to touch input for better shadow items visibility on game board.</source>
+          <target state="needs-review-translation">Přidat posunutí k dotykovému ovládání, aby šly lépe vidět stínové prvky na herní ploše.</target>
         </trans-unit>
       </group>
     </body>

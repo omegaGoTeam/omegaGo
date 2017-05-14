@@ -112,6 +112,7 @@
                             <CheckBox Content="{x:Bind Localizer.ShowCoordinates}" IsChecked="{Binding ShowCoordinates, Mode=TwoWay}" />
                             <CheckBox Content="{x:Bind Localizer.ShowTutorialButton}" IsChecked="{Binding ShowTutorialInMainMenu, Mode=TwoWay}" />
                             <CheckBox Content="{x:Bind Localizer.UseGraceSecond}" IsChecked="{Binding AddGraceSecond, Mode=TwoWay}" />
+                            <CheckBox Content="{x:Bind Localizer.UseTouchInputOffset}" IsChecked="{Binding AddTouchInputOffset, Mode=TwoWay}" />
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>
