@@ -135,6 +135,7 @@
     <Compile Include="Services\Files\FilePickerService.cs" />
     <Compile Include="Services\BoardControl\InputService.cs" />
     <Compile Include="Services\BoardControl\RenderService.cs" />
+    <Compile Include="Services\Memory\MemoryService.cs" />
     <Compile Include="Services\Notifications\AppNotificationService.cs" />
     <Compile Include="Services\PasswordVault\PasswordVaultService.cs" />
     <Compile Include="Services\Settings\SettingsService.cs" />
