@@ -71,6 +71,8 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void layoutRoot_Loaded(object sender, RoutedEventArgs e)
         {
+            gameTimelineSlider.Focus(FocusState.Programmatic);
+            
             systemLog.Items.VectorChanged += (s, ev) =>
             {
                 if (ev.CollectionChange == CollectionChange.ItemInserted)

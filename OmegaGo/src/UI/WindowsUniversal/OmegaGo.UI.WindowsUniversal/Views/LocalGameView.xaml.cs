@@ -70,6 +70,11 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void layoutRoot_Loaded(object sender, RoutedEventArgs e)
         {
+            if (controlMenuButton.Visibility == Visibility.Visible)
+                controlMenuButton.Focus(FocusState.Programmatic);
+            else
+                controlMenuBar.Focus(FocusState.Programmatic);
+
             systemLog.Items.VectorChanged += (s, ev) =>
             {
                 if (ev.CollectionChange == CollectionChange.ItemInserted)
