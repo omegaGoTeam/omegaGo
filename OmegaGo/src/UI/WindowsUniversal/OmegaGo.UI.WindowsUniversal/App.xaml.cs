@@ -195,14 +195,20 @@ namespace OmegaGo.UI.WindowsUniversal
             {
                 case ControlStyle.Wood:
                     Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["woodButtonStyle"]);
-                    Application.Current.Resources.Add(typeof(ToggleButton), Application.Current.Resources["woodToggleButtonStyle"]);
+                    Application.Current.Resources.Add(typeof(ToggleButton), Application.Current.Resources["woodToggleButtonStyle"]);    // Not currently used
+
+                    Application.Current.Resources["DefaultButtonStyle"] = Application.Current.Resources["woodButtonStyle"];
                     break;
                 case ControlStyle.Lite:
                     Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["liteButtonStyle"]);
                     Application.Current.Resources.Add(typeof(ToggleButton), Application.Current.Resources["liteToggleButtonStyle"]);
+
+                    Application.Current.Resources["DefaultButtonStyle"] = Application.Current.Resources["liteButtonStyle"];
                     break;
                 case ControlStyle.OperatingSystem:
                     Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["OperatingSystemButtonStyle"]);
+
+                    Application.Current.Resources["DefaultButtonStyle"] = Application.Current.Resources["OperatingSystemButtonStyle"];
                     break;
             }
         }
