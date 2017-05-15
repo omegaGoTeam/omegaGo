@@ -25,6 +25,8 @@ using OmegaGo.UI.WindowsUniversal.Services.Feedback;
 using OmegaGo.UI.WindowsUniversal.Services.Notifications;
 using OmegaGo.UI.WindowsUniversal.Services.PasswordVault;
 using OmegaGo.UI.WindowsUniversal.Services.Timer;
+using OmegaGo.UI.Services.Memory;
+using OmegaGo.UI.WindowsUniversal.Services.Memory;
 
 namespace OmegaGo.UI.WindowsUniversal
 {
@@ -59,6 +61,7 @@ namespace OmegaGo.UI.WindowsUniversal
             Mvx.LazyConstructAndRegisterSingleton<IDialogService, DialogService>();
             Mvx.LazyConstructAndRegisterSingleton<ISfxPlayerService, UwpSfxPlayerService>();
             Mvx.LazyConstructAndRegisterSingleton<IAppNotificationService, AppNotificationService>();
+            Mvx.LazyConstructAndRegisterSingleton<IMemoryService, MemoryService>();
             base.InitializeFirstChance();
         }
 

@@ -2048,6 +2048,10 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string YouHaveRequestedAnUndo => LocalizeCaller();
 		/// <summary>
+		/// Apply offset to touch input for better shadow items visibility on game board.
+		/// </summary>
+		public string UseTouchInputOffset => LocalizeCaller();
+        /// <summary>
 		/// Your opponent requested his or her last move to be undone.
 		/// </summary>
 		public string YourOppRequestedAnUndo => LocalizeCaller();

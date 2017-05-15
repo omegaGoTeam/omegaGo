@@ -8,7 +8,8 @@
     xmlns:controls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:converters="using:OmegaGo.UI.WindowsUniversal.Converters"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    IsTabStop="True">
 
     <Page.Transitions>
         <TransitionCollection>
@@ -37,6 +38,9 @@
 
                         <Setter Target="whitePortrait.(Grid.Column)" Value="0" />
                         <Setter Target="blackPortrait.(Grid.Column)" Value="1" />
+                        
+                        <Setter Target="controlMenuButton.Visibility" Value="Visible" />
+                        <Setter Target="controlMenuBar.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -59,6 +63,9 @@
 
                         <Setter Target="whitePortrait.(Grid.ColumnSpan)" Value="2" />
                         <Setter Target="blackPortrait.(Grid.ColumnSpan)" Value="2" />
+
+                        <Setter Target="controlMenuButton.Visibility" Value="Visible" />
+                        <Setter Target="controlMenuBar.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -74,7 +81,8 @@
                         <Setter Target="whitePortrait.(Grid.Column)" Value="0" />
                         <Setter Target="blackPortrait.(Grid.Column)" Value="1" />
 
-                        <Setter Target="systemLog.MaxHeight" Value="600" />
+                        <Setter Target="controlMenuButton.Visibility" Value="Collapsed" />
+                        <Setter Target="controlMenuBar.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -93,7 +101,8 @@
                         <Setter Target="whitePortrait.(Grid.ColumnSpan)" Value="2" />
                         <Setter Target="blackPortrait.(Grid.ColumnSpan)" Value="2" />
 
-                        <Setter Target="systemLog.MaxHeight" Value="600" />
+                        <Setter Target="controlMenuButton.Visibility" Value="Collapsed" />
+                        <Setter Target="controlMenuBar.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -132,17 +141,23 @@
 
                     <Button x:Name="controlMenuButton"
                             HorizontalAlignment="Right" VerticalAlignment="Top"
-                            Margin="5">
-                        <FontIcon Glyph="&#xE700;"
-                                  Margin="2"/>
+                            Margin="5" Padding="0">
+                        <Border HorizontalAlignment="Stretch">
+                            <FontIcon Glyph="&#xE700;"
+                                      Margin="10"/>
 
+                            <Border.Background>
+                                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}"
+                                                 Opacity="0.7"/>
+                            </Border.Background>
+                        </Border>
+                        
                         <Button.Flyout>
                             <MenuFlyout>
                                 <ToggleMenuFlyoutItem x:Name="focusButton" Text="{x:Bind Localizer.HideTabs}" Click="focusButton_Click" />
                                 <MenuFlyoutSeparator />
                                 <MenuFlyoutItem Text="{x:Bind Localizer.ExportSgfFile}" Command="{x:Bind VM.ExportSGFCommand}" />
                                 <MenuFlyoutItem Text="{x:Bind Localizer.SaveToLibrary}" Command="{x:Bind VM.SaveToLibraryCommand}" />
-                                <MenuFlyoutSeparator />
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>
@@ -170,8 +185,8 @@
                         <StackPanel x:Name="analyzeModeCommand"
                                     Grid.Row="2" Grid.ColumnSpan="2"
                                     Margin="10">
-                            <controls:AnalyzeControl  x:Name="analyzeControl"
-                                                      ViewModel="{x:Bind VM.AnalyzeViewModel}" />
+                            <controls:AnalyzeToolsControl  x:Name="analyzeControl"
+                                                           ViewModel="{x:Bind VM.AnalyzeToolsViewModel}" />
                             <controls:GameTreeControl x:Name="gameTreeControl"
                                                       HorizontalAlignment="Stretch"
                                                       Height="200"
@@ -182,4 +197,15 @@
             </Grid>
         </ScrollViewer>
     </Grid>
+
+    <views:TransparencyViewBase.BottomAppBar>
+        <CommandBar x:Name="controlMenuBar">
+            <CommandBar.SecondaryCommands>
+                <AppBarToggleButton Label="{x:Bind Localizer.HideTabs}" Click="focusButton_Click" />
+                <AppBarSeparator />
+                <AppBarButton Label="{x:Bind Localizer.ExportSgfFile}" Command="{x:Bind VM.ExportSGFCommand}" />
+                <AppBarButton Label="{x:Bind Localizer.SaveToLibrary}" Command="{x:Bind VM.SaveToLibraryCommand}" />
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </views:TransparencyViewBase.BottomAppBar>
 </views:TransparencyViewBase>

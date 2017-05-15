@@ -65,7 +65,7 @@ namespace OmegaGo.UI.ViewModels
             ToolServices = new GameToolServices(Localizer, dialogService, _ruleset, analyzeBundle.GameTree);
             ToolServices.NodeChanged += (s, node) =>
             {
-                AnalyzeViewModel.OnNodeChanged();
+                AnalyzeToolsViewModel.OnNodeChanged();
                 RefreshBoard(node);
                 GameTreeViewModel.SelectedGameTreeNode = node;
                 GameTreeViewModel.RaiseGameTreeChanged();
@@ -84,11 +84,11 @@ namespace OmegaGo.UI.ViewModels
 
             ToolServices.Node = GameTree.GameTreeRoot;
 
-            AnalyzeViewModel = new AnalyzeViewModel(ToolServices);
-            AnalyzeViewModel.BackToGameVisible = false;
+            AnalyzeToolsViewModel = new AnalyzeToolsViewModel(ToolServices);
+            AnalyzeToolsViewModel.CanGoBackToLiveGame = false;
             RegisterAnalyzeTools();
-            Tool = AnalyzeViewModel.StonePlacementTool;
-            AnalyzeViewModel.SelectedTool = Tool;
+            Tool = AnalyzeToolsViewModel.StonePlacementTool;
+            AnalyzeToolsViewModel.SelectedTool = Tool;
 
             // Set up Timeline
             GameTreeViewModel = new GameTreeViewModel(GameTree);
@@ -96,7 +96,7 @@ namespace OmegaGo.UI.ViewModels
             {
                 ToolServices.Node = e;
                 RefreshBoard(e);
-                AnalyzeViewModel.OnNodeChanged();
+                AnalyzeToolsViewModel.OnNodeChanged();
             };
             GameTreeViewModel.SelectedGameTreeNode = GameTree.GameTreeRoot;
         }
@@ -115,7 +115,7 @@ namespace OmegaGo.UI.ViewModels
         protected ITool Tool { get; private set; }
 
 
-        public AnalyzeViewModel AnalyzeViewModel { get; }
+        public AnalyzeToolsViewModel AnalyzeToolsViewModel { get; }
         public GameTreeViewModel GameTreeViewModel { get; }
 
         public PlayerPortraitViewModel BlackPortrait { get; }
@@ -152,29 +152,29 @@ namespace OmegaGo.UI.ViewModels
         private void RegisterAnalyzeTools()
         {
             // Set tool when 
-            AnalyzeViewModel.ToolChanged += (s, tool) =>
+            AnalyzeToolsViewModel.ToolChanged += (s, tool) =>
             {
                 Tool = tool;
                 BoardViewModel.Tool = tool;
             };
 
             // When coming out of analysis, reset tool
-            AnalyzeViewModel.BackToGameRequested += (s, e) =>
+            AnalyzeToolsViewModel.BackToGameRequested += (s, e) =>
             {
             };
 
             // Now register all available analysis tools for Live Games (observe, local, online)
-            AnalyzeViewModel.DeleteBranchTool = new DeleteBranchTool();
-            AnalyzeViewModel.StonePlacementTool = new StonePlacementTool(GameTree.BoardSize);
-            AnalyzeViewModel.PassTool = new PassTool();
+            AnalyzeToolsViewModel.DeleteBranchTool = new DeleteBranchTool();
+            AnalyzeToolsViewModel.StonePlacementTool = new StonePlacementTool(GameTree.BoardSize);
+            AnalyzeToolsViewModel.PassTool = new PassTool();
 
-            AnalyzeViewModel.CharacterMarkupTool = new SequenceMarkupTool(SequenceMarkupKind.Letter);
-            AnalyzeViewModel.NumberMarkupTool = new SequenceMarkupTool(SequenceMarkupKind.Number);
+            AnalyzeToolsViewModel.CharacterMarkupTool = new SequenceMarkupTool(SequenceMarkupKind.Letter);
+            AnalyzeToolsViewModel.NumberMarkupTool = new SequenceMarkupTool(SequenceMarkupKind.Number);
             // TODO naming square vs rectangle o.O
-            AnalyzeViewModel.RectangleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Square);
-            AnalyzeViewModel.TriangleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Triangle);
-            AnalyzeViewModel.CircleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Circle);
-            AnalyzeViewModel.CrossMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Cross);
+            AnalyzeToolsViewModel.RectangleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Square);
+            AnalyzeToolsViewModel.TriangleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Triangle);
+            AnalyzeToolsViewModel.CircleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Circle);
+            AnalyzeToolsViewModel.CrossMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Cross);
         }
 
         private void RefreshBoard(GameTreeNode boardState)

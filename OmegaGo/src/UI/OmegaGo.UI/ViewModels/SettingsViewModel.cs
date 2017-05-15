@@ -288,6 +288,16 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
+        public bool AddTouchInputOffset
+        {
+            get { return _gameSettings.Display.AddTouchInputOffset; }
+            set
+            {
+                _gameSettings.Display.AddTouchInputOffset = value;
+                RaisePropertyChanged();
+            }
+        }
+
         // Audio
         public int MasterVolume
         {

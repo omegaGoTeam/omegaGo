@@ -35,8 +35,14 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             this.InitializeComponent();
             this.KeyUp += View_KeyUp;
+            this.Loaded += AnalyzeOnlyView_Loaded;
         }
-        
+
+        private void AnalyzeOnlyView_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Focus(FocusState.Programmatic);
+        }
+
         private void focusButton_Click(object sender, RoutedEventArgs e)
         {
             AppShell.FocusModeOn = !AppShell.FocusModeOn;

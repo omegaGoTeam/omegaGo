@@ -41,7 +41,6 @@ namespace OmegaGo.Core.AI
                         {
                             new DefeatistAI(),
                             new RandomAI(),
-                            new Deterministic.DeterministicAI(),
                             new RandomPlayerWrapper(),
                             new HeuristicPlayerWrapper(),
                             new Fluffy()
@@ -52,7 +51,6 @@ namespace OmegaGo.Core.AI
                     {
                         new DefeatistAI(),
                         new RandomAI(),
-                        new Deterministic.DeterministicAI(),
                         new RandomPlayerWrapper(),
                         new HeuristicPlayerWrapper(),
                         new Fluffy(),
@@ -66,8 +64,13 @@ namespace OmegaGo.Core.AI
         /// the application, by the frontend. The builder will be stored as a static member in this class and will be used to create a new Fuego instance for each game. Fuego must be registered externally because it uses C++ code which cannot be referenced from a Portable .NET library.
         /// </summary>
         /// <param name="builder">The builder that can create Fuego instances.</param>
-        public static void RegisterFuegoBuilder(IGtpEngineBuilder builder)
+        public static void RegisterFuegoBuilder(IGtpEngineBuilder builder, ulong availableMemory)
         {
+            ulong requiredMemoryForFuego = 850000000ul; // 850MB
+
+            if (availableMemory < requiredMemoryForFuego)
+                return;
+
             FuegoBuilder = builder;
             FuegoSingleton.Instance.AppWideInitialization();
             AISystems.RegistrationComplete = true;

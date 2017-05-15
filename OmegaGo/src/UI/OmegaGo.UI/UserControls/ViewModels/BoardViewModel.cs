@@ -16,16 +16,15 @@ namespace OmegaGo.UI.UserControls.ViewModels
     {
         private BoardControlState _boardControlState;
         private GameTreeNode _gameTreeNode;
-        
-        // TODO Is this the correct location for this?
-        private bool _isMarkupDrawingEnabled;
 
+        private bool _isTouchInputOffsetEnabled;
+        
         /// <summary>
         /// Initializes BoardViewModel.
         /// </summary>
         public BoardViewModel()
         {
-            
+            IsTouchInputOffsetEnabled = false;
         }
 
         /// <summary>
@@ -33,11 +32,13 @@ namespace OmegaGo.UI.UserControls.ViewModels
         /// </summary>
         /// <param name="boardSize">Board size</param>
         public BoardViewModel(GameBoardSize boardSize)
+            : this()
         {
             BoardControlState = new BoardControlState(boardSize);
         }
 
         public BoardViewModel(Rectangle rectangle)
+            : this()
         {
             BoardControlState = new BoardControlState(rectangle); ;
         }
@@ -88,6 +89,12 @@ namespace OmegaGo.UI.UserControls.ViewModels
         {
             get { return _boardControlState.IsShadowDrawingEnabled; }
             internal set { _boardControlState.IsShadowDrawingEnabled = value; }
+        }
+
+        public bool IsTouchInputOffsetEnabled
+        {
+            get { return _isTouchInputOffsetEnabled; }
+            set { _isTouchInputOffsetEnabled = value; }
         }
 
         public void BoardTap(Position position)
