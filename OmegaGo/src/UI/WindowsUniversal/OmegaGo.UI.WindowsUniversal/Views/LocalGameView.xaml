@@ -150,20 +150,8 @@
                                    HorizontalAlignment="Stretch"
                                    VerticalAlignment="Stretch" />
 
-                    <Button x:Name="controlMenuButton"
-                            HorizontalAlignment="Right" VerticalAlignment="Top"
-                            Margin="5" Padding="0">
-                        <Border HorizontalAlignment="Stretch">
-                            <FontIcon Glyph="&#xE700;"
-                                      Margin="10"/>
-
-                            <Border.Background>
-                                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}"
-                                             Opacity="0.7"/>
-                            </Border.Background>
-                        </Border>
-
-                        <Button.Flyout>
+                    <controls:HamburgerButton x:Name="controlMenuButton" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5">
+                        <controls:HamburgerButton.Flyout>
                             <MenuFlyout>
                                 <MenuFlyoutItem Text="{x:Bind Localizer.Resign}" Command="{x:Bind VM.ResignCommand}" />
                                 <MenuFlyoutItem Text="{x:Bind Localizer.Hint}" Command="{x:Bind VM.GetHintCommand}" />
@@ -176,8 +164,8 @@
                                 <MenuFlyoutSeparator />
                                 <ToggleMenuFlyoutItem Text="{x:Bind Localizer.SystemLog}" IsChecked="{x:Bind VM.IsSystemLogEnabled, Mode=TwoWay}" />
                             </MenuFlyout>
-                        </Button.Flyout>
-                    </Button>
+                        </controls:HamburgerButton.Flyout>
+                    </controls:HamburgerButton>
                 </Grid>
 
                 <ScrollViewer x:Name="gameInfoControl"

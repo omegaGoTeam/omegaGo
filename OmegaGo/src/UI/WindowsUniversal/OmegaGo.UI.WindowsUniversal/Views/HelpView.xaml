@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    xmlns:controls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     xmlns:xaml="using:OmegaGo.UI.WindowsUniversal.Extensions.Xaml"
     mc:Ignorable="d">
@@ -48,14 +49,10 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <Button x:Name="hamburgerButton" 
-                        Grid.Row="0" 
-                        Grid.Column="0"
-                            Width="48" Height="48"
-                        Background="Transparent"
-                        Click="OpenCloseHelp">
-                        <FontIcon Glyph="&#xE700;"></FontIcon>
-                    </Button>
+                    <controls:HamburgerButton x:Name="hamburgerButton"
+                                              Grid.Row="0" 
+                                              Grid.Column="0"
+                                              Click="OpenCloseHelp"/>
 
                     <navigation:TitleControl x:Name="viewName" 
                                          Text="{x:Bind Localizer.Help}" 

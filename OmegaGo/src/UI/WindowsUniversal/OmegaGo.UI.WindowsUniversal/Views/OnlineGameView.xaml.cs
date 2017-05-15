@@ -1,4 +1,6 @@
-﻿using OmegaGo.UI.ViewModels;
+﻿using MvvmCross.Platform;
+using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.ViewModels;
 using System;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
