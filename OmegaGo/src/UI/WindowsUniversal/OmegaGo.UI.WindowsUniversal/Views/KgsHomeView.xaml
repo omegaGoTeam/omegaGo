@@ -278,13 +278,13 @@
                                             <StackPanel Orientation="Horizontal">
                                                 <Button Margin="0,0,12,0"  Command="{Binding ElementName=ParentView, Path=VM.JoinRoomCommand}"  Visibility="{Binding Joined, Converter={StaticResource InvertedVisibilityConverter}}" >
                                                     <StackPanel Orientation="Horizontal">
-                                                        <BitmapIcon UriSource="/Assets/Icons/Commands/Enter.png" />
+                                                        <BitmapIcon UriSource="/Assets/Icons/Commands/Enter.png" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Width="20" Height="20" />
                                                         <TextBlock Margin="8,0,0,0" Text="{Binding Source={StaticResource Localizer}, Path=Join}" />
                                                     </StackPanel>
                                                 </Button>
                                                 <Button Margin="0,0,12,0" Style="{StaticResource ToolbarControl}"  Visibility="{Binding Joined, Converter={StaticResource VisibilityConverter}}" Command="{Binding ElementName=ParentView, Path=VM.UnjoinRoomCommand}">
                                                     <StackPanel Orientation="Horizontal">
-                                                        <BitmapIcon UriSource="/Assets/Icons/Commands/Exit.png" />
+                                                        <BitmapIcon UriSource="/Assets/Icons/Commands/Exit.png" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Width="20" Height="20" />
                                                         <TextBlock Margin="8,0,0,0" Text="{Binding Source={StaticResource Localizer}, Path=Unjoin}" />
                                                     </StackPanel>
                                                 </Button>
@@ -300,8 +300,7 @@
                                                 <Grid.Background>
                                                     <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
                                                 </Grid.Background>
-                                                <TextBlock TextWrapping="Wrap" IsTextSelectionEnabled="True" Text="{Binding Description, Mode=OneWay}">
-                                                </TextBlock>
+                                                <TextBlock TextWrapping="Wrap" IsTextSelectionEnabled="True" Foreground="{ThemeResource ApplicationForegroundThemeBrush}"  Text="{Binding Description, Mode=OneWay}" />
                                             </Grid>
                                             <TextBlock Style="{ThemeResource FormHeadingTextBlockStyle}" Text="{Binding Source={StaticResource Localizer}, Path=Users}" Grid.Row="2" Margin="0,0,0,8" />
                                             <Grid Padding="4" MaxHeight="300">

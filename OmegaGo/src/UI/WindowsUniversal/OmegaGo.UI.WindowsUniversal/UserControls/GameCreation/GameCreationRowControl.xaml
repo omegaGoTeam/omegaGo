@@ -11,9 +11,7 @@
     <UserControl.Resources>
         <Style x:Key="LabelStyle" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="FontSize" Value="20" />
             <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Width" Value="200" />
         </Style>
         <Style x:Key="LeftLabelStyle" TargetType="TextBlock" BasedOn="{StaticResource LabelStyle}">
             <Setter Property="TextAlignment" Value="Right" />
@@ -24,35 +22,48 @@
         </Style>
         <Style x:Key="TopLabelStyle" TargetType="TextBlock" BasedOn="{StaticResource LabelStyle}">
             <Setter Property="TextAlignment" Value="Left" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="Margin" Value="0,0,0,8" />
             <Setter Property="Grid.Column" Value="1" />
             <Setter Property="Grid.ColumnSpan" Value="2" />
         </Style>
     </UserControl.Resources>
-    <Grid>
+    <Grid Margin="0,0,0,12"> 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="CenterColumn.Width" Value="240" />
+                        <Setter Target="RightColumn.Width" Value="100" />
+                    </VisualState.Setters>
+                </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="600" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <Setter Target="LabelColumn.Width" Value="150" />
+                        <Setter Target="CenterColumn.Width" Value="240" />
+                        <Setter Target="RightColumn.Width" Value="100" />
                         <Setter Target="LabelTextBlock.Style" Value="{StaticResource LeftLabelStyle}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="250" />
-            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="0" x:Name="LabelColumn" />
+            <ColumnDefinition Width="208"  x:Name="CenterColumn" />
+            <ColumnDefinition Width="88" x:Name="RightColumn" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock x:Name="LabelTextBlock" Style="{StaticResource TopLabelStyle}" Text="{x:Bind Label, Mode=OneWay}" />
-        <ContentControl Grid.Row="1" Grid.Column="1" Content="{x:Bind CenterContent, Mode=OneWay}" />
-        <ContentControl Grid.Row="1" Grid.Column="2" Content="{x:Bind RightContent, Mode=OneWay}" />
+        <TextBlock x:Name="LabelTextBlock" Style="{StaticResource TopLabelStyle}" Text="{x:Bind Label, Mode=OneWay}" Visibility="{x:Bind Label, Mode=OneWay, Converter={StaticResource NonEmptyStringVisibilityConverter}}" />
+        <ContentControl Grid.Row="1" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Content="{x:Bind CenterContent, Mode=OneWay}" />
+        <ContentControl Grid.Row="1" Margin="8,0,0,0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2" Content="{x:Bind RightContent, Mode=OneWay}" />
     </Grid>
 </UserControl>
