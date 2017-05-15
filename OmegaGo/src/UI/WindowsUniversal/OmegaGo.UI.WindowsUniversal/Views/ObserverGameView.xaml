@@ -204,8 +204,8 @@
                                     Grid.Row="2" Grid.ColumnSpan="2"
                                     Margin="10"
                                     Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityConverter}, Mode=OneWay}">
-                            <controls:AnalyzeControl  x:Name="analyzeControl"
-                                                      ViewModel="{x:Bind VM.AnalyzeViewModel}" />
+                            <controls:AnalyzeToolsControl  x:Name="analyzeControl"
+                                                           ViewModel="{x:Bind VM.AnalyzeToolsViewModel}" />
                             <controls:GameTreeControl x:Name="gameTreeControl"
                                                       HorizontalAlignment="Stretch"
                                                       Height="200"

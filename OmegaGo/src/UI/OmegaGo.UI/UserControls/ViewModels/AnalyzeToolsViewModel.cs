@@ -4,7 +4,7 @@ using System;
 
 namespace OmegaGo.UI.UserControls.ViewModels
 {
-    public sealed class AnalyzeViewModel : ControlViewModelBase
+    public sealed class AnalyzeToolsViewModel : ControlViewModelBase
     {
         private readonly IToolServices _toolServices;
         private ITool _selectedTool;
@@ -28,7 +28,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         /// Initializes a new instance of the AnalyzeViewModel class.
         /// </summary>
         /// <param name="toolServices">tool services that will be used by the analyze mode tools</param>
-        public AnalyzeViewModel(IToolServices toolServices)
+        public AnalyzeToolsViewModel(IToolServices toolServices)
         {
             _toolServices = toolServices;
         }

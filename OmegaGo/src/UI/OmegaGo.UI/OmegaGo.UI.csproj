@@ -181,7 +181,7 @@
     <Compile Include="Services\Tsumego\TsumegoProblemDefinition.cs" />
     <Compile Include="Services\Tsumego\TsumegoProblemInfo.cs" />
     <Compile Include="Services\Tsumego\TsumegoProblemsLoader.cs" />
-    <Compile Include="UserControls\ViewModels\AnalyzeViewModel.cs" />
+    <Compile Include="UserControls\ViewModels\AnalyzeToolsViewModel.cs" />
     <Compile Include="UserControls\ViewModels\BoardViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ChatViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ControlViewModelBase.cs" />

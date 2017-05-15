@@ -1,6 +1,6 @@
 ﻿<local:UserControlBase
     x:Name="layoutRoot"
-    x:Class="OmegaGo.UI.WindowsUniversal.UserControls.AnalyzeControl"
+    x:Class="OmegaGo.UI.WindowsUniversal.UserControls.AnalyzeToolsControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:OmegaGo.UI.WindowsUniversal.UserControls"

@@ -185,8 +185,8 @@
                         <StackPanel x:Name="analyzeModeCommand"
                                     Grid.Row="2" Grid.ColumnSpan="2"
                                     Margin="10">
-                            <controls:AnalyzeControl  x:Name="analyzeControl"
-                                                      ViewModel="{x:Bind VM.AnalyzeViewModel}" />
+                            <controls:AnalyzeToolsControl  x:Name="analyzeControl"
+                                                           ViewModel="{x:Bind VM.AnalyzeToolsViewModel}" />
                             <controls:GameTreeControl x:Name="gameTreeControl"
                                                       HorizontalAlignment="Stretch"
                                                       Height="200"
