@@ -273,24 +273,24 @@
                                                 <Button x:Name="DetailBackButton" Margin="0,0,12,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource TitleBarBackButtonStyle}" Background="Transparent" FontFamily="Segoe MDL2 Assets" Click="CloseDetail">
                                                     <SymbolIcon Symbol="Back" />
                                                 </Button>
-                                                <TextBlock Grid.Column="1"  VerticalAlignment="Center" Margin="0,4,0,4" Style="{ThemeResource SubtitleTextBlockStyle}" Text="{Binding Name, Mode=OneWay}"  FontWeight="SemiBold" />
+                                                <TextBlock Grid.Column="1"  VerticalAlignment="Center" Margin="0,4,0,4"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Style="{ThemeResource SubtitleTextBlockStyle}" Text="{Binding Name, Mode=OneWay}"  FontWeight="SemiBold" />
                                             </Grid>
                                             <StackPanel Orientation="Horizontal">
-                                                <Button Margin="0,0,12,0"  Command="{Binding ElementName=ParentView, Path=VM.JoinRoomCommand}"  Visibility="{Binding Joined, Converter={StaticResource InvertedVisibilityConverter}}" >
+                                                <Button Margin="0,12,12,12"  Style="{StaticResource ToolbarControl}" Command="{Binding ElementName=ParentView, Path=VM.JoinRoomCommand}"  Visibility="{Binding Joined, Converter={StaticResource InvertedVisibilityConverter}}" >
                                                     <StackPanel Orientation="Horizontal">
-                                                        <BitmapIcon UriSource="/Assets/Icons/Commands/Enter.png" />
+                                                        <BitmapIcon UriSource="/Assets/Icons/Commands/Enter.png" Foreground="{ThemeResource ApplicationForegroundThemeBrush}"  Width="24" Height="24" />
                                                         <TextBlock Margin="8,0,0,0" Text="{Binding Source={StaticResource Localizer}, Path=Join}" />
                                                     </StackPanel>
                                                 </Button>
-                                                <Button Margin="0,0,12,0" Style="{StaticResource ToolbarControl}"  Visibility="{Binding Joined, Converter={StaticResource VisibilityConverter}}" Command="{Binding ElementName=ParentView, Path=VM.UnjoinRoomCommand}">
+                                                <Button Margin="0,12,12,12" Style="{StaticResource ToolbarControl}"  Visibility="{Binding Joined, Converter={StaticResource VisibilityConverter}}" Command="{Binding ElementName=ParentView, Path=VM.UnjoinRoomCommand}">
                                                     <StackPanel Orientation="Horizontal">
-                                                        <BitmapIcon UriSource="/Assets/Icons/Commands/Exit.png" />
+                                                        <BitmapIcon UriSource="/Assets/Icons/Commands/Exit.png" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Width="24" Height="24" />
                                                         <TextBlock Margin="8,0,0,0" Text="{Binding Source={StaticResource Localizer}, Path=Unjoin}" />
                                                     </StackPanel>
                                                 </Button>
                                                 <Button Style="{StaticResource ToolbarControl}" Visibility="{Binding Joined, Converter={StaticResource VisibilityConverter}}" Command="{Binding ElementName=ParentView, Path=VM.CreateChallengeCommand}">
                                                     <StackPanel Orientation="Horizontal">
-                                                        <BitmapIcon UriSource="/Assets/Icons/Commands/Plus.png" />
+                                                        <BitmapIcon UriSource="/Assets/Icons/Commands/Plus.png" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Width="24" Height="24" />
                                                         <TextBlock Margin="8,0,0,0" Text="{Binding Source={StaticResource Localizer}, Path=CreateChallenge}" />
                                                     </StackPanel>
                                                 </Button>
@@ -300,8 +300,7 @@
                                                 <Grid.Background>
                                                     <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
                                                 </Grid.Background>
-                                                <TextBlock TextWrapping="Wrap" IsTextSelectionEnabled="True" Text="{Binding Description, Mode=OneWay}">
-                                                </TextBlock>
+                                                <TextBlock TextWrapping="Wrap" IsTextSelectionEnabled="True" Foreground="{ThemeResource ApplicationForegroundThemeBrush}"  Text="{Binding Description, Mode=OneWay}" />
                                             </Grid>
                                             <TextBlock Style="{ThemeResource FormHeadingTextBlockStyle}" Text="{Binding Source={StaticResource Localizer}, Path=Users}" Grid.Row="2" Margin="0,0,0,8" />
                                             <Grid Padding="4" MaxHeight="300">
@@ -322,8 +321,8 @@
                                                                         <ColumnDefinition Width="Auto" />
                                                                         <ColumnDefinition Width="Auto" />
                                                                     </Grid.ColumnDefinitions>
-                                                                    <TextBlock Margin="0,0,8,0" TextTrimming="CharacterEllipsis"  Text="{Binding Name}" />
-                                                                    <TextBlock Text="{Binding Rank}" Grid.Column="1" Opacity="0.5" />
+                                                                    <TextBlock Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Margin="0,0,8,0" TextTrimming="CharacterEllipsis"  Text="{Binding Name}" />
+                                                                    <TextBlock Foreground="{ThemeResource ApplicationForegroundThemeBrush}"  Text="{Binding Rank}" Grid.Column="1" Opacity="0.5" />
                                                                 </Grid>
                                                             </DataTemplate>
                                                         </ItemsControl.ItemTemplate>
