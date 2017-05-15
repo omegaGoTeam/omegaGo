@@ -273,7 +273,7 @@
                                                 <Button x:Name="DetailBackButton" Margin="0,0,12,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource TitleBarBackButtonStyle}" Background="Transparent" FontFamily="Segoe MDL2 Assets" Click="CloseDetail">
                                                     <SymbolIcon Symbol="Back" />
                                                 </Button>
-                                                <TextBlock Grid.Column="1"  VerticalAlignment="Center" Margin="0,4,0,4" Style="{ThemeResource SubtitleTextBlockStyle}" Text="{Binding Name, Mode=OneWay}"  FontWeight="SemiBold" />
+                                                <TextBlock Grid.Column="1"  VerticalAlignment="Center" Margin="0,4,0,4"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Style="{ThemeResource SubtitleTextBlockStyle}" Text="{Binding Name, Mode=OneWay}"  FontWeight="SemiBold" />
                                             </Grid>
                                             <StackPanel Orientation="Horizontal">
                                                 <Button Margin="0,0,12,0"  Command="{Binding ElementName=ParentView, Path=VM.JoinRoomCommand}"  Visibility="{Binding Joined, Converter={StaticResource InvertedVisibilityConverter}}" >
@@ -322,8 +322,8 @@
                                                                         <ColumnDefinition Width="Auto" />
                                                                         <ColumnDefinition Width="Auto" />
                                                                     </Grid.ColumnDefinitions>
-                                                                    <TextBlock Margin="0,0,8,0" TextTrimming="CharacterEllipsis"  Text="{Binding Name}" />
-                                                                    <TextBlock Text="{Binding Rank}" Grid.Column="1" Opacity="0.5" />
+                                                                    <TextBlock Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Margin="0,0,8,0" TextTrimming="CharacterEllipsis"  Text="{Binding Name}" />
+                                                                    <TextBlock Foreground="{ThemeResource ApplicationForegroundThemeBrush}"  Text="{Binding Rank}" Grid.Column="1" Opacity="0.5" />
                                                                 </Grid>
                                                             </DataTemplate>
                                                         </ItemsControl.ItemTemplate>
