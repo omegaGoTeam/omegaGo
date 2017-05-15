@@ -7,7 +7,9 @@
     xmlns:controls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:converters="using:OmegaGo.UI.WindowsUniversal.Converters"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
-    mc:Ignorable="d">
+    xmlns:models="using:OmegaGo.UI.Models.Log"
+    mc:Ignorable="d"
+    Loaded="layoutRoot_Loaded">
     
     <Page.Transitions>
         <TransitionCollection>
@@ -46,6 +48,9 @@
 
                         <Setter Target="whitePortrait.(Grid.Column)" Value="0" />
                         <Setter Target="blackPortrait.(Grid.Column)" Value="1" />
+
+                        <Setter Target="controlMenuButton.Visibility" Value="Visible" />
+                        <Setter Target="controlMenuBar.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -68,6 +73,9 @@
 
                         <Setter Target="whitePortrait.(Grid.ColumnSpan)" Value="2" />
                         <Setter Target="blackPortrait.(Grid.ColumnSpan)" Value="2" />
+                        
+                        <Setter Target="controlMenuButton.Visibility" Value="Visible" />
+                        <Setter Target="controlMenuBar.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -83,7 +91,8 @@
                         <Setter Target="whitePortrait.(Grid.Column)" Value="0" />
                         <Setter Target="blackPortrait.(Grid.Column)" Value="1" />
 
-                        <Setter Target="systemLog.MaxHeight" Value="600" />
+                        <Setter Target="controlMenuButton.Visibility" Value="Collapsed" />
+                        <Setter Target="controlMenuBar.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -101,8 +110,9 @@
 
                         <Setter Target="whitePortrait.(Grid.ColumnSpan)" Value="2" />
                         <Setter Target="blackPortrait.(Grid.ColumnSpan)" Value="2" />
-
-                        <Setter Target="systemLog.MaxHeight" Value="600" />
+                        
+                        <Setter Target="controlMenuButton.Visibility" Value="Collapsed" />
+                        <Setter Target="controlMenuBar.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -142,10 +152,17 @@
 
                     <Button x:Name="controlMenuButton"
                             HorizontalAlignment="Right" VerticalAlignment="Top"
-                            Margin="5">
-                        <FontIcon Glyph="&#xE700;"
-                                  Margin="2"/>
-                        
+                            Margin="5" Padding="0">
+                        <Border HorizontalAlignment="Stretch">
+                            <FontIcon Glyph="&#xE700;"
+                                      Margin="10"/>
+
+                            <Border.Background>
+                                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}"
+                                             Opacity="0.7"/>
+                            </Border.Background>
+                        </Border>
+
                         <Button.Flyout>
                             <MenuFlyout>
                                 <MenuFlyoutItem Text="{x:Bind Localizer.Resign}" Command="{x:Bind VM.ResignCommand}" />
@@ -253,8 +270,8 @@
                                     Grid.Row="2" Grid.ColumnSpan="2"
                                     Margin="10"
                                     Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityConverter}, Mode=OneWay}">
-                            <controls:AnalyzeControl  x:Name="analyzeControl"
-                                                      ViewModel="{x:Bind VM.AnalyzeViewModel}" />
+                            <controls:AnalyzeToolsControl  x:Name="analyzeControl"
+                                                           ViewModel="{x:Bind VM.AnalyzeToolsViewModel}" />
                             <controls:GameTreeControl x:Name="gameTreeControl"
                                                       HorizontalAlignment="Stretch"
                                                       Height="200"
@@ -266,8 +283,8 @@
                                   Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                                   Margin="10" Height="400"
                                   Visibility="{x:Bind VM.IsSystemLogEnabled, Mode=OneWay, Converter={StaticResource boolVisibilityConverter}}"
-                                  Background="White" Foreground="Black"
-                                  ItemsSource="{x:Bind VM.Log}">
+                                  ItemsSource="{x:Bind VM.Log}"
+                                  ItemContainerTransitions="{x:Null}">
                             <ListView.Resources>
                                 <Style TargetType="ListViewItem">
                                     <!--<Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>-->
@@ -275,9 +292,14 @@
                                 </Style>
                             </ListView.Resources>
 
+                            <ListView.Background>
+                                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}"
+                                                 Opacity="0.7"/>
+                            </ListView.Background>
+
                             <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding}" TextWrapping="WrapWholeWords" />
+                                <DataTemplate x:DataType="models:LogMessage">
+                                    <TextBlock Text="{x:Bind Text}" TextWrapping="WrapWholeWords" />
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
@@ -292,8 +314,30 @@
                 BorderBrush="Black" BorderThickness="1"
                 Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityInvertedConverter}, Mode=OneWay}">
             <Slider x:Name="gameTimelineSlider" 
+                    Margin="10,5"
                     Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" 
                     Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=OneWay}"/>
         </Border>
     </Grid>
+
+    <views:TransparencyViewBase.BottomAppBar>
+        <CommandBar x:Name="controlMenuBar">
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="{x:Bind Localizer.Resign}" Command="{x:Bind VM.ResignCommand}" />
+                <AppBarButton Label="{x:Bind Localizer.Hint}" Command="{x:Bind VM.GetHintCommand}" />
+                <AppBarSeparator />
+                <AppBarButton Label="{x:Bind Localizer.AnalyzeMode}" Command="{x:Bind VM.EnableAnalyzeModeCommand}" />
+                <AppBarToggleButton Label="{x:Bind Localizer.HideTabs}" Click="focusButton_Click" />
+                <AppBarSeparator />
+                <AppBarButton Label="{x:Bind Localizer.ExportSgfFile}" Command="{x:Bind VM.ExportSGFCommand}" />
+                <AppBarButton Label="{x:Bind Localizer.SaveToLibrary}" Command="{x:Bind VM.SaveToLibraryCommand}" />
+                <AppBarSeparator />
+                <AppBarToggleButton Label="{x:Bind Localizer.SystemLog}" IsChecked="{x:Bind VM.IsSystemLogEnabled, Mode=TwoWay}" />
+            </CommandBar.SecondaryCommands>
+
+            <CommandBar.Content>
+                <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" Margin="12,14"/>
+            </CommandBar.Content>
+        </CommandBar>
+    </views:TransparencyViewBase.BottomAppBar>
 </views:TransparencyViewBase>

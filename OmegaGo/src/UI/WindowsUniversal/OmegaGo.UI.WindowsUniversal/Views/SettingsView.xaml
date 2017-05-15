@@ -71,7 +71,7 @@
                             <Slider Minimum="0" Maximum="100" SmallChange="1" Value="{x:Bind VM.BackgroundImageOpacity, Mode=TwoWay}" />
 
                             <TextBlock Text="{x:Bind Localizer.BackgroundColor}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                            <controls:ColorPicker Height="200" Color="{x:Bind SelectedBackgroundColor, Mode=TwoWay}" />
+                            <controls:ColorPicker Height="200" Color="{x:Bind SelectedBackgroundColor, Mode=TwoWay}" ManipulationMode="None" />
                             <Button Click="SetDefaultBackgroundColor" Margin="0,5,0,0" Content="{x:Bind Localizer.SetDefaultColor}" />
 
                             <TextBlock Text="{x:Bind Localizer.ControlStyle}" Style="{ThemeResource SubtitleTextBlockStyle}" />

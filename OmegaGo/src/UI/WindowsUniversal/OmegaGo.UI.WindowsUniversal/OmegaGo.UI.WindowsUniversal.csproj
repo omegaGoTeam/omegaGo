@@ -142,8 +142,8 @@
     <Compile Include="Services\Timer\Timer.cs" />
     <Compile Include="Services\Timer\TimerService.cs" />
     <Compile Include="Services\Online\OnlineStartup.cs" />
-    <Compile Include="UserControls\AnalyzeControl.xaml.cs">
-      <DependentUpon>AnalyzeControl.xaml</DependentUpon>
+    <Compile Include="UserControls\AnalyzeToolsControl.xaml.cs">
+      <DependentUpon>AnalyzeToolsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\BoardControl.xaml.cs">
       <DependentUpon>BoardControl.xaml</DependentUpon>
@@ -515,7 +515,7 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
-    <Page Include="UserControls\AnalyzeControl.xaml">
+    <Page Include="UserControls\AnalyzeToolsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

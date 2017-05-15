@@ -265,12 +265,28 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
             bool isHorizontal = pointerPoint.Properties.IsHorizontalMouseWheel;
             int wheelDelta = pointerPoint.Properties.MouseWheelDelta;
+            
+            bool hasOffsetChanged = false;
 
             // Make sure we are not behind bounds, this method checks that
             if (isHorizontal)
+            {
+                double oldOffset = GameTreeHorizontalOffset;
                 SetScrollOffset(GameTreeHorizontalOffset + wheelDelta, GameTreeVerticalOffset);
+
+                hasOffsetChanged = (oldOffset != GameTreeHorizontalOffset);
+            }
             else
+            {
+                double oldOffset = GameTreeVerticalOffset;
                 SetScrollOffset(GameTreeHorizontalOffset, GameTreeVerticalOffset - wheelDelta);
+
+                hasOffsetChanged = (oldOffset != GameTreeVerticalOffset);
+            }
+
+            // If the offset changed, mark the event as handled so that any parent scrollviewer wont scroll.
+            // (We want to perform only one scrolling per wheel changed)
+            e.Handled = hasOffsetChanged;
         }
 
         private void Canvas_PointerPressed(object sender, PointerRoutedEventArgs e)
