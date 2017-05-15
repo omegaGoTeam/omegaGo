@@ -135,9 +135,9 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 viewModel.GameTreeRedrawRequested += GameTreeControl.GameTreeRedrawRequsted;
 
                 // GameTree scrolling
-                GameTreeControl.PointerEntered += GameTreeControl.GameTreeControl_PointerEntered;
-                GameTreeControl.PointerExited += GameTreeControl.GameTreeControl_PointerExited;
-                GameTreeControl.PointerWheelChanged += GameTreeControl.GameTreeControl_PointerWheelChanged;
+                GameTreeControl.gameTreeRoot.PointerEntered += GameTreeControl.GameTreeControl_PointerEntered;
+                GameTreeControl.gameTreeRoot.PointerExited += GameTreeControl.GameTreeControl_PointerExited;
+                GameTreeControl.gameTreeRoot.PointerWheelChanged += GameTreeControl.GameTreeControl_PointerWheelChanged;
 
                 // Arrows handling
                 // This control has public methods to navigate using arrow keys.
@@ -265,12 +265,28 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
             bool isHorizontal = pointerPoint.Properties.IsHorizontalMouseWheel;
             int wheelDelta = pointerPoint.Properties.MouseWheelDelta;
+            
+            bool hasOffsetChanged = false;
 
             // Make sure we are not behind bounds, this method checks that
             if (isHorizontal)
+            {
+                double oldOffset = GameTreeHorizontalOffset;
                 SetScrollOffset(GameTreeHorizontalOffset + wheelDelta, GameTreeVerticalOffset);
+
+                hasOffsetChanged = (oldOffset != GameTreeHorizontalOffset);
+            }
             else
+            {
+                double oldOffset = GameTreeVerticalOffset;
                 SetScrollOffset(GameTreeHorizontalOffset, GameTreeVerticalOffset - wheelDelta);
+
+                hasOffsetChanged = (oldOffset != GameTreeVerticalOffset);
+            }
+
+            // If the offset changed, mark the event as handled so that any parent scrollviewer wont scroll.
+            // (We want to perform only one scrolling per wheel changed)
+            e.Handled = hasOffsetChanged;
         }
 
         private void Canvas_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -588,7 +604,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             BringNodeIntoView(ViewModel.GameTree.GameTreeRoot);
         }
                 
-        private void layoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void gameTreeRoot_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateGameTreeSize();
             verticalBar.ViewportSize = e.NewSize.Height;

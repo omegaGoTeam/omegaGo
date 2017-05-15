@@ -2140,6 +2140,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Ranking</source>
           <target state="new">Ranking</target>
         </trans-unit>
+        <trans-unit id="UseTouchInputOffset" translate="yes" xml:space="preserve">
+          <source>Apply offset to touch input for better shadow items visibility on game board.</source>
+          <target state="needs-review-translation">Přidat posunutí k dotykovému ovládání, aby šly lépe vidět stínové prvky na herní ploše.</target>
+        </trans-unit>
       </group>
     </body>
   </file>

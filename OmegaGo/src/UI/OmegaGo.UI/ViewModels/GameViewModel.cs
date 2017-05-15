@@ -32,6 +32,7 @@ using OmegaGo.UI.Services.Files;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.Utility;
+using OmegaGo.UI.Models.Log;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -61,6 +62,7 @@ namespace OmegaGo.UI.ViewModels
 
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => OnBoardTapped(e);
+            BoardViewModel.IsTouchInputOffsetEnabled = gameSettings.Display.AddTouchInputOffset;
             // Set empty node (should be in the beginning of every gametree) as current node for board rendering
             RefreshBoard(Game.Controller.GameTree.LastNode);
 
@@ -80,7 +82,7 @@ namespace OmegaGo.UI.ViewModels
         }
 
         public IGame Game => _game;
-        public ObservableCollection<string> Log { get; } = new ObservableCollection<string>();
+        public ObservableCollection<LogMessage> Log { get; } = new ObservableCollection<LogMessage>();
 
         public ICommand ExportSGFCommand => _exportSGFCommand ??
                                                (_exportSGFCommand = new MvxAsyncCommand(ExportSGFAsync));
@@ -276,7 +278,7 @@ namespace OmegaGo.UI.ViewModels
 
         protected void AppendLogLine(string logLine)
         {
-            Dispatcher.RequestMainThreadAction(() => Log.Add(logLine));
+            Dispatcher.RequestMainThreadAction(() => Log.Add(new LogMessage(logLine)));
         }
 
         /// <summary>

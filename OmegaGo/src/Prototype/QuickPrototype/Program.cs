@@ -13,7 +13,7 @@ namespace FormsPrototype
         [STAThread]
         static void Main()
         {
-            OmegaGo.Core.AI.AISystems.RegisterFuegoBuilder(new FormsFuego.Win32FuegoBuilder());
+            OmegaGo.Core.AI.AISystems.RegisterFuegoBuilder(new FormsFuego.Win32FuegoBuilder(), ulong.MaxValue);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             // The IgsForm connects to IGS and allows playing local games.
