@@ -198,6 +198,9 @@
     <Compile Include="UserControls\Singleplayer\QuestControl.xaml.cs">
       <DependentUpon>QuestControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\TsumegoPuzzleStateControl.xaml.cs">
+      <DependentUpon>TsumegoPuzzleStateControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\UserControlBase.cs" />
     <Compile Include="Views\AnalyzeOnlyView.xaml.cs">
       <DependentUpon>AnalyzeOnlyView.xaml</DependentUpon>
@@ -583,6 +586,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\GameTreeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\TsumegoPuzzleStateControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
