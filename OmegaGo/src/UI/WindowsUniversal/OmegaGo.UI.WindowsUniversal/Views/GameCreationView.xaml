@@ -44,6 +44,25 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="JapanesePanel1.Orientation" Value="Horizontal" />
+                        <Setter Target="JapanesePanel2.Orientation" Value="Horizontal" />
+                        <Setter Target="JapanesePanel3.Orientation" Value="Horizontal" />
+                        <Setter Target="CanadianPanel1.Orientation" Value="Horizontal" />
+                        <Setter Target="CanadianPanel2.Orientation" Value="Horizontal" />
+                        <Setter Target="CanadianPanel3.Orientation" Value="Horizontal" />
+                        <Setter Target="TimeControlContainer.MaxWidth" Value="300" />
+                        <Setter Target="AbsoluteTimePanel1.Orientation" Value="Horizontal" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Center" VerticalScrollMode="Auto" Padding="12,0,12,0" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <navigation:TitleControl Text="{x:Bind VM.FormTitle}" 
@@ -119,7 +138,7 @@
                             <Button Style="{StaticResource Buttons}" Content="{x:Bind Localizer.MoreEllipsis}">
                                 <Button.Flyout>
                                     <Flyout Placement="Right" x:Name="BlackPlayerFlyout">
-                                        <StackPanel  MaxWidth="240">
+                                        <StackPanel  MaxWidth="200">
                                             <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.BlackPlayerSettings, Mode=OneWay}" />
                                             <Button Click="CloseBlackPlayerFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
                                         </StackPanel>
@@ -139,7 +158,7 @@
                             <Button Grid.Row="3" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.MoreEllipsis}" Visibility="{Binding Bundle.BlackAndWhiteVisible}">
                                 <Button.Flyout>
                                     <Flyout Placement="Right" x:Name="WhitePlayerFlyout">
-                                        <StackPanel MaxWidth="240">
+                                        <StackPanel MaxWidth="200">
                                             <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.WhitePlayerSettings, Mode=OneWay}" />
                                             <Button Click="CloseWhitePlayerFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
                                         </StackPanel>
@@ -219,7 +238,7 @@
                                         IsEnabled="{Binding Bundle.Frozen, Converter={StaticResource BoolNegationConverter}}">
                                 <Button.Flyout>
                                     <Flyout  Placement="Right" x:Name="TimeControlFlyout">
-                                        <StackPanel MaxWidth="200">
+                                        <StackPanel x:Name="TimeControlContainer" MaxWidth="200">
                                             <ComboBox ItemsSource="{x:Bind VM.TimeControlStyles}" SelectedItem="{x:Bind VM.TimeControlStyle, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
@@ -238,7 +257,7 @@
                                                         <Run FontWeight="Bold" Text="{x:Bind Localizer.Time_Absolute_Caption}" />
                                                         <Run Text="{x:Bind Localizer.Time_Absolute_Description}" />
                                                 </TextBlock>
-                                                <StackPanel Orientation="Vertical" x:Name="AbsoluteTimeStackPanel">
+                                                <StackPanel Orientation="Vertical" x:Name="AbsoluteTimePanel1">
                                                     <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.AbsoluteTimeLabel}"></TextBlock>
                                                     <TextBox HorizontalAlignment="Left" Text="{x:Bind VM.TimeControl.MainTime, Mode=TwoWay}" InputScope="Number" Width="30"></TextBox>
                                                 </StackPanel>
@@ -248,15 +267,15 @@
                                                         <Run Text="{x:Bind Localizer.Time_Canadian_Caption}" FontWeight="Bold" ></Run> 
                                                         <Run Text="{x:Bind Localizer.Time_Canadian_Description}"> </Run>
                                                 </TextBlock>
-                                                <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Vertical" x:Name="CanadianPanel1">
                                                     <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.MainTimeLabel}"></TextBlock>
                                                     <TextBox HorizontalAlignment="Left"  Text="{x:Bind VM.TimeControl.MainTime, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
                                                 </StackPanel>
-                                                <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Vertical" x:Name="CanadianPanel2">
                                                     <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.CanadianMovesPerPeriodLabel}"></TextBlock>
                                                     <TextBox HorizontalAlignment="Left" Text="{x:Bind VM.TimeControl.StonesPerPeriod, Mode=TwoWay}"  InputScope="Number" Width="30" IsEnabled="{Binding Bundle.IsNotIgs}"></TextBox>
                                                 </StackPanel>
-                                                <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Vertical" x:Name="CanadianPanel3">
                                                     <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.CanadianMinutesPerPeriodLabel}"></TextBlock>
                                                     <TextBox HorizontalAlignment="Left" Text="{x:Bind VM.TimeControl.OvertimeMinutes, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
                                                 </StackPanel>
@@ -266,15 +285,15 @@
                                                         <Run Text="{x:Bind Localizer.Time_Japanese_Caption}" FontWeight="Bold" ></Run> 
                                                         <Run Text="{x:Bind Localizer.Time_Japanese_Description}"> </Run>
                                                 </TextBlock>
-                                                <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Vertical" x:Name="JapanesePanel1">
                                                     <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.MainTimeLabel}" />
                                                     <TextBox HorizontalAlignment="Left" Text="{x:Bind VM.TimeControl.MainTime, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
                                                 </StackPanel>
-                                                <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Vertical" x:Name="JapanesePanel2">
                                                     <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.JapaneseNumberOfPeriodsLabel}"></TextBlock>
                                                     <TextBox HorizontalAlignment="Left" Text="{x:Bind VM.TimeControl.NumberOfJapanesePeriods, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
                                                 </StackPanel>
-                                                <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Vertical" x:Name="JapanesePanel3">
                                                     <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.JapaneseSecondsPerPeriodLabel}"></TextBlock>
                                                     <TextBox HorizontalAlignment="Left" Text="{x:Bind VM.TimeControl.OvertimeSeconds, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
                                                 </StackPanel>

@@ -11,7 +11,7 @@
 
     <StackPanel HorizontalAlignment="Left">
         <TextBlock FontWeight="Bold" Text="{x:Bind ViewModel.Name, Mode=OneWay}" />
-        <TextBlock HorizontalAlignment="Left" Width="300" Text="{x:Bind ViewModel.Description, Mode=OneWay}" TextWrapping="Wrap" />
+        <TextBlock HorizontalAlignment="Left" Width="200" Text="{x:Bind ViewModel.Description, Mode=OneWay}" TextWrapping="Wrap" />
         <StackPanel Margin="0,20,0,20" Visibility="{x:Bind ViewModel.AiPanelVisible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{x:Bind Localizer.NonSquareBoardsPermitted}"></TextBlock>

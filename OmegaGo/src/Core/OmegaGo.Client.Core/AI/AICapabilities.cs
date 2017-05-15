@@ -26,7 +26,8 @@ namespace OmegaGo.Core.AI
             HandlesNonSquareBoards = handlesNonSquareBoards;
             ProvidesHints = providesHints;
             MinimumBoardSize = minSize;
-            MaximumBoardSize = maxSize;
+            //omegaGo supprts at most 52x52 boards
+            MaximumBoardSize = Math.Min(maxSize, 52);
             ProvidesFinalEvaluation = providesFinalEvaluation;
         }
 
