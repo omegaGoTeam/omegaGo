@@ -347,12 +347,12 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
                         CloseTab(ActiveTab);
                     }
                 }
-                if (args.VirtualKey == VirtualKey.Tab)
+                if (args.VirtualKey == VirtualKey.Tab || args.VirtualKey == VirtualKey.GamepadLeftShoulder || args.VirtualKey == VirtualKey.GamepadRightShoulder)
                 {
                     if (ActiveTab != null)
                     {
                         var tabIndex = Tabs.IndexOf(ActiveTab);
-                        if (shift.HasFlag(CoreVirtualKeyStates.Down))
+                        if (shift.HasFlag(CoreVirtualKeyStates.Down) || args.VirtualKey == VirtualKey.GamepadLeftShoulder )
                         {
                             //go to previous tab
                             tabIndex--;
