@@ -85,7 +85,7 @@ namespace OmegaGo.UI.ViewModels
             ToolServices.Node = GameTree.GameTreeRoot;
 
             AnalyzeViewModel = new AnalyzeViewModel(ToolServices);
-            AnalyzeViewModel.BackToGameVisible = false;
+            AnalyzeViewModel.CanGoBackToLiveGame = false;
             RegisterAnalyzeTools();
             Tool = AnalyzeViewModel.StonePlacementTool;
             AnalyzeViewModel.SelectedTool = Tool;

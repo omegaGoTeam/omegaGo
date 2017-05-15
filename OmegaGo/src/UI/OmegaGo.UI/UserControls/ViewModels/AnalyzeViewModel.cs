@@ -8,6 +8,8 @@ namespace OmegaGo.UI.UserControls.ViewModels
     {
         private readonly IToolServices _toolServices;
         private ITool _selectedTool;
+
+        private bool _canGoBackToLiveGame;
         
         private MvxCommand _placeStoneCommand;
         private MvxCommand _deleteBranchCommand;
@@ -64,7 +66,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the commertary of the current node.
+        /// Gets or sets the commentary of the current node.
         /// </summary>
         public string NodeCommentary
         {
@@ -77,6 +79,15 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
                 ToolServices.Node.Comment = value;
             }
+        }
+
+        /// <summary>
+        /// Gets a bool indicating whether it is possible to go back to live game.
+        /// </summary>
+        public bool CanGoBackToLiveGame
+        {
+            get { return _canGoBackToLiveGame; }
+            set { SetProperty(ref _canGoBackToLiveGame, value); }
         }
 
         public MvxCommand PlaceStoneCommand => _placeStoneCommand ?? (_placeStoneCommand = new MvxCommand(
@@ -99,13 +110,6 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         public MvxCommand BackToGameCommand => _backToGameCommand ?? (_backToGameCommand = new MvxCommand(
             () => { BackToGame(); }));
-
-        private bool _backToGameVisible = true;
-        public bool BackToGameVisible
-        {
-            get { return _backToGameVisible; }
-            set { SetProperty(ref _backToGameVisible, value); }
-        }
         public MvxCommand PassCommand => _passCommand ?? (_passCommand = new MvxCommand(
             () => { Pass(); }));
 
