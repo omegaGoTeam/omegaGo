@@ -49,7 +49,7 @@ namespace OmegaGo.UI.ViewModels
 
             if (Program == null)
             {
-                Program = new RandomPlayerWrapper();
+                Program = new Fluffy();
             }
 
             if (Program is Fluffy)
