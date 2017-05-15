@@ -18,6 +18,7 @@ using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using OmegaGo.UI.Services.Notifications;
 using OmegaGo.Core.Annotations;
+using OmegaGo.UI.Controls.Styles;
 using OmegaGo.UI.Controls.Themes;
 using OmegaGo.UI.Game.Styles;
 using OmegaGo.UI.Infrastructure.Tabbed;
@@ -115,6 +116,8 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
                         return "/Assets/MainMenu/shintoShrine.jpg";
                     case BackgroundImage.Temple:
                         return "/Assets/MainMenu/ginkakuJi.jpg";
+                    case BackgroundImage.ItsukushimaShrine:
+                        return "/Assets/MainMenu/ItsukushimaShrine.jpg";
                     case BackgroundImage.None:
                     default:
                         return "/Assets/MainMenu/pixel.png";
