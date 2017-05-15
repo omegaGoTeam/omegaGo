@@ -115,7 +115,7 @@
             </Setter>
         </Style>
 
-        <Style x:Key="ToolbarControl" TargetType="FrameworkElement">
+        <Style x:Key="ToolbarControl" TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
             <Setter Property="Margin" Value="12" />
         </Style>
     </views:TransparencyViewBase.Resources>

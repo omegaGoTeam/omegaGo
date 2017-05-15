@@ -19,27 +19,34 @@
     </Page.Transitions>
     <Page.Resources>
         <Style x:Key="Labels" TargetType="TextBlock">
-            <Setter Property="Margin" Value="5"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="FontSize" Value="22"></Setter>
-            <Setter Property="Grid.Column" Value="0"></Setter>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="Grid.Column" Value="0"/>
         </Style>
         <Style x:Key="Boxes" TargetType="FrameworkElement">
-            <Setter Property="Margin" Value="5"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="Grid.Column" Value="1"></Setter>
-            <Setter Property="MinWidth" Value="200"></Setter>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="MinWidth" Value="200"/>
         </Style>
-        <Style x:Key="Buttons" TargetType="Control">
-            <Setter Property="Grid.Column" Value="2"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+        <Style x:Key="BoxesButton" TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="MinWidth" Value="200"/>
+        </Style>
+        <Style x:Key="Buttons" TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+            <Setter Property="Grid.Column" Value="2"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
         </Style>
         <Style x:Key="TimeControlDescription" TargetType="TextBlock">
-            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="Grid.Column" Value="1"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Grid.Column" Value="1"/>
         </Style>
     </Page.Resources>
 
@@ -190,7 +197,7 @@
                         </Button.Flyout>
                     </Button>
 
-                    <Button Grid.Row="4" Style="{StaticResource Boxes}" Content="{x:Bind Localizer.SwitchColors}" Command="{Binding SwitchColorsCommand}" Visibility="{Binding Bundle.BlackAndWhiteVisible}" />
+                    <Button Grid.Row="4" Style="{StaticResource BoxesButton}" Content="{x:Bind Localizer.SwitchColors}" Command="{Binding SwitchColorsCommand}" Visibility="{Binding Bundle.BlackAndWhiteVisible}" />
 
                     <TextBlock Grid.Row="5" Style="{StaticResource Labels}" Visibility="{x:Bind VM.Bundle.ShowHandicapSlider}" Text="{x:Bind Localizer.WhiteHandicap}" />
                     <Slider Grid.Row="5" Style="{StaticResource Boxes}"  Visibility="{x:Bind VM.Bundle.ShowHandicapSlider}" 
@@ -275,7 +282,7 @@
                                />
                     <TextBox Grid.Row="7" Margin="5,5,5,0" Style="{StaticResource Boxes}"
                              IsReadOnly="{x:Bind VM.UseRecommendedKomi, Mode=OneWay}"
-                               Visibility="{Binding Bundle.KomiIsAvailable}"
+                             Visibility="{Binding Bundle.KomiIsAvailable}"
                              x:Name="CompensationInput" InputScope="Number" Text="{Binding CompensationString, Mode=TwoWay}" KeyDown="CompensationInput_KeyDown" />
 
                     <CheckBox Grid.Row="8"  Style="{StaticResource Boxes}"  Content="{x:Bind Localizer.KomiUseRecommended}" 
@@ -313,11 +320,11 @@
                             <ColumnDefinition Width="1*"></ColumnDefinition>
                             <ColumnDefinition Width="1*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" HorizontalAlignment="Stretch" Command="{Binding AcceptChallengeCommand}" Content="{x:Bind Localizer.AcceptChallenge}"></Button>
-                        <Button Grid.Column="1" HorizontalAlignment="Stretch" Command="{Binding RefuseChallengeCommand}" Content="{x:Bind VM.RefusalCaption}"></Button>
+                        <Button Grid.Column="0" HorizontalAlignment="Stretch" Command="{Binding AcceptChallengeCommand}" Content="{x:Bind Localizer.AcceptChallenge}"/>
+                        <Button Grid.Column="1" HorizontalAlignment="Stretch" Command="{Binding RefuseChallengeCommand}" Content="{x:Bind VM.RefusalCaption}"/>
                     </Grid>
 
-                    <TextBlock Grid.Row="12" Text="{x:Bind VM.ValidationErrorMessage, Mode=OneWay}" HorizontalAlignment="Center" Grid.ColumnSpan="3"></TextBlock>
+                    <TextBlock Grid.Row="12" Text="{x:Bind VM.ValidationErrorMessage, Mode=OneWay}" HorizontalAlignment="Center" Grid.ColumnSpan="3"/>
                 </Grid>
             </StackPanel>
         </ScrollViewer>
