@@ -203,9 +203,12 @@ namespace OmegaGo.UI.ViewModels
                 //ignore
                 await _dialogService.ShowAsync(e.Message, Localizer.ErrorParsingSgfFile);
             }
-            //add to library
-            var newItem = CreateLibraryItem(fileInfo, collection);
-            return newItem;
+            if (collection != null)
+            {
+                var newItem = CreateLibraryItem(fileInfo, collection);
+                return newItem;
+            }
+            return null;
         }
 
         /// <summary>
