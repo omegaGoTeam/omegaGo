@@ -9,7 +9,6 @@
     xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml"
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     mc:Ignorable="d">
-
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -29,6 +28,7 @@
         <Style x:Key="LowerBarButtonStyle" TargetType="Button">
             <Setter Property="Height" Value="38" />
         </Style>
+
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <VisualStateManager.VisualStateGroups>
@@ -44,16 +44,17 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <SplitView PaneBackground="{ThemeResource GameColorBrush}" IsPaneOpen="True"
+        <SplitView IsPaneOpen="True"
                Name="TsumegoSplitView"
-               DisplayMode="CompactOverlay"
+               DisplayMode="Overlay"
                CompactPaneLength="48"
-               OpenPaneLength="300">
+               OpenPaneLength="300" PaneBackground="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColorBrush}">
             <SplitView.Pane>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="48" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -61,22 +62,11 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <Button x:Name="HamburgerButton" 
-                        Grid.Row="0" 
-                        Grid.Column="0"
-                            Width="48"
-                            Height="48"
-                        Background="Transparent"
-                        Click="OpenCloseMenu">
-                        <FontIcon Glyph="&#xE700;"></FontIcon>
-                    </Button>
-
-
                     <navigation:TitleControl  
                                          Text="{x:Bind Localizer.Tsumego_ViewCaption}" 
                                          Grid.Row="0"
                                          Grid.Column="1"/>
-                    <ScrollViewer Margin="48,0,0,0" VerticalScrollBarVisibility="Auto" Grid.Row="1"
+                    <ScrollViewer Margin="48,0,0,0" Padding="0,0,12,48"  VerticalScrollBarVisibility="Auto" Grid.Row="1"
                             Grid.Column="0"
                             Grid.ColumnSpan="2">
                         <StackPanel>
@@ -108,44 +98,48 @@
                                 Grid.Row="0"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"/>
-                <StackPanel Orientation="Horizontal" Grid.Row="1">
-                    <Button Style="{StaticResource LowerBarButtonStyle}" Margin="0,0,5,0" Command="{Binding Path=GoToPreviousProblemCommand}">
-                        <StackPanel Orientation="Horizontal">
-                            <FontIcon Glyph="&#xE892;"></FontIcon>
-                            <TextBlock Padding="5,0,0,0" Text="{x:Bind Localizer.Tsumego_PreviousProblem}"></TextBlock>
-                        </StackPanel>
-                    </Button>
-                    <Button Style="{StaticResource LowerBarButtonStyle}" Margin="0,0,5,0" Command="{Binding Path=GoToNextProblemCommand}">
-                        <StackPanel Orientation="Horizontal">
-                            <FontIcon Glyph="&#xE893;"></FontIcon>
-                            <TextBlock Padding="5,0,0,0" Text="{x:Bind Localizer.Tsumego_NextProblem}"></TextBlock>
-                        </StackPanel>
-                    </Button>
-                    <Button Style="{StaticResource LowerBarButtonStyle}" Margin="0,0,5,0" Command="{Binding Path=UndoOneMoveCommand}">
-                        <StackPanel Orientation="Horizontal">
-                            <FontIcon Glyph="&#xE7A7;"></FontIcon>
-                            <TextBlock Padding="5,0,0,0" Text="{x:Bind Localizer.Tsumego_UndoOneMove}"></TextBlock>
-                        </StackPanel>
-                    </Button>
-                    <Border Margin="2" BorderBrush="Black" Background="White" Visibility="Visible">
 
-                    </Border>
-                    <Border Margin="2" Padding="4" BorderBrush="Black" BorderThickness="1" Visibility="{x:Bind VM.CorrectVisible, Mode=OneWay}" Background="LimeGreen">
-                        <StackPanel Orientation="Horizontal">
-                            <FontIcon Glyph="&#xE73E;"></FontIcon>
-                            <TextBlock VerticalAlignment="Center" Text="{x:Bind Localizer.Tsumego_CorrectPanel}"></TextBlock>
-                        </StackPanel>
-                    </Border>
-                    <Border Margin="2" Padding="4" BorderBrush="Black" BorderThickness="1" Visibility="{x:Bind VM.WrongVisible, Mode=OneWay}"  Background="OrangeRed">
-                        <StackPanel Orientation="Horizontal">
-                            <FontIcon Glyph="&#xEDAE;"></FontIcon>
-                            <TextBlock VerticalAlignment="Center" Text="{x:Bind Localizer.Tsumego_WrongPanel}"></TextBlock>
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
-
+                <CommandBar Grid.Row="1" VerticalContentAlignment="Stretch" IsDynamicOverflowEnabled="False">
+                    <AppBarButton Icon="Undo" Command="{Binding Path=UndoOneMoveCommand}" Label="{x:Bind Localizer.Tsumego_UndoOneMove}" />
+                    <AppBarButton Icon="Back" Command="{Binding Path=GoToPreviousProblemCommand}" Label="{x:Bind Localizer.Tsumego_PreviousProblem}" />
+                    <AppBarButton Icon="Forward" Command="{Binding Path=GoToNextProblemCommand}" Label="{x:Bind Localizer.Tsumego_NextProblem}" />
+                </CommandBar>
             </Grid>
         </SplitView>
+        <Button x:Name="HamburgerButton" 
+                Grid.Row="0" 
+                Grid.Column="0"
+                Width="48"
+                Height="48"
+                BorderThickness="0"
+                VerticalAlignment="Top"
+                Padding="0"
+                Background="Transparent"
+                Click="OpenCloseMenu">
+            <Border Width="48" Height="48" Background="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColorBrush}">
+                <FontIcon Glyph="&#xE700;" />
+            </Border>
+        </Button>
+        <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom">
+            <Canvas Width="96" Height="96">
+                <Polygon Fill="Azure" Points="0,0,0,96,96,96" />
+                <Viewbox Canvas.Top="56" Canvas.Left="8" Width="32" Height="32">
+                    <FontIcon Glyph="&#xE897;" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Foreground="Black" />
+                </Viewbox>
+            </Canvas>
+            <Canvas Width="96" Height="96" Visibility="{x:Bind VM.CorrectVisible, Mode=OneWay}">
+                <Polygon Fill="Green" Points="0,0,0,96,96,96" />
+                <Viewbox Canvas.Top="56" Canvas.Left="8" Width="32" Height="32">
+                    <FontIcon Glyph="&#xE001;" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Foreground="White" />
+                </Viewbox>
+            </Canvas>
+            <Canvas Width="96" Height="96" Visibility="{x:Bind VM.WrongVisible, Mode=OneWay}">
+                <Polygon Fill="Red" Points="0,0,0,96,96,96" />
+                <Viewbox Canvas.Top="56" Canvas.Left="8" Width="32" Height="32">
+                    <FontIcon Glyph="&#xEDAE;" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Foreground="White" />
+                </Viewbox>
+            </Canvas>
+        </Grid>
     </Grid>
 </views:TransparencyViewBase>
  

@@ -20,7 +20,28 @@
         </TransitionCollection>
     </Page.Transitions>
 
+    <Page.Resources>
+        <Style x:Key="NormalMarginContainerStyle" TargetType="GridViewItem">
+            <Setter Property="Margin" Value="12" />
+        </Style>
+        <Style x:Key="SmallMarginContainerStyle" TargetType="GridViewItem">
+            <Setter Property="Margin" Value="4" />
+        </Style>
+    </Page.Resources>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TsumegoGridView.ItemContainerStyle" Value="{StaticResource NormalMarginContainerStyle}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
@@ -29,17 +50,12 @@
                    HorizontalAlignment="Center"
                    Margin="0,20,0,20"
                    Grid.Row="0" />
-        <GridView ItemsSource="{Binding TsumegoProblems}" HorizontalContentAlignment="Center" SelectionMode="None" IsItemClickEnabled="True" ItemClick="GridView_ItemClick" Grid.Row="1" Padding="10,0,10,10">
+        <GridView x:Name="TsumegoGridView" ItemsSource="{Binding TsumegoProblems}" HorizontalContentAlignment="Center" ItemContainerStyle="{StaticResource SmallMarginContainerStyle}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="GridView_ItemClick" Grid.Row="1" Padding="10,0,10,10">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapGrid Orientation="Horizontal" HorizontalAlignment="Center" HorizontalChildrenAlignment="Center" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
-            <GridView.ItemContainerStyle>
-                <Style TargetType="GridViewItem">
-                    <Setter Property="Margin" Value="10" />
-                </Style>
-            </GridView.ItemContainerStyle>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="tsumego:TsumegoProblemInfo">
                     <Grid Width="140" Height="140" ToolTipService.ToolTip="{x:Bind Name}">
