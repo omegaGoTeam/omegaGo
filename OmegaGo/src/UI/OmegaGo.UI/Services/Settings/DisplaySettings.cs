@@ -48,7 +48,7 @@ namespace OmegaGo.UI.Services.Settings
 
         public float BackgroundColorOpacity
         {
-            get { return GetSetting(BackgroundColorOpacityKey, () => 0.5f, SettingLocality.Roamed); }
+            get { return GetSetting(BackgroundColorOpacityKey, () => 0.1f, SettingLocality.Roamed); }
             set
             {
                 if (value >= 0 && value <= 1)
