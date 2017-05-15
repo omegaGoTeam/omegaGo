@@ -106,20 +106,10 @@
                 </CommandBar>
             </Grid>
         </SplitView>
-        <Button x:Name="HamburgerButton" 
-                Grid.Row="0" 
-                Grid.Column="0"
-                Width="48"
-                Height="48"
-                BorderThickness="0"
-                VerticalAlignment="Top"
-                Padding="0"
-                Background="Transparent"
-                Click="OpenCloseMenu">
-            <Border Width="48" Height="48" Background="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColorBrush}">
-                <FontIcon Glyph="&#xE700;" />
-            </Border>
-        </Button>
+        <controls:HamburgerButton Grid.Row="0" 
+                                  Grid.Column="0"
+                                  VerticalAlignment="Top"
+                                  Click="OpenCloseMenu" />
         <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom">
             <Canvas Width="96" Height="96">
                 <Polygon Fill="Azure" Points="0,0,0,96,96,96" />
