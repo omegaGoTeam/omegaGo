@@ -447,6 +447,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Itsukushima Shrine.
+        /// </summary>
+        public static string BackgroundImage_ItsukushimaShrine {
+            get {
+                return ResourceManager.GetString("BackgroundImage_ItsukushimaShrine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to None.
         /// </summary>
         public static string BackgroundImage_None {
@@ -2733,7 +2742,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hrát proti umělé inteligenci.
+        ///   Looks up a localized string similar to Play against AI.
         /// </summary>
         public static string PlayAgainstAI {
             get {

@@ -1715,4 +1715,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="UseTouchInputOffset" xml:space="preserve">
     <value>Apply offset to touch input for better shadow items visibility on game board.</value>
   </data>
+  <data name="BackgroundImage_ItsukushimaShrine" xml:space="preserve">
+    <value>Itsukushima Shrine</value>
+  </data>
 </root>

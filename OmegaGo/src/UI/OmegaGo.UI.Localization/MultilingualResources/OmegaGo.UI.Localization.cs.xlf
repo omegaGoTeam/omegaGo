@@ -2142,6 +2142,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Apply offset to touch input for better shadow items visibility on game board.</source>
           <target state="translated">Přidat posunutí k dotykovému ovládání, aby šly lépe vidět 'stínové' prvky na herní ploše.</target>
         </trans-unit>
+        <trans-unit id="BackgroundImage_ItsukushimaShrine" translate="yes" xml:space="preserve">
+          <source>Itsukushima Shrine</source>
+          <target state="new">Itsukushima Shrine</target>
+        </trans-unit>
       </group>
     </body>
   </file>

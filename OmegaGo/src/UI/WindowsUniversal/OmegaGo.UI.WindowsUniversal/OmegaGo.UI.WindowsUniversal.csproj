@@ -390,6 +390,39 @@
     <Content Include="Assets\Icons\TitleBar\Tutorial.scale-100.png" />
     <Content Include="Assets\Icons\TitleBar\Tutorial.scale-150.png" />
     <Content Include="Assets\Icons\TitleBar\Tutorial.scale-200.png" />
+    <Content Include="Assets\Logos\SmallTile.scale-100.png" />
+    <Content Include="Assets\Logos\SmallTile.scale-125.png" />
+    <Content Include="Assets\Logos\SmallTile.scale-150.png" />
+    <Content Include="Assets\Logos\SmallTile.scale-200.png" />
+    <Content Include="Assets\Logos\SmallTile.scale-400.png" />
+    <Content Include="Assets\Logos\SplashScreen.scale-100.png" />
+    <Content Include="Assets\Logos\SplashScreen.scale-125.png" />
+    <Content Include="Assets\Logos\SplashScreen.scale-150.png" />
+    <Content Include="Assets\Logos\SplashScreen.scale-400.png" />
+    <Content Include="Assets\Logos\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\Logos\Square150x150Logo.scale-125.png" />
+    <Content Include="Assets\Logos\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\Logos\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\Logos\Square310x310Logo.scale-100.png" />
+    <Content Include="Assets\Logos\Square310x310Logo.scale-125.png" />
+    <Content Include="Assets\Logos\Square310x310Logo.scale-150.png" />
+    <Content Include="Assets\Logos\Square310x310Logo.scale-400.png" />
+    <Content Include="Assets\Logos\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\Logos\Square44x44Logo.scale-125.png" />
+    <Content Include="Assets\Logos\Square44x44Logo.scale-150.png" />
+    <Content Include="Assets\Logos\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\Logos\Square44x44Logo.targetsize-16_altform-unplated.png" />
+    <Content Include="Assets\Logos\Square44x44Logo.targetsize-32_altform-unplated.png" />
+    <Content Include="Assets\Logos\Square44x44Logo.targetsize-48_altform-unplated.png" />
+    <Content Include="Assets\Logos\StoreLogo.scale-100.png" />
+    <Content Include="Assets\Logos\StoreLogo.scale-125.png" />
+    <Content Include="Assets\Logos\StoreLogo.scale-150.png" />
+    <Content Include="Assets\Logos\StoreLogo.scale-200.png" />
+    <Content Include="Assets\Logos\StoreLogo.scale-400.png" />
+    <Content Include="Assets\Logos\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\Logos\Wide310x150Logo.scale-125.png" />
+    <Content Include="Assets\Logos\Wide310x150Logo.scale-150.png" />
+    <Content Include="Assets\Logos\Wide310x150Logo.scale-400.png" />
     <Content Include="Assets\MainMenu\backgroundimage.jpg" />
     <Content Include="Assets\Logos\Square310x310Logo.scale-200.png" />
     <Content Include="Assets\Logos\Square44x44Logo.targetsize-256_altform-unplated.png" />
@@ -405,6 +438,7 @@
     <Content Include="Assets\MainMenu\Buttons\Statistics.png" />
     <Content Include="Assets\MainMenu\Buttons\Tutorial.png" />
     <Content Include="Assets\MainMenu\ginkakuJi.jpg" />
+    <Content Include="Assets\MainMenu\ItsukushimaShrine.jpg" />
     <Content Include="Assets\MainMenu\pixel.png" />
     <Content Include="Assets\MainMenu\shintoShrine.jpg" />
     <Content Include="Assets\Notifications\Achievement.png" />
@@ -444,7 +478,6 @@
     <Content Include="Assets\Logos\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Logos\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Logos\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\Logos\StoreLogo.png" />
     <Content Include="Assets\Logos\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
