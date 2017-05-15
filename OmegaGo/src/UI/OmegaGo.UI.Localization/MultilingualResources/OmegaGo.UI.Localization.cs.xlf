@@ -567,9 +567,8 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
         </trans-unit>
         <trans-unit id="PlayAgainstAI" translate="yes" xml:space="preserve">
           <source>Play against AI</source>
-          <target state="needs-review-translation">Hrát proti počítači</target>
+          <target state="translated">Hrát proti počítači</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Goes to solo menu</note>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="Quests" translate="yes" xml:space="preserve">
           <source>Quests</source>
@@ -585,8 +584,7 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
         </trans-unit>
         <trans-unit id="Quest_TryThisNow" translate="yes" xml:space="preserve">
           <source>Try now</source>
-          <target state="needs-review-translation">Zkusit nyní</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Zkusit nyní</target>
         </trans-unit>
         <trans-unit id="Quest_TryThisNowTooltip" translate="yes" xml:space="preserve">
           <source>This will take you to a screen where you can work on this quest.</source>
@@ -2134,7 +2132,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="IgsServerCaptionShort" translate="yes" xml:space="preserve">
           <source>Pandanet - IGS</source>
-          <target state="new">Pandanet - IGS</target>
+          <target state="translated">Pandanet - IGS</target>
         </trans-unit>
         <trans-unit id="Ranking" translate="yes" xml:space="preserve">
           <source>Ranking</source>
@@ -2142,7 +2140,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="UseTouchInputOffset" translate="yes" xml:space="preserve">
           <source>Apply offset to touch input for better shadow items visibility on game board.</source>
-          <target state="needs-review-translation">Přidat posunutí k dotykovému ovládání, aby šly lépe vidět stínové prvky na herní ploše.</target>
+          <target state="translated">Přidat posunutí k dotykovému ovládání, aby šly lépe vidět 'stínové' prvky na herní ploše.</target>
         </trans-unit>
       </group>
     </body>
