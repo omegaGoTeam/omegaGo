@@ -11,6 +11,7 @@
     xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:viewModels="using:OmegaGo.UI.ViewModels"
     xmlns:controls="using:Coding4Fun.Toolkit.Controls"
+    xmlns:windowsStateTriggers="using:WindowsStateTriggers"
     d:DataContext="{d:DesignInstance viewModels:SettingsViewModel, IsDesignTimeCreatable=False}"
     mc:Ignorable="d">
     <Page.Transitions>
@@ -21,6 +22,18 @@
         </TransitionCollection>
     </Page.Transitions>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <windowsStateTriggers:DeviceFamilyStateTrigger DeviceFamily="Desktop" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="FullscreenMode.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Border HorizontalAlignment="Center" x:Name="OuterBorder">
             <Pivot Title="{x:Bind Localizer.Settings}" Style="{StaticResource CenteredPivotStyle}">
                 <Pivot.TitleTemplate>
@@ -95,7 +108,7 @@
                 <PivotItem Header="{x:Bind Localizer.UserInterface}">
                     <ScrollViewer HorizontalContentAlignment="Center" VerticalScrollBarVisibility="Auto">
                         <StackPanel HorizontalAlignment="Center">
-                            <CheckBox Name="FullscreenMode" Content="{x:Bind Localizer.FullscreenModeCheckbox}" 
+                            <CheckBox Name="FullscreenMode" Visibility="Collapsed" Content="{x:Bind Localizer.FullscreenModeCheckbox}" 
                                       IsChecked="{x:Bind IsFullScreen, Mode=TwoWay}"/>
 
                             <CheckBox Content="{x:Bind Localizer.HighlightLastMove}" IsChecked="{Binding HighlightLastMove, Mode=TwoWay}" />
