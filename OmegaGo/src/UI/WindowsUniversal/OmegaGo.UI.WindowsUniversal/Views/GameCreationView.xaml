@@ -48,7 +48,7 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="500" />
+                        <AdaptiveTrigger MinWindowWidth="600" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="JapanesePanel1.Orientation" Value="Horizontal" />
@@ -59,6 +59,7 @@
                         <Setter Target="CanadianPanel3.Orientation" Value="Horizontal" />
                         <Setter Target="TimeControlContainer.MaxWidth" Value="300" />
                         <Setter Target="AbsoluteTimePanel1.Orientation" Value="Horizontal" />
+                        <Setter Target="TimeControlSummaryTextBlock.TextAlignment" Value="Center" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -231,7 +232,7 @@
 
                     <gameCreation:GameCreationRowControl Label="{x:Bind Localizer.TimeControl}">
                         <gameCreation:GameCreationRowControl.CenterContent>
-                            <TextBlock Grid.Row="6" Style="{StaticResource TimeControlDescription}" Text="{x:Bind VM.TimeControl.OneLineDescription, Mode=OneWay}" />
+                            <TextBlock x:Name="TimeControlSummaryTextBlock" Grid.Row="6" Style="{StaticResource TimeControlDescription}" Text="{x:Bind VM.TimeControl.OneLineDescription, Mode=OneWay}" />
                         </gameCreation:GameCreationRowControl.CenterContent>
                         <gameCreation:GameCreationRowControl.RightContent>
                             <Button Grid.Row="6" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.ChangeEllipsis}" 
