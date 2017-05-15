@@ -276,21 +276,21 @@
                                                 <TextBlock Grid.Column="1"  VerticalAlignment="Center" Margin="0,4,0,4"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Style="{ThemeResource SubtitleTextBlockStyle}" Text="{Binding Name, Mode=OneWay}"  FontWeight="SemiBold" />
                                             </Grid>
                                             <StackPanel Orientation="Horizontal">
-                                                <Button Margin="0,0,12,0"  Command="{Binding ElementName=ParentView, Path=VM.JoinRoomCommand}"  Visibility="{Binding Joined, Converter={StaticResource InvertedVisibilityConverter}}" >
+                                                <Button Margin="0,12,12,12"  Style="{StaticResource ToolbarControl}" Command="{Binding ElementName=ParentView, Path=VM.JoinRoomCommand}"  Visibility="{Binding Joined, Converter={StaticResource InvertedVisibilityConverter}}" >
                                                     <StackPanel Orientation="Horizontal">
-                                                        <BitmapIcon UriSource="/Assets/Icons/Commands/Enter.png" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Width="20" Height="20" />
+                                                        <BitmapIcon UriSource="/Assets/Icons/Commands/Enter.png" Foreground="{ThemeResource ApplicationForegroundThemeBrush}"  Width="24" Height="24" />
                                                         <TextBlock Margin="8,0,0,0" Text="{Binding Source={StaticResource Localizer}, Path=Join}" />
                                                     </StackPanel>
                                                 </Button>
-                                                <Button Margin="0,0,12,0" Style="{StaticResource ToolbarControl}"  Visibility="{Binding Joined, Converter={StaticResource VisibilityConverter}}" Command="{Binding ElementName=ParentView, Path=VM.UnjoinRoomCommand}">
+                                                <Button Margin="0,12,12,12" Style="{StaticResource ToolbarControl}"  Visibility="{Binding Joined, Converter={StaticResource VisibilityConverter}}" Command="{Binding ElementName=ParentView, Path=VM.UnjoinRoomCommand}">
                                                     <StackPanel Orientation="Horizontal">
-                                                        <BitmapIcon UriSource="/Assets/Icons/Commands/Exit.png" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Width="20" Height="20" />
+                                                        <BitmapIcon UriSource="/Assets/Icons/Commands/Exit.png" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Width="24" Height="24" />
                                                         <TextBlock Margin="8,0,0,0" Text="{Binding Source={StaticResource Localizer}, Path=Unjoin}" />
                                                     </StackPanel>
                                                 </Button>
                                                 <Button Style="{StaticResource ToolbarControl}" Visibility="{Binding Joined, Converter={StaticResource VisibilityConverter}}" Command="{Binding ElementName=ParentView, Path=VM.CreateChallengeCommand}">
                                                     <StackPanel Orientation="Horizontal">
-                                                        <BitmapIcon UriSource="/Assets/Icons/Commands/Plus.png" />
+                                                        <BitmapIcon UriSource="/Assets/Icons/Commands/Plus.png" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Width="24" Height="24" />
                                                         <TextBlock Margin="8,0,0,0" Text="{Binding Source={StaticResource Localizer}, Path=CreateChallenge}" />
                                                     </StackPanel>
                                                 </Button>

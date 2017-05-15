@@ -9,12 +9,12 @@
     Loaded="HamburgerButton_Loaded"
     Width="48"
     Height="48"
-    BorderThickness="0"
+    BorderThickness="1"
     Padding="0"
     Background="Transparent"
     Style="{StaticResource DefaultButtonStyle}">
 
-    <Border x:Name="HamburgerButtonBorder" Width="48" Height="48" Background="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColorBrush}">
+    <Border x:Name="HamburgerButtonBorder" Width="46" Height="46" Background="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColorBrush}">
         <FontIcon Glyph="&#xE700;" />
     </Border>
 </Button>
