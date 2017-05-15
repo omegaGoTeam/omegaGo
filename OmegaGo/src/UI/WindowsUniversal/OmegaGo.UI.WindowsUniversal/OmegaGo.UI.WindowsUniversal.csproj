@@ -405,6 +405,7 @@
     <Content Include="Assets\MainMenu\Buttons\Statistics.png" />
     <Content Include="Assets\MainMenu\Buttons\Tutorial.png" />
     <Content Include="Assets\MainMenu\ginkakuJi.jpg" />
+    <Content Include="Assets\MainMenu\ItsukushimaShrine.jpg" />
     <Content Include="Assets\MainMenu\pixel.png" />
     <Content Include="Assets\MainMenu\shintoShrine.jpg" />
     <Content Include="Assets\Notifications\Achievement.png" />

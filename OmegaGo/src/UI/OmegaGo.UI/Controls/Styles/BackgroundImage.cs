@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OmegaGo.UI.Game.Styles
+﻿namespace OmegaGo.UI.Controls.Styles
 {
     public enum BackgroundImage
     {
@@ -12,6 +6,7 @@ namespace OmegaGo.UI.Game.Styles
         Forest,
         Shrine,
         Temple,
+        ItsukushimaShrine,
         None
     }
 }
