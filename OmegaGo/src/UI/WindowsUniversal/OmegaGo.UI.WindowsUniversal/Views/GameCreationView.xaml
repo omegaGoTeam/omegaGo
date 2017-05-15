@@ -25,20 +25,27 @@
             <Setter Property="Width" Value="200" />
         </Style>
         <Style x:Key="Boxes" TargetType="FrameworkElement">
-            <Setter Property="Margin" Value="5"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="Grid.Column" Value="1"></Setter>
-            <Setter Property="MinWidth" Value="200"></Setter>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="MinWidth" Value="200"/>
         </Style>
-        <Style x:Key="Buttons" TargetType="Control">
-            <Setter Property="Grid.Column" Value="2"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+        <Style x:Key="BoxesButton" TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="MinWidth" Value="200"/>
+        </Style>
+        <Style x:Key="Buttons" TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+            <Setter Property="Grid.Column" Value="2"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
         </Style>
         <Style x:Key="TimeControlDescription" TargetType="TextBlock">
-            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="Grid.Column" Value="1"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Grid.Column" Value="1"/>
         </Style>
     </Page.Resources>
 

@@ -7,18 +7,18 @@
         }
 
         public string ProgramName {
-            get { return GetSetting(nameof(ProgramName), () => "Random", SettingLocality.Roamed); }
+            get { return GetSetting(nameof(ProgramName), () => "Fuego", SettingLocality.Roamed); }
             set { SetSetting(nameof(ProgramName), value, SettingLocality.Roamed); }
         }
 
         public int FluffyDepth
         {
-            get { return GetSetting(nameof(FluffyDepth), () => 3, SettingLocality.Roamed); }
+            get { return GetSetting(nameof(FluffyDepth), () => 4, SettingLocality.Roamed); }
             set { SetSetting(nameof(FluffyDepth), value, SettingLocality.Roamed); }
         }
         public int FuegoMaxGames
         {
-            get { return GetSetting(nameof(FuegoMaxGames), () => 100000, SettingLocality.Roamed); }
+            get { return GetSetting(nameof(FuegoMaxGames), () => 5000, SettingLocality.Roamed); }
             set { SetSetting(nameof(FuegoMaxGames), value, SettingLocality.Roamed); }
         }
         public bool FuegoPonder
@@ -28,7 +28,7 @@
         }
         public bool FuegoAllowResign
         {
-            get { return GetSetting(nameof(FuegoAllowResign), () => true, SettingLocality.Roamed); }
+            get { return GetSetting(nameof(FuegoAllowResign), () => false, SettingLocality.Roamed); }
             set { SetSetting(nameof(FuegoAllowResign), value, SettingLocality.Roamed); }
         }
 

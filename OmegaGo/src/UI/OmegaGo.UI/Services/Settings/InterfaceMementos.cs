@@ -20,7 +20,7 @@ namespace OmegaGo.UI.Services.Settings
         }
         public string IgsName
         {
-            get { return GetSetting(nameof(IgsName), () => "OmegaGo1", SettingLocality.Roamed); }
+            get { return GetSetting(nameof(IgsName), () => "", SettingLocality.Roamed); }
             set { SetSetting(nameof(IgsName), value, SettingLocality.Roamed); }
         }
         public string IgsPassword
@@ -29,7 +29,7 @@ namespace OmegaGo.UI.Services.Settings
             {
                 if (IgsRememberPassword)
                 {
-                    return GetSetting(nameof(IgsPassword), () => "123456789", SettingLocality.Roamed);
+                    return GetSetting(nameof(IgsPassword), () => "", SettingLocality.Roamed);
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace OmegaGo.UI.Services.Settings
         }
         public string KgsName
         {
-            get { return GetSetting(nameof(KgsName), () => "OmegaGo1", SettingLocality.Roamed); }
+            get { return GetSetting(nameof(KgsName), () => "", SettingLocality.Roamed); }
             set { SetSetting(nameof(KgsName), value, SettingLocality.Roamed); }
         }
         public string KgsPassword
@@ -59,7 +59,7 @@ namespace OmegaGo.UI.Services.Settings
             {
                 if (KgsRememberPassword)
                 {
-                    return GetSetting(nameof(KgsPassword), () => "123456789", SettingLocality.Roamed);
+                    return GetSetting(nameof(KgsPassword), () => "", SettingLocality.Roamed);
                 }
                 else
                 {
@@ -86,7 +86,7 @@ namespace OmegaGo.UI.Services.Settings
         }
         public int FuegoMaxGames
         {
-            get { return GetSetting(nameof(FuegoMaxGames), () => 100000, SettingLocality.Roamed); }
+            get { return GetSetting(nameof(FuegoMaxGames), () => 5000, SettingLocality.Roamed); }
             set { SetSetting(nameof(FuegoMaxGames), value, SettingLocality.Roamed); }
         }
         public bool FuegoPonder
@@ -96,7 +96,7 @@ namespace OmegaGo.UI.Services.Settings
         }
         public bool FuegoAllowResign
         {
-            get { return GetSetting(nameof(FuegoAllowResign), () => true, SettingLocality.Roamed); }
+            get { return GetSetting(nameof(FuegoAllowResign), () => false, SettingLocality.Roamed); }
             set { SetSetting(nameof(FuegoAllowResign), value, SettingLocality.Roamed); }
         }
 

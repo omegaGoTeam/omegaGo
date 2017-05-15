@@ -28,7 +28,7 @@
         </TransitionCollection>
     </Page.Transitions>
     <Page.Resources>
-        <Style x:Key="ToolbarControl" TargetType="FrameworkElement">
+        <Style x:Key="ToolbarControl" TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
             <Setter Property="Margin" Value="12" />
         </Style>
     </Page.Resources>

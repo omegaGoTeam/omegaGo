@@ -139,28 +139,16 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch" />
 
-                    <Button x:Name="controlMenuButton"
-                            HorizontalAlignment="Right" VerticalAlignment="Top"
-                            Margin="5" Padding="0">
-                        <Border HorizontalAlignment="Stretch">
-                            <FontIcon Glyph="&#xE700;"
-                                      Margin="10"/>
-
-                            <Border.Background>
-                                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}"
-                                                 Opacity="0.7"/>
-                            </Border.Background>
-                        </Border>
-                        
-                        <Button.Flyout>
+                    <controls:HamburgerButton x:Name="controlMenuButton" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5">
+                        <controls:HamburgerButton.Flyout>
                             <MenuFlyout>
                                 <ToggleMenuFlyoutItem x:Name="focusButton" Text="{x:Bind Localizer.HideTabs}" Click="focusButton_Click" />
                                 <MenuFlyoutSeparator />
                                 <MenuFlyoutItem Text="{x:Bind Localizer.ExportSgfFile}" Command="{x:Bind VM.ExportSGFCommand}" />
                                 <MenuFlyoutItem Text="{x:Bind Localizer.SaveToLibrary}" Command="{x:Bind VM.SaveToLibraryCommand}" />
                             </MenuFlyout>
-                        </Button.Flyout>
-                    </Button>
+                        </controls:HamburgerButton.Flyout>
+                    </controls:HamburgerButton>
                 </Grid>
 
                 <ScrollViewer x:Name="gameInfoControl"
