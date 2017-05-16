@@ -93,9 +93,9 @@ namespace OmegaGo.Core.Online.Kgs
             }
         }
 
-        public async Task LogoutAsync()
+        public async Task<bool> LogoutAsync()
         {
-            await kgsConnection.MakeUnattendedRequestAsync("LOGOUT", new object());
+            return await kgsConnection.MakeUnattendedRequestAsync("LOGOUT", new object());
         }
 
         public async Task MakeMove(RemoteGameInfo remoteInfo, Move move)

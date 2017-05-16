@@ -81,7 +81,14 @@ namespace OmegaGo.UI.ViewModels
         }
         
         public IMvxCommand LogoutCommand
-            => new MvxCommand(async () => { await Connections.Kgs.Commands.LogoutAsync(); });
+            => new MvxCommand(async () => {
+                if (!await Connections.Kgs.Commands.LogoutAsync())
+                {
+                    this.LoginForm.FormVisible = true;
+                    this.LoginForm.FormEnabled = true;
+                    this.LoginForm.LoginErrorMessage = Localizer.YouHaveBeenDisconnected;
+                }
+            });
 
         public IMvxCommand RefreshControlsCommand => new MvxCommand(UpdateBindings);
 
