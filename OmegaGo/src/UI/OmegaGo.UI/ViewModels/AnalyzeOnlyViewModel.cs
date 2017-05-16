@@ -16,6 +16,7 @@ using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Serializing;
 using OmegaGo.UI.Models.Library;
 using OmegaGo.UI.Services.AppPackage;
+using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
@@ -70,6 +71,9 @@ namespace OmegaGo.UI.ViewModels
                 GameTreeViewModel.SelectedGameTreeNode = node;
                 GameTreeViewModel.RaiseGameTreeChanged();
             };
+            ToolServices.PassSoundShouldBePlayed += ToolServices_PassSoundShouldBePlayed;
+            ToolServices.StoneCapturesShouldBePlayed += ToolServices_StoneCapturesShouldBePlayed;
+            ToolServices.StonePlacementShouldBePlayed += ToolServices_StonePlacementShouldBePlayed;
             Tool = null;
 
             BoardViewModel = new BoardViewModel(analyzeBundle.GameInfo.BoardSize);
@@ -99,6 +103,21 @@ namespace OmegaGo.UI.ViewModels
                 AnalyzeToolsViewModel.OnNodeChanged();
             };
             GameTreeViewModel.SelectedGameTreeNode = GameTree.GameTreeRoot;
+        }
+
+        private async void ToolServices_StonePlacementShouldBePlayed(object sender, EventArgs e)
+        {
+            await Sounds.PlaceStone.PlayAsync();
+        }
+
+        private async void ToolServices_StoneCapturesShouldBePlayed(object sender, EventArgs e)
+        {
+            await Sounds.Capture.PlayAsync();
+        }
+
+        private async void ToolServices_PassSoundShouldBePlayed(object sender, EventArgs e)
+        {
+            await Sounds.Pass.PlayAsync();
         }
 
         public ICommand ExportSGFCommand => _exportSGFCommand ??

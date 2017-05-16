@@ -1656,7 +1656,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Loading... {0} of {1}</value>
   </data>
   <data name="Analyze" xml:space="preserve">
-    <value>Analyze</value>
+    <value>Open</value>
   </data>
   <data name="ErrorSavingFile" xml:space="preserve">
     <value>Error saving file</value>

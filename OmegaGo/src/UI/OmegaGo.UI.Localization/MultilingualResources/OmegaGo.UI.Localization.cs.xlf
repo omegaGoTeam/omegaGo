@@ -1273,7 +1273,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="StoneRemovalText" translate="yes" xml:space="preserve">
           <source>Click stones that should be removed from the board, then click 'Accept removed stones' to end the game.</source>
-          <target state="translated">Klikněte na kameny, které by měly být odstraněy z desky a pak dokončete hru tlačítkem "Akceptovat odstraněné kameny".</target>
+          <target state="translated">Klikněte na kameny, které by měly být odstraněny z desky a pak dokončete hru tlačítkem "Akceptovat odstraněné kameny".</target>
         </trans-unit>
         <trans-unit id="StonesCaptured" translate="yes" xml:space="preserve">
           <source>{0} captures</source>
@@ -2136,7 +2136,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="Ranking" translate="yes" xml:space="preserve">
           <source>Ranking</source>
-          <target state="new">Ranking</target>
+          <target state="translated">Je hra hodnocená?</target>
         </trans-unit>
         <trans-unit id="UseTouchInputOffset" translate="yes" xml:space="preserve">
           <source>Apply offset to touch input for better shadow items visibility on game board.</source>
@@ -2144,7 +2144,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="BackgroundImage_ItsukushimaShrine" translate="yes" xml:space="preserve">
           <source>Itsukushima Shrine</source>
-          <target state="new">Itsukushima Shrine</target>
+          <target state="translated">Svatyně Icukušima</target>
         </trans-unit>
       </group>
     </body>
