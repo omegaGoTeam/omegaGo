@@ -957,7 +957,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
     <value>Vzdát hru</value>
   </data>
   <data name="StoneRemovalText" xml:space="preserve">
-    <value>Klikněte na kameny, které by měly být odstraněy z desky a pak dokončete hru tlačítkem "Akceptovat odstraněné kameny".</value>
+    <value>Klikněte na kameny, které by měly být odstraněny z desky a pak dokončete hru tlačítkem "Akceptovat odstraněné kameny".</value>
   </data>
   <data name="StonesCaptured" xml:space="preserve">
     <value>{0} zajatců</value>
@@ -1603,6 +1603,9 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   </data>
   <data name="IgsServerCaptionShort" xml:space="preserve">
     <value>Pandanet - IGS</value>
+  </data>
+  <data name="Ranking" xml:space="preserve">
+    <value>Je hra hodnocená?</value>
   </data>
   <data name="UseTouchInputOffset" xml:space="preserve">
     <value>Přidat posunutí k dotykovému ovládání, aby šly lépe vidět 'stínové' prvky na herní ploše.</value>
