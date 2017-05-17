@@ -66,6 +66,7 @@
                                     Path=ViewModel.MessageText, 
                                     Mode=TwoWay, 
                                     UpdateSourceTrigger=PropertyChanged}" 
+                     MaxLength="500"
                      KeyDown="TextBox_KeyDown" />
             
             <Button Grid.Column="1" Margin="0,5,5,5"

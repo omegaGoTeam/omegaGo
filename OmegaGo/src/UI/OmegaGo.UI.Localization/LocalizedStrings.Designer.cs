@@ -258,7 +258,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Analyze.
+        ///   Looks up a localized string similar to Open.
         /// </summary>
         public static string Analyze {
             get {

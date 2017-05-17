@@ -358,13 +358,13 @@
     <Language Code="zu-za" InMinimumRequirementSet="true" />
   </SupportedLocales>
   <ProductReservedInfo>
-    <MainPackageIdentityName>43864omegaGoTeam.omegaGoPreview</MainPackageIdentityName>
+    <MainPackageIdentityName>43864omegaGoTeam.omegaGo</MainPackageIdentityName>
     <ReservedNames>
-      <ReservedName>omegaGo Preview</ReservedName>
+      <ReservedName>omegaGo</ReservedName>
     </ReservedNames>
   </ProductReservedInfo>
   <AccountPackageIdentityNames>
-    <MainPackageIdentityName>43864omegaGoTeam.omegaGo</MainPackageIdentityName>
+    <MainPackageIdentityName>43864omegaGoTeam.omegaGoPreview</MainPackageIdentityName>
   </AccountPackageIdentityNames>
-  <PackageInfoList LandingUrl="https://developer.microsoft.com/dashboard/Application?appId=9PBLPWBNHCJC" />
+  <PackageInfoList LandingUrl="https://developer.microsoft.com/dashboard/Application?appId=9NTD991F706T" />
 </StoreAssociation>
