@@ -119,7 +119,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
             Rect boardRectangle = RenderUtilities.Scale(
                 new Rect(0, 0, clientWidth, clientHeight),
-                boardWidth + (this.ShowCoordinates ? 2 : 0), 
+                boardWidth + (this.ShowCoordinates ? 2 : 0),
                 boardHeight + (this.ShowCoordinates ? 2 : 0));
 
             _cellSize = (int)(boardRectangle.Width / widthWithBorder);
@@ -139,21 +139,21 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             this.SharedBoardControlState.NewCellSize = _cellSize;
             // The above should only be probably called on demand, not always
 
-            
+
             // Draw parts
             DrawBoard(session, clientWidth, clientHeight, boardRectangle);
 
 
             // Draw coordinates   
             session.Transform = Matrix3x2.CreateTranslation(
-                (float)boardRectangle.X, 
+                (float)boardRectangle.X,
                 (float)boardRectangle.Y);
             DrawBoardCoordinates(sender, session, boardWidth, boardHeight);
-            
+
 
             // Draw grid
             session.Transform = Matrix3x2.CreateTranslation(
-                (float)boardRectangle.X + _boardBorderThickness, 
+                (float)boardRectangle.X + _boardBorderThickness,
                 (float)boardRectangle.Y + _boardBorderThickness);
 
             CanvasCommandList lines = new CanvasCommandList(sender);
@@ -177,8 +177,8 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
                 session.FillRoundedRectangle(
                     _cellSize * x + minusWhat,
-                    _cellSize * y + minusWhat, 
-                    _cellSize - 2 * minusWhat, 
+                    _cellSize * y + minusWhat,
+                    _cellSize - 2 * minusWhat,
                     _cellSize - 2 * minusWhat,
                     4, 4,
                     Color.FromArgb(140, 100, 200, 100));
@@ -216,7 +216,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             }
 
             // Draw markups if enabled
-            if(SharedBoardControlState.IsAnalyzeModeEnabled)
+            if (SharedBoardControlState.IsAnalyzeModeEnabled)
             {
                 session.Blend = CanvasBlend.SourceOver;
                 DrawMarkups(session, gameState.Markups);
@@ -277,7 +277,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             // Draw board
             DrawBackground(boardRectangle, session);
         }
-        
+
         private void DrawStones(GameTreeNode gameState, CanvasDrawingSession session)
         {
             if (gameState != null)
@@ -315,10 +315,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                                     session.DrawEllipse(
                                         new Vector2(
                                             (x - SharedBoardControlState.OriginX) * _cellSize + _halfSize,
-                                            (translatedYCoordinate + SharedBoardControlState.OriginY) * _cellSize + _halfSize), 
-                                            _cellSize * 0.2f, 
+                                            (translatedYCoordinate + SharedBoardControlState.OriginY) * _cellSize + _halfSize),
                                             _cellSize * 0.2f,
-                                            boardState[x, y] == StoneColor.White ? Colors.Black : Colors.White, 
+                                            _cellSize * 0.2f,
+                                            boardState[x, y] == StoneColor.White ? Colors.Black : Colors.White,
                                             3);
                                 }
                             }
@@ -367,7 +367,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
             session.DrawRectangle(rect, Colors.Black, 2);
         }
-        
+
         /// <summary>
         /// Draws a stone at the specified position with specified color.
         /// </summary>
@@ -397,11 +397,11 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 drawingSession.DrawImage(
                     bitmap,
                     new Rect(
-                        xPos, 
-                        yPos, 
-                        _cellSize * 0.95, 
-                        _cellSize * 0.95), 
-                    blackStoneBitmap.Bounds, 
+                        xPos,
+                        yPos,
+                        _cellSize * 0.95,
+                        _cellSize * 0.95),
+                    blackStoneBitmap.Bounds,
                     (float)opacity);
             }
             else
@@ -421,7 +421,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     color == StoneColor.Black ? Colors.Black : Colors.White);
             }
         }
-        
+
         private void DrawTerritoryMark(CanvasDrawingSession session, int x, int y, Territory territory)
         {
             if (territory == Territory.Black || territory == Territory.White)
@@ -459,11 +459,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private void DrawBoardCoordinates(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession, int boardWidth, int boardHeight)
         {
             if (!this.ShowCoordinates) return;
-            int charCode = 65 + _sharedBoardControlState.OriginX;
-            if ((char)charCode >= 'I')
-            {
-                charCode++;
-            }
+
+
+
+            int startPosition = _sharedBoardControlState.OriginX;
 
             float fontSize = Math.Min(boardWidth * _cellSize, boardHeight * _cellSize) / (float)ReferenceWidth;
             _textFormat.FontSize = ReferenceFontSize * fontSize;
@@ -471,8 +470,8 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             // Draw horizontal char coordinates
             for (int i = 0; i < boardWidth; i++)
             {
-                if ((char)charCode == 'I')
-                    charCode++;
+                var currentPosition = startPosition + i;
+                var charCode = GetHorizontalAxisCoordinate(currentPosition, boardWidth);
 
                 CanvasTextLayout textLayout = RenderUtilities.GetCachedCanvasTextLayout(resourceCreator, ((char)(charCode)).ToString(), _textFormat, _cellSize);
                 textLayout.VerticalAlignment = CanvasVerticalAlignment.Center;
@@ -488,8 +487,6 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                   textLayout,
                   ((i + 1) * _cellSize), _cellSize * (boardHeight + 1),
                   Colors.Black);
-
-                charCode++;
             }
 
             // Draw vertical numerical coordinates
@@ -512,6 +509,43 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     ((i + 1) * _cellSize),
                     Colors.Black);
             }
+        }
+
+        /// <summary>
+        /// Returns the horizontal axis coordinate for a given position on the axis and board width
+        /// </summary>
+        /// <param name="position">Position on the horizontal axis</param>
+        /// <param name="boardWidth">Board width</param>
+        /// <returns>The appropriate coordinate</returns>
+        private char GetHorizontalAxisCoordinate(int position, int boardWidth)
+        {
+            char startCharacter = 'A';
+            char resultingCode;
+
+            //get the basic character
+            if (position >= 26)
+            {
+                resultingCode = (char)(startCharacter + (position - 26));
+            }
+            else
+            {
+                resultingCode = (char)(startCharacter + position);
+            }
+
+            //transform to lowercase?
+            if (boardWidth > 26 && position < 26)
+            {
+                resultingCode = char.ToLowerInvariant(resultingCode);
+            }
+
+            //should I be skipped?
+            bool skipI = boardWidth <= 25;
+
+            if (resultingCode >= 'I' && skipI)
+            {
+                resultingCode++;
+            }
+            return resultingCode;
         }
 
         /// <summary>
@@ -600,8 +634,8 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 Position pointerPosition = SharedBoardControlState.AnalyzeToolServices.PointerOverPosition;
                 GameTreeNode node = SharedBoardControlState.AnalyzeToolServices.Node;
                 IShadowItem shadowItem = markupTool.GetShadowItem(SharedBoardControlState.AnalyzeToolServices);
-                
-                switch(shadowItem.ShadowItemKind)
+
+                switch (shadowItem.ShadowItemKind)
                 {
                     case ShadowItemKind.Label:
                         DrawLabelMark(drawingSession, pointerPosition.X, pointerPosition.Y, markupColor, Colors.Transparent, ((Label)shadowItem).Text);
@@ -640,7 +674,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             {
                 DrawLabelMark(drawingSession, labelMarkup.Position.X, labelMarkup.Position.Y, markupColor, backgroundColor, labelMarkup.Text);
             }
-            
+
             // Draw circles
             foreach (var circleMarkup in markupInfo.GetMarkups<Circle>().ToArray())
             {
@@ -669,7 +703,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private void DrawLabelMark(CanvasDrawingSession session, int x, int y, Color color, Color background, string text)
         {
             y = (this.SharedBoardControlState.BoardHeight - 1) - y;
-            
+
             session.FillRectangle(
                 _cellSize * x,
                 _cellSize * y,
@@ -678,10 +712,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 background);
 
             session.DrawText(
-                text, 
+                text,
                 new Vector2(
                     _cellSize * x + _cellSize * 0.35f,
-                    _cellSize * y + _cellSize * 0.15f), 
+                    _cellSize * y + _cellSize * 0.15f),
                 color);
         }
 
@@ -700,9 +734,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
             session.DrawEllipse(
                 new Vector2(
-                    _cellSize * x + cellSizeHalf, 
-                    _cellSize * y + cellSizeHalf), 
-                _cellSize * 0.4f, 
+                    _cellSize * x + cellSizeHalf,
+                    _cellSize * y + cellSizeHalf),
+                _cellSize * 0.4f,
                 _cellSize * 0.4f,
                 color, 3);
         }
@@ -741,11 +775,11 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 background);
 
             session.DrawRectangle(
-                _cellSize * (x + 0.2f), 
-                _cellSize * (y + 0.2f), 
+                _cellSize * (x + 0.2f),
+                _cellSize * (y + 0.2f),
                 _cellSize * 0.6f,
                 _cellSize * 0.6f,
-                color, 
+                color,
                 3);
         }
 
