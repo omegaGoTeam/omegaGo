@@ -19,6 +19,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Audio
     /// to play sounds. Multiple sounds may be played at the same time.  
     /// </summary>
     /// <seealso cref="OmegaGo.UI.Services.Audio.ISfxPlayerService" />
+    /// <remarks>
+    /// Code inspired by http://markheath.net/post/fire-and-forget-uwp-audio-engine
+    /// </remarks>
     internal class UwpSfxPlayerService : ISfxPlayerService
     {
         private readonly IGameSettings _gameSettings;
