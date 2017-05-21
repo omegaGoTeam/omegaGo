@@ -40,6 +40,7 @@ namespace OmegaGo.Core.AI.Random
 
             if (possibleIntersections.Count == 0)
             {
+                // TODO (future): The AI should probably pass, not resign.
                 return AIDecision.Resign("There are no more moves left to do.");
             }
 
