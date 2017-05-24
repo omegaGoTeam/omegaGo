@@ -50,6 +50,7 @@ namespace OmegaGo.UI.WindowsUniversal
 #else
             OmegaGo.Core.AI.AISystems.RegisterFuegoBuilder(new FuegoBuilder(), Windows.System.MemoryManager.AppMemoryUsageLimit);
 #endif
+
             InitLanguage();
         }
 
@@ -60,6 +61,7 @@ namespace OmegaGo.UI.WindowsUniversal
         /// <param name="e">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
+            OptimizeDisplay();
             if (AppShell.GetForCurrentView() == null)
             {
                 await InitAsync(e.SplashScreen);
@@ -68,7 +70,7 @@ namespace OmegaGo.UI.WindowsUniversal
 
         private async Task InitAsync(SplashScreen splash)
         {
-            OptimizeDisplay();
+
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
@@ -100,6 +102,7 @@ namespace OmegaGo.UI.WindowsUniversal
 
         protected override async void OnFileActivated(FileActivatedEventArgs args)
         {
+            OptimizeDisplay();
             if (AppShell.GetForCurrentView() == null)
             {
                 await InitAsync(args.SplashScreen);
@@ -217,7 +220,7 @@ namespace OmegaGo.UI.WindowsUniversal
         {
             if (DeviceFamilyHelper.DeviceFamily == DeviceFamily.Xbox)
             {
-                this.RequiresPointerMode = ApplicationRequiresPointerMode.WhenRequested;
+                //this.RequiresPointerMode = ApplicationRequiresPointerMode.WhenRequested;
                 XboxDisplayOptimization();
             }
         }
