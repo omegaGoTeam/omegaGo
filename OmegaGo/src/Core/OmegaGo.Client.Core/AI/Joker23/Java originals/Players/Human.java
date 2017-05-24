@@ -48,7 +48,7 @@ public class Human extends Player{
 		}
 
 		public void mousePressed(MouseEvent e) {
-			int i = e.getX()/64; //TODO change this to variable
+			int i = e.getX()/64; //TODO (future work) change this to variable
 			int j = e.getY()/64;
 
 			char color = human.getColor();

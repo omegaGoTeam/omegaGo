@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.UI.Services.Timer
 {
-    //TODO Martin: Ensure the timer survives suspension and the timers can be unregistered (by key?)
+    //TODO  (future work)  Martin: Ensure the timer survives suspension and the timers can be unregistered (by key?)
     /// <summary>
     /// Represents a periodic timer
     /// </summary>

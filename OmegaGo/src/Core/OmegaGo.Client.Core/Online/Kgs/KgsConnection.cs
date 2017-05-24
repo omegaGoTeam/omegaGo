@@ -279,7 +279,7 @@ namespace OmegaGo.Core.Online.Kgs
                     {
                         return;
                     }
-                    // TODO use TaskCompletionSource later on
+                    //TODO (future work) use TaskCompletionSource later on
                     await Task.Delay(500);
                 }
             });

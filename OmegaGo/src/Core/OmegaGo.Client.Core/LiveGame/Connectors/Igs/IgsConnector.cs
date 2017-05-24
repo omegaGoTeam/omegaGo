@@ -29,17 +29,17 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
             _gameController = igsGameController;
         }
 
-       // TODO (Martin): This can be changed.
-       // Here's some comments from Petr:
-       /*They are inherited from IGameConnector. Those events are used by UiConnector.
+        // TODO  (future work) (Martin): This can be changed.
+        // Here's some comments from Petr:
+        /*They are inherited from IGameConnector. Those events are used by UiConnector.
 
-A cleaner alternative would be to get rid of IGameConnector and of GameController.Connectors
-and instead have the UiConnector and RemoteConnector instance variables inside GameController, 
-since only few events can be triggered by both the server and the client, and subscribe to them separately.
+ A cleaner alternative would be to get rid of IGameConnector and of GameController.Connectors
+ and instead have the UiConnector and RemoteConnector instance variables inside GameController, 
+ since only few events can be triggered by both the server and the client, and subscribe to them separately.
 
-But that’s not a one-minute refactoring, there’s a possibility of making mistakes during it, 
-and it changes code introduced during the second core refactoring,
-so I thought suppressing warnings would have the same result.*/
+ But that’s not a one-minute refactoring, there’s a possibility of making mistakes during it, 
+ and it changes code introduced during the second core refactoring,
+ so I thought suppressing warnings would have the same result.*/
 #pragma warning disable CS0067
 
         /// <summary>
@@ -102,7 +102,7 @@ so I thought suppressing warnings would have the same result.*/
         /// <param name="stoneCount">Number of handicap stones</param>
         public void HandicapFromServer(int stoneCount)
         {
-            // TODO Petr: Can Handicap info arrive before HandicapPlacement starts?
+            // TODO  (future work) Petr: Can Handicap info arrive before HandicapPlacement starts?
             // Quite possibly. Sigh. I'll try to do something about it.
             GameHandicapSet?.Invoke(this, stoneCount);
             _handicapSet = true;

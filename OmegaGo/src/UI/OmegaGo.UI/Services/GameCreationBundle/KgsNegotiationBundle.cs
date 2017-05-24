@@ -155,7 +155,7 @@ namespace OmegaGo.UI.Services.GameCreation
 
         private void Events_Unjoin(object sender, KgsChannel e)
         {
-            // Hack: This is a memory leak. This event will never be collected. Oh well.
+            //TODO  (future work) Hack: This is a memory leak. This event will never be collected. Oh well.
             if (e.ChannelId == Challenge.ChannelId)
             {
                 _vm.CloseSelf();

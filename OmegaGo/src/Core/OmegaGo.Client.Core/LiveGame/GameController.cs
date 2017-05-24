@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Helpers;
+using OmegaGo.Core.LiveGame.Connectors;
+using OmegaGo.Core.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Connectors;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Finished;

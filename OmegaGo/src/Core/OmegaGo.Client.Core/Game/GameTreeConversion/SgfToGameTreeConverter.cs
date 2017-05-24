@@ -271,7 +271,7 @@ namespace OmegaGo.Core.Game.GameTreeConversion
             if (sourceNode[selected] != null)
             {
                 // Add selected     
-                // TODO Vita : This is not implemented?
+                // TODO  (future work) Vita : implement
             }
             if (sourceNode[square] != null)
             {

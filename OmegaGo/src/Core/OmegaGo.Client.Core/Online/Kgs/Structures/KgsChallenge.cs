@@ -16,7 +16,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
         public bool Acceptable { get; set; }
         public Proposal IncomingChallenge { get; set; }
 
-        // TODO used for debugging so far
+        // TODO (future work)  used for debugging so far
         public List<string> Events { get; } = new List<string>();
 
         public bool OwnedByUs { get; set; }

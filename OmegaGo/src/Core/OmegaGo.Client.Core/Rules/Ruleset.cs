@@ -237,7 +237,7 @@ namespace OmegaGo.Core.Rules
                 StoneColor player;
 
                 if (currentNode.Move.WhoMoves == StoneColor.None)
-                    player = StoneColor.White; // TODO Petr: ensure this is actually appropriate in all such situations (probably isn't)
+                    player = StoneColor.White; // TODO (future work)  Petr: ensure this is actually appropriate in all such situations (probably isn't)
                 else
                     player = currentNode.Move.WhoMoves.GetOpponentColor();
 

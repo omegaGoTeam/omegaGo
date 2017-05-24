@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.UI.Services.Help
 {
-    //TODO Martin : Remove hardcoded strings, make help pages localizable
+    //TODO  (future work) Martin : Remove hardcoded strings, make help pages localizable
     /// <summary>
     /// Represents a page in the Help view. A page is an HTML page that gives information on Go to the player.
     /// </summary>

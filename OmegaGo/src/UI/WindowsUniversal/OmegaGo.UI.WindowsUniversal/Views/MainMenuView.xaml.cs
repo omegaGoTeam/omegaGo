@@ -41,7 +41,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             base.OnNavigatedTo(e);
             LoadLanguageMenu();
-            ///TODO: Martin - make this simpler by using itemssource and data binding
+            ///TODO (future work) : Martin - make this simpler by using itemssource and data binding
             if (!VM.ShowTutorialButton)
             {
                 MenuItemsControl.Items.RemoveAt(0);

@@ -1,5 +1,6 @@
 ﻿using System;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.LiveGame.Players.Agents;
 using OmegaGo.Core.Time;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.State;
@@ -39,7 +40,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// <summary>
         /// Player's clock
         /// </summary>
-        // TODO Petr (low importance): If time is available, and KGS does not use the TIMESYSTEM property during a game, consider refactoring this so that the setter is not necessary.
+        // TODO (future work) Petr (low importance): If time is available, and KGS does not use the TIMESYSTEM property during a game, consider refactoring this so that the setter is not necessary.
         public TimeControl Clock { get; internal set; }
 
         /// <summary>

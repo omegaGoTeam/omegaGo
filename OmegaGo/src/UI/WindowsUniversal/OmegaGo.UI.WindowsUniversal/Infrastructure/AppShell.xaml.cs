@@ -38,7 +38,7 @@ using OmegaGo.UI.WindowsUniversal.Views;
 
 namespace OmegaGo.UI.WindowsUniversal.Infrastructure
 {
-    //TODO Martin : Reimplement bubble notifications using a custom control, custom view model and custom service, this version mixes it all in app shell
+    //TODO (future work) Martin : Reimplement bubble notifications using a custom control, custom view model and custom service, this version mixes it all in app shell
     /// <summary>
     /// The Shell around the whole app
     /// </summary>
@@ -237,7 +237,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             set { TitleBar.Visibility = value ? Visibility.Collapsed : Visibility.Visible; }
         }
 
-        //TODO Martin: Move to a separate control along with the UI
+        //TODO (future work) Martin: Move to a separate control along with the UI
         /// <summary>
         /// Add this to a server when SFX is merged in.
         /// </summary>

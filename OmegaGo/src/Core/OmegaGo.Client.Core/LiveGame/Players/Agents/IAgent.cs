@@ -1,6 +1,8 @@
-﻿using System;
-using OmegaGo.Core.Game;
+﻿using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Phases;
+using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Igs;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Kgs;
@@ -8,9 +10,8 @@ using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Rules;
 
-namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
+namespace OmegaGo.Core.LiveGame.Players.Agents
 {
-    //TODO Martin Update documentation
     /// <summary>
     /// An agent makes moves for a player when this is requested by a game controller.
     /// 

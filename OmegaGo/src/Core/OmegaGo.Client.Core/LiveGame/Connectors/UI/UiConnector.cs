@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.LiveGame.Connectors;
+using OmegaGo.Core.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;

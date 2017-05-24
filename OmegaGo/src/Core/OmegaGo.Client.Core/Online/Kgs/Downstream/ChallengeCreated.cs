@@ -2,7 +2,7 @@
 using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
 using OmegaGo.Core.Online.Kgs.Structures;
 
-namespace OmegaGo.Core.Online.Kgs
+namespace OmegaGo.Core.Online.Kgs.Downstream
 {
     internal class ChallengeCreated : KgsInterruptResponse
     {

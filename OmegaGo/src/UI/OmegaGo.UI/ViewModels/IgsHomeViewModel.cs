@@ -154,7 +154,7 @@ namespace OmegaGo.UI.ViewModels
             var onlinegame = await Connections.Igs.Commands.StartObserving(selectedGame);
             if (onlinegame == null)
             {
-                // TODO Petr: error report
+                // TODO (future work)  Petr: error report
             }
             else
             {

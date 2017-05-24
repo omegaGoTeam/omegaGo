@@ -51,7 +51,7 @@ public class Game {
 
 		GAME_BOARD = new Board(this);
 
-		//TODO remove hardcode
+		//TODO (future work) remove hardcode
 		//this.p1 = new Human('W');
 		//this.p2 = new RandomPlayer('B');
 

@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 
-namespace OmegaGo.Core.Modes.LiveGame.Connectors
+namespace OmegaGo.Core.LiveGame.Connectors
 {
-    //TODO Martin : Some of these events are completely useless for non-remote connectors and do not belong here!
     /// <summary>
     /// Connects a game to a endpoint
     /// </summary>

@@ -220,14 +220,14 @@ namespace OmegaGo.UI.ViewModels
                 tabInfo.IsBlinking = true;
                 return;
             }
-            
-            // TODO Martin validate this hotfix
+
+            // TODO (future work)  Martin validate this hotfix
             // With handicap this method is fired much sooned and the ViewModel is not yet set, returning null.
             // Check for this case.
             if (newNode != null && tabInfo != null)
             {
                 if(!IsTimelineInPast)
-                    RefreshBoard(Game.Controller.GameTree.LastNode); // TODO Vita, Aniko: This will not work well with neither timeline nor analyze mode, I think
+                    RefreshBoard(Game.Controller.GameTree.LastNode); // TODO (future work)  Vita, Aniko: This will not work well with neither timeline nor analyze mode, I think
 
                 UpdateTimeline();
                 RefreshInstructionCaption();
@@ -289,7 +289,7 @@ namespace OmegaGo.UI.ViewModels
             BoardViewModel.IsMarkupDrawingEnabled = true;
 
             // Set current game node to ToolServices and Timeline VM (for node highlight)
-            GameTreeNode currentNode = Game.Controller.GameTree.LastNode; // TODO Aniko, Vita: It would be better if the current node was the node we are currently viewing, not the one that's current from the game's perspective.
+            GameTreeNode currentNode = Game.Controller.GameTree.LastNode; // TODO (future work)  Aniko, Vita: It would be better if the current node was the node we are currently viewing, not the one that's current from the game's perspective.
 
             ToolServices.Node = BoardViewModel.GameTreeNode;
             GameTreeViewModel.SelectedGameTreeNode = BoardViewModel.GameTreeNode;
@@ -338,7 +338,7 @@ namespace OmegaGo.UI.ViewModels
 
             AnalyzeToolsViewModel.CharacterMarkupTool = new SequenceMarkupTool(SequenceMarkupKind.Letter);
             AnalyzeToolsViewModel.NumberMarkupTool = new SequenceMarkupTool(SequenceMarkupKind.Number);
-            // TODO naming square vs rectangle o.O
+            // TODO (future work)  naming square vs rectangle o.O
             AnalyzeToolsViewModel.RectangleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Square);
             AnalyzeToolsViewModel.TriangleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Triangle);
             AnalyzeToolsViewModel.CircleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Circle);

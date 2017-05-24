@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.LiveGame.Connectors;
 using OmegaGo.Core.Modes.LiveGame.Connectors;
 using OmegaGo.Core.Modes.LiveGame.Connectors.UI;
 using OmegaGo.Core.Modes.LiveGame.Phases;

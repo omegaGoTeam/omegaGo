@@ -73,7 +73,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
             get { return ToolServices.Node?.Comment; }
             set
             {
-                // TODO Vita this can happen when there is no move yet. This should be fixed once every game starts with an empty node.
+                // TODO  (future work) Vita this can happen when there is no move yet. This should be fixed once every game starts with an empty node.
                 if (ToolServices.Node == null)
                     return;
 

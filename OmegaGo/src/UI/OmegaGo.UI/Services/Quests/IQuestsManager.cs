@@ -49,7 +49,7 @@ namespace OmegaGo.UI.Services.Quests
         /// <param name="additionalProgress">Progress added</param>
         void ProgressQuest(ActiveQuest quest, int additionalProgress);
 
-        // TODO Petr (low importance): Consider removing public modifier if cheats won't be in the final version of the game
+        // TODO  (future work)  Petr (low importance): Consider removing public modifier if cheats won't be in the final version of the game
         /// <summary>
         /// Adds quest points with possible notification to the user
         /// </summary>

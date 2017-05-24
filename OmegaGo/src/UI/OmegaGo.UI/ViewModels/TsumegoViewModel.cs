@@ -275,7 +275,7 @@ A tsumego problem will also display a problem statement
             {
                 // This is a new move.
                 GameTreeNode newNode = new GameTreeNode(move);
-                MoveProcessingResult mpr = TsumegoProblem.TsumegoRuleset.ProcessMove(CurrentNode, move); // TODO Petr: ko???
+                MoveProcessingResult mpr = TsumegoProblem.TsumegoRuleset.ProcessMove(CurrentNode, move); // TODO (future work)  Petr: ko???
 
                 // Note that we're not handling ko. Most or all of our problems don't depend on ko, 
                 // and which positions are correct or wrong is written in the .sgf file anyway, so this is not a big deal.

@@ -82,7 +82,7 @@ namespace OmegaGo.Core.Rules
         /// <returns>The legality of move or new game phase notification.</returns>
         protected override MoveResult Pass(GameTreeNode currentNode)
         {
-            //TODO Aniko : check whether opponents score increases according to Chinese rules
+            //TODO (future work) Aniko : check whether opponents score increases according to Chinese rules
             if (currentNode != null && currentNode.Move.Kind == MoveKind.Pass)
                 return MoveResult.StartLifeAndDeath;
             else

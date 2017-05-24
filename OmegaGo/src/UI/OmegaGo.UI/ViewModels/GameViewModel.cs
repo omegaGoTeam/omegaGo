@@ -183,7 +183,7 @@ namespace OmegaGo.UI.ViewModels
         {
             BoardViewModel.GameTreeNode = boardState;
             BoardViewModel.BoardControlState.TEMP_MoveLegality = Game.Controller.Ruleset.GetMoveResult(boardState);
-            // TODO Petr: GameTree has now LastNodeChanged event - use it to fix this - for now make public and. Called from GameViewModel
+            // TODO (future work)  Petr: GameTree has now LastNodeChanged event - use it to fix this - for now make public and. Called from GameViewModel
             BoardViewModel.Redraw();
         }
 

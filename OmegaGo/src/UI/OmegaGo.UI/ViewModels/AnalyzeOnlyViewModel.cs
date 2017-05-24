@@ -189,7 +189,7 @@ namespace OmegaGo.UI.ViewModels
 
             AnalyzeToolsViewModel.CharacterMarkupTool = new SequenceMarkupTool(SequenceMarkupKind.Letter);
             AnalyzeToolsViewModel.NumberMarkupTool = new SequenceMarkupTool(SequenceMarkupKind.Number);
-            // TODO naming square vs rectangle o.O
+            // TODO (future work)  naming square vs rectangle o.O
             AnalyzeToolsViewModel.RectangleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Square);
             AnalyzeToolsViewModel.TriangleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Triangle);
             AnalyzeToolsViewModel.CircleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Circle);
@@ -199,7 +199,7 @@ namespace OmegaGo.UI.ViewModels
         private void RefreshBoard(GameTreeNode boardState)
         {
             BoardViewModel.GameTreeNode = boardState;
-            // TODO Petr: GameTree has now LastNodeChanged event - use it to fix this - for now make public and. Called from GameViewModel
+            // TODO (future work)  Petr: GameTree has now LastNodeChanged event - use it to fix this - for now make public and. Called from GameViewModel
             BoardViewModel.Redraw();
         }
 

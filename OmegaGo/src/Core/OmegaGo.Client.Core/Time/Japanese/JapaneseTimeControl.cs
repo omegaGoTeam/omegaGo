@@ -63,7 +63,7 @@ namespace OmegaGo.Core.Time.Japanese
                 _snapshot = new Japanese.JapaneseTimeInformation(TimeSpan.FromSeconds(clock.Time), clock.PeriodsLeft - 1,
                     true);
             }
-            // TODO Petr: Think about whether this is correct.
+            // TODO (future work)  Petr: Think about whether this is correct.
 
         }
 

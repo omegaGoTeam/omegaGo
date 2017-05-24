@@ -204,7 +204,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 }
                 else
                 {
-                    // TODO Petr : only if legal - use Ruleset IsLegalMove?
+                    // TODO (future work)  Petr : only if legal - use Ruleset IsLegalMove?
                     // But it would be slow, you can implement caching to check for each intersection only once
                     if (_sharedBoardControlState.PointerOverShadowColor != StoneColor.None && (
                         _sharedBoardControlState.TEMP_MoveLegality == null ||

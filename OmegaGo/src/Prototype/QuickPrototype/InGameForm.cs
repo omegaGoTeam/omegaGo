@@ -15,6 +15,7 @@ using OmegaGo.Core.Rules;
 using OmegaGo.Core.AI.Joker23.Players;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Helpers;
+using OmegaGo.Core.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Connectors.UI;
 using OmegaGo.Core.Modes.LiveGame.Local;

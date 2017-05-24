@@ -15,7 +15,7 @@ public abstract class Player {
 
 	public Player(char color) {
 		this.numPieces = 0;
-		this.color = color; //TODO throw exception if we don't have the right color
+		this.color = color; //TODO (future work) throw exception if we don't have the right color
 		this.moves = new LinkedList<Move>();
 	}
 

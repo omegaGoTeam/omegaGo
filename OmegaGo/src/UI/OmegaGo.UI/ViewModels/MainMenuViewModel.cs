@@ -81,7 +81,7 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
-        // TODO Martin: fix this display with custom control
+        // TODO (future work)  Martin: fix this display with custom control
         private string DO_MUTE = "MUTE";
         private string DO_UNMUTE = "UNMUTE";
 

@@ -247,7 +247,7 @@ namespace OmegaGo.UI.ViewModels
             }
 
             CanPass = (this.Game?.Controller?.TurnPlayer?.IsHuman ?? false) ? true : false;
-            // TODO Petr this allows to undo before the beginning of the game and causes exception
+            // TODO (future work)  Petr this allows to undo before the beginning of the game and causes exception
             if (this.Game?.Controller?.GameTree == null)
             {
                 // Game not yet initialized.
@@ -260,16 +260,15 @@ namespace OmegaGo.UI.ViewModels
                     CanUndo = false;
                 }
                 else
-                {
-                    // TODO Petr Please find a suitable name for this property.
-                    bool value = this.Game.Controller.GameTree.PrimaryMoveTimeline.Any(
+                {                    
+                    bool undoPossible = this.Game.Controller.GameTree.PrimaryMoveTimeline.Any(
                         move =>
                         {
                             if (move.WhoMoves == StoneColor.None) return false;
                             return this.Game.Controller.Players[move.WhoMoves].IsHuman;
                         });
 
-                    CanUndo = value;
+                    CanUndo = undoPossible;
                 }
             }
             else
@@ -387,9 +386,9 @@ namespace OmegaGo.UI.ViewModels
         {
             BoardViewModel.BoardControlState.TerritoryMap = e;
             RefreshBoard(Game.Controller.GameTree.LastNode);
-            // TODO Aniko, Vita: This won't work well with Analyze mode in multiplayer.
+            // TODO (future work)  Aniko, Vita: This won't work well with Analyze mode in multiplayer.
         }
-        
+
         private void Assistant_uiConnector_AiLog(object sender, string e)
         {
             AppendLogLine($"AI: {e}");

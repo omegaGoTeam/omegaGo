@@ -1,5 +1,6 @@
 ﻿using System;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Rules;
