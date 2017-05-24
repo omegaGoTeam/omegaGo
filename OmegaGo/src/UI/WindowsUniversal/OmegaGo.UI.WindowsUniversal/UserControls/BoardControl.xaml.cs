@@ -24,14 +24,12 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         private RenderService _renderService;
         private GameTreeNode _currentGameTreeNode;
 
-        private bool _ignorePointer = false;
-
         public static readonly DependencyProperty ViewModelProperty =
-                   DependencyProperty.Register(
-                           "ViewModel",
-                           typeof(BoardViewModel),
-                           typeof(BoardControl),
-                           new PropertyMetadata(null, ViewModelChanged));
+            DependencyProperty.Register(
+                "ViewModel",
+                typeof(BoardViewModel),
+                typeof(BoardControl),
+                new PropertyMetadata(null, ViewModelChanged));
 
         public BoardControl()
         {
@@ -103,43 +101,28 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             canvas.PointerReleased += canvas_PointerReleased;
             canvas.PointerExited += Canvas_PointerExited;
 
-            _inputService.PointerTapped += (sender, ev) =>
-            {
-                if (!_ignorePointer)
-                {
-                    ViewModel.BoardTap(ev);
-                }
-            };
+            _inputService.PointerTapped += (sender, ev) => ViewModel.BoardTap(ev);
         }
 
         private void canvas_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            if (!_ignorePointer)
-            {
-                Point pointerPosition = GetPointerPosition(e);
+            Point pointerPosition = GetPointerPosition(e);
 
-                InputService.PointerDown((int)pointerPosition.X, (int)pointerPosition.Y);
-            }
+            InputService.PointerDown((int)pointerPosition.X, (int)pointerPosition.Y);
         }
 
         private void canvas_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (!_ignorePointer)
-            {
-                Point pointerPosition = GetPointerPosition(e);
+            Point pointerPosition = GetPointerPosition(e);
 
-                InputService.PointerUp((int)pointerPosition.X, (int)pointerPosition.Y);
-            }
+            InputService.PointerUp((int)pointerPosition.X, (int)pointerPosition.Y);
         }
 
         private void canvas_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (!_ignorePointer)
-            {
-                Point pointerPosition = GetPointerPosition(e);
+            Point pointerPosition = GetPointerPosition(e);
 
-                InputService.PointerMoved((int)pointerPosition.X, (int)pointerPosition.Y);
-            }
+            InputService.PointerMoved((int)pointerPosition.X, (int)pointerPosition.Y);
         }
 
         private void Canvas_PointerExited(object sender, PointerRoutedEventArgs e)
@@ -172,36 +155,6 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         private void canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
             RenderService.Update(args.Timing.ElapsedTime);
-        }
-
-        private void Canvas_OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
-        {
-            if (Math.Abs(e.Delta.Scale - 1) > 0.001) _ignorePointer = true;
-            var currentScale = ScaleTransform.ScaleX;
-            ScaleTransform.ScaleX = ScaleTransform.ScaleY = Bound(currentScale * e.Delta.Scale, 1, 4);
-            ScaleTransform.CenterX = e.Position.X;
-            ScaleTransform.CenterY = e.Position.Y;
-            e.Handled = true;
-        }
-
-        private double Bound(double value, double min, double max)
-        {
-            if (value > max) return max;
-            if (value < min) return min;
-            return value;
-        }
-
-        private void Canvas_OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
-        {
-            _ignorePointer = false;
-        }
-
-        private void Canvas_OnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
-        {
-            if (e.PointerDeviceType == PointerDeviceType.Touch)
-            {
-                
-            }
         }
     }
 }

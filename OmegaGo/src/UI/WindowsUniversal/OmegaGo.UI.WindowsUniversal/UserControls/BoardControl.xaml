@@ -6,24 +6,18 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml"
-    xmlns:windowsStateTriggers="using:WindowsStateTriggers"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
     HorizontalContentAlignment="Stretch"
     VerticalContentAlignment="Stretch">
+
     <win2d:CanvasAnimatedControl 
-                x:Name="canvas" 
-                IsFixedTimeStep="False"
-                UseSharedDevice="True"
-                IsHoldingEnabled="False"
-                IsRightTapEnabled="False"
-                ManipulationMode="Scale" 
-                ManipulationStarted="Canvas_OnManipulationStarted"
-                ManipulationCompleted="Canvas_OnManipulationCompleted"
-                ManipulationDelta="Canvas_OnManipulationDelta">
-        <win2d:CanvasAnimatedControl.RenderTransform>
-            <ScaleTransform x:Name="ScaleTransform" ScaleX="1" ScaleY="1" />
-        </win2d:CanvasAnimatedControl.RenderTransform>
-    </win2d:CanvasAnimatedControl>
+        x:Name="canvas" 
+        IsFixedTimeStep="False"
+        UseSharedDevice="True"
+        ManipulationMode="None"
+        IsHoldingEnabled="False"
+        IsRightTapEnabled="False"/>
+
 </local:UserControlBase>
