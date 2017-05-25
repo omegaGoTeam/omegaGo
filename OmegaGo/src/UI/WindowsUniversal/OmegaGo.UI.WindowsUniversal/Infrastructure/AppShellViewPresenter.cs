@@ -65,7 +65,17 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         {
             AddPresentationHintHandler<MvxClosePresentationHint>(HandleClose);
             AddPresentationHintHandler<RefreshDisplayPresentationHint>(HandleRefreshDisplay);
-            AddPresentationHintHandler<PopBackStackPresentationHint>(HandlePopBackStack);
+            AddPresentationHintHandler<GoBackPresentationHint>(GoBack);
+        }
+
+        private bool GoBack(GoBackPresentationHint hint)
+        {
+            var tab = _appShell.TabManager.Tabs.FirstOrDefault(t => t.Id == hint.Tab.Id);
+            if (tab?.Frame?.CanGoBack == true)
+            {
+                tab?.Frame?.GoBack();
+            }
+            return true;
         }
 
         private bool HandleRefreshDisplay(RefreshDisplayPresentationHint arg)
@@ -74,16 +84,11 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             return true;
         }
 
-        private bool HandlePopBackStack(PopBackStackPresentationHint arg)
-        {
-            throw new NotImplementedException();
-        }
-
         private bool HandleClose(MvxClosePresentationHint hint)
         {
             if (_appShell.TabManager.ActiveTab?.Frame.CanGoBack == true)
             {
-                _appShell.TabManager.ActiveTab?.Frame.GoBack();                
+                _appShell.TabManager.ActiveTab?.Frame.GoBack();
             }
             return true;
         }
