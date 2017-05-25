@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
+using OmegaGo.UI.Infrastructure.PresentationHints;
 using OmegaGo.UI.Infrastructure.Tabbed;
 using OmegaGo.UI.Services.Localization;
 
@@ -82,7 +83,7 @@ namespace OmegaGo.UI.ViewModels
         /// <returns>Was the switch successful?</returns>
         public bool SwitchToTab(ITabInfo tab)
             => _tabProvider.SwitchToTab(tab);
-        
+
         /// <summary>
         /// Gets or sets the title of the view model's tab if on top
         /// </summary>
@@ -104,9 +105,9 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         public async void GoBack()
         {
-            if ( await CanCloseViewModelAsync())
+            if (await CanCloseViewModelAsync())
             {
-                Close(this);
+                ForceClose(this);
             }
         }
 
@@ -117,6 +118,20 @@ namespace OmegaGo.UI.ViewModels
         public virtual Task<bool> CanCloseViewModelAsync()
         {
             return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Forces close of a given view model
+        /// </summary>
+        /// <param name="viewModel">View model</param>
+        public void ForceClose(IMvxViewModel viewModel)
+        {
+            var provider = Mvx.Resolve<ITabProvider>();
+            var tab = provider.GetTabForViewModel(this);
+            if (tab != null)
+            {
+                ChangePresentation(new GoBackPresentationHint(tab));
+            }
         }
 
         /// <summary>

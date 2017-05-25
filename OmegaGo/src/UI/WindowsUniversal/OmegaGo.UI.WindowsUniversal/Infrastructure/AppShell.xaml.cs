@@ -271,7 +271,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private void UpdateTitleBarVisualSettings()
         {
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.BackgroundColor = (Color)App.Current.Resources["GameColor"];
+            titleBar.BackgroundColor = (Color)Application.Current.Resources["GameColor"];
             titleBar.ButtonBackgroundColor = Colors.Transparent;
             titleBar.ButtonForegroundColor = AppTheme == ElementTheme.Light ? Colors.Black : Colors.White;
             titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
@@ -282,7 +282,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             titleBar.ButtonInactiveForegroundColor = Colors.DimGray;
             titleBar.ForegroundColor = AppTheme == ElementTheme.Light ? Colors.Black : Colors.White;
             titleBar.InactiveForegroundColor = Colors.DimGray;
-            titleBar.InactiveBackgroundColor = (Color)App.Current.Resources["GameColor"];
+            titleBar.InactiveBackgroundColor = (Color)Application.Current.Resources["GameColor"];
         }
 
         /// <summary>
