@@ -130,7 +130,8 @@ namespace OmegaGo.UI.Services.Quests
         public static ActiveQuest SpawnRandomQuest(IEnumerable<string> avoidTheseQuests)
         {
             List<string> questsToAvoid = avoidTheseQuests.ToList();
-            string randomQuestName = Quest.AllQuests.Keys.Where(key => !questsToAvoid.Contains(key)).ToList().GetRandom();
+            string randomQuestName = Quest.AllQuests.Keys.Where(key => key != Quest.HiddenQuestKey &&
+                !questsToAvoid.Contains(key)).ToList().GetRandom();
             return ActiveQuest.Create(randomQuestName);
         }
 

@@ -255,6 +255,11 @@ namespace OmegaGo.UI.ViewModels
             // It the current tool is not empty, execute it
             if (Tool != null)
                 Tool.Execute(ToolServices);
+
+
+            BoardViewModel.BoardControlState.ShowTerritory =
+                ToolServices.Node.Equals(Game.Controller.GameTree.LastNode) &&
+                (GamePhase == GamePhaseType.LifeDeathDetermination || GamePhase == GamePhaseType.Finished);
         }
 
         protected void UpdateTimeline(bool setToLast = false)
