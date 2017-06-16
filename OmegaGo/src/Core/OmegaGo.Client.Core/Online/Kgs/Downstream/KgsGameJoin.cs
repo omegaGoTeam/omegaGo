@@ -15,6 +15,10 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         public GameSummary GameSummary { get; set; }
         public SgfEvent[] SgfEvents { get; set; }
 
+        /// <summary>
+        /// Gets the rules, if they're supplied with the Game Join message. If not, then returns null.
+        /// I don't know when null is returned, but sometimes it apparently is.
+        /// </summary>
         public RulesDescription Rules
         {
             get
@@ -32,7 +36,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
                         }
                     }
                 }
-                throw new Exception("Rules were not found in the GameJoin message.");
+                return null;
             }
         }
         public override void Process(KgsConnection connection)

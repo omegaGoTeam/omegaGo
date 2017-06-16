@@ -20,11 +20,15 @@ namespace OmegaGo.Core.Online.Kgs.Structures
             var blackInfo = new PlayerInfo(StoneColor.Black,
                 kgsGameJoin.GameSummary.Players["black"].Name,
                 kgsGameJoin.GameSummary.Players["black"].Rank);
-            if (!KgsHelpers.IsSupportedRuleset(kgsGameJoin.Rules.Rules))
+            var rules = kgsGameJoin.Rules;
+            if (rules == null)
             {
                 return null;
             }
-            var rules = kgsGameJoin.Rules;
+            if (!KgsHelpers.IsSupportedRuleset(rules.Rules))
+            {
+                return null;
+            }
             var kgi = new KgsGameInfo(
                 whiteInfo,
                 blackInfo,
