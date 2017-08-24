@@ -50,5 +50,26 @@ namespace OmegaGo.UI.Services.Settings
         /// <param name="locality">Locality</param>
         void SetComplexSetting<T>(string key, T value, SettingLocality locality = SettingLocality.Local)
             where T : new();
+
+        /// <summary>
+        /// After setting retrieval from a file (name according to key), the setting is deserialized from JSON
+        /// </summary>
+        /// <typeparam name="T">Type of the setting</typeparam>
+        /// <param name="key">Key</param>
+        /// <param name="defaultValueBuilder">Value</param>
+        /// <param name="locality">Locality</param>
+        /// <returns></returns>
+        T GetLargeSetting<T>(string key, Func<T> defaultValueBuilder,
+            SettingLocality locality = SettingLocality.Local) where T : new();
+
+        /// <summary>
+        /// Before storing the setting into a file (name according to key), it is first serialized to JSON
+        /// </summary>
+        /// <typeparam name="T">Type of the setting</typeparam>
+        /// <param name="key">Key</param>
+        /// <param name="value">Value</param>
+        /// <param name="locality">Locality</param>
+        void SetLargeSetting<T>(string key, T value, SettingLocality locality = SettingLocality.Local)
+            where T : new();
     }
 }

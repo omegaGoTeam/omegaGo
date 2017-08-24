@@ -27,6 +27,9 @@ using OmegaGo.UI.WindowsUniversal.Services.PasswordVault;
 using OmegaGo.UI.WindowsUniversal.Services.Timer;
 using OmegaGo.UI.Services.Memory;
 using OmegaGo.UI.WindowsUniversal.Services.Memory;
+using OmegaGo.UI.Services.DataMigration;
+using OmegaGo.UI.WindowsUniversal.Services.DataMigration;
+using System.Threading.Tasks;
 
 namespace OmegaGo.UI.WindowsUniversal
 {
@@ -62,9 +65,11 @@ namespace OmegaGo.UI.WindowsUniversal
             Mvx.LazyConstructAndRegisterSingleton<ISfxPlayerService, UwpSfxPlayerService>();
             Mvx.LazyConstructAndRegisterSingleton<IAppNotificationService, AppNotificationService>();
             Mvx.LazyConstructAndRegisterSingleton<IMemoryService, MemoryService>();
+            Mvx.LazyConstructAndRegisterSingleton<IDataMigrationProvider, DataMigrationProvider>();
+            EnsureLargeSettingsFolderCreated();
             base.InitializeFirstChance();
         }
-
+        
         /// <summary>
         /// Creates the omegaGo view presenter
         /// </summary>
@@ -74,6 +79,15 @@ namespace OmegaGo.UI.WindowsUniversal
         {
             appShell.InitVisuals();
             return new AppShellViewPresenter(appShell);
+        }
+
+        /// <summary>
+        /// Ensures that the Settings folder, used by SettingsService is created.
+        /// </summary>
+        private void EnsureLargeSettingsFolderCreated()
+        {
+            var appDataFileService = Mvx.Resolve<IAppDataFileService>();
+            Task.Run(() => SettingsService.EnsureSettingsFolderCreated()).Wait();
         }
     }
 }

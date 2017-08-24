@@ -20,7 +20,10 @@ namespace OmegaGo.UI.Services.Settings
             {
                 if (_solvedTsumegosCache == null)
                 {
-                    _solvedTsumegosCache = GetComplexSetting(nameof(this.SolvedProblems),
+                    //_solvedTsumegosCache = GetComplexSetting(nameof(this.SolvedProblems),
+                    //    () => new HashSet<string>());
+
+                    _solvedTsumegosCache = GetLargeSetting(nameof(this.SolvedProblems),
                         () => new HashSet<string>());
                 }
                 return _solvedTsumegosCache;
@@ -32,7 +35,10 @@ namespace OmegaGo.UI.Services.Settings
                 {
                     list.Add(s);
                 }
-                SetComplexSetting(nameof(this.SolvedProblems), list);
+
+                //SetComplexSetting(nameof(this.SolvedProblems), list);
+                SetLargeSetting(nameof(this.SolvedProblems), list);
+
                 _solvedTsumegosCache = list;
             }           
         }
