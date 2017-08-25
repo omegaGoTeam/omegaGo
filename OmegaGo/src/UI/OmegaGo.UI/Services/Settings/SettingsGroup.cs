@@ -39,7 +39,7 @@ namespace OmegaGo.UI.Services.Settings
         /// </summary>
         /// <param name="settingKey">Key of the setting</param>
         /// <returns>Grouped setting key</returns>
-        private string CreateGroupedSettingKey(string settingKey) => $"{_groupKey}_{settingKey}";
+        internal string CreateGroupedSettingKey(string settingKey) => $"{_groupKey}_{settingKey}";
 
         /// <summary>
         /// Retrieves a stored setting by key
@@ -84,5 +84,29 @@ namespace OmegaGo.UI.Services.Settings
         protected void SetComplexSetting<T>(string key, T value, SettingLocality locality = SettingLocality.Local)
             where T : new()
             => _service.SetComplexSetting(CreateGroupedSettingKey(key), value, locality);
+
+
+        /// <summary>
+        /// After setting retrieval from a file, the setting is deserialized from JSON
+        /// </summary>
+        /// <typeparam name="T">Type of the setting</typeparam>
+        /// <param name="key">Key</param>
+        /// <param name="defaultValueBuilder">Value</param>
+        /// <param name="locality">Locality</param>
+        /// <returns></returns>
+        protected T GetLargeSetting<T>(string key, Func<T> defaultValueBuilder,
+            SettingLocality locality = SettingLocality.Local) where T : new()
+            => _service.GetLargeSetting(CreateGroupedSettingKey(key), defaultValueBuilder, locality);
+
+        /// <summary>
+        /// Before storing the setting into a file, it is first serialized to JSON
+        /// </summary>
+        /// <typeparam name="T">Type of the setting</typeparam>
+        /// <param name="key">Key</param>
+        /// <param name="value">Value</param>
+        /// <param name="locality">Locality</param>
+        protected void SetLargeSetting<T>(string key, T value, SettingLocality locality = SettingLocality.Local)
+            where T : new()
+            => _service.SetLargeSetting(CreateGroupedSettingKey(key), value, locality);
     }
 }

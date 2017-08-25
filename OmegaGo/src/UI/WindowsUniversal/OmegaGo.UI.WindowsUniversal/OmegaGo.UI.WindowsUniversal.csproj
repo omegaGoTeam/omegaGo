@@ -129,6 +129,7 @@
     <Compile Include="Services\BoardControl\FpsCounter.cs" />
     <Compile Include="Services\BoardControl\RenderUtilities.cs" />
     <Compile Include="Services\Cheats\Cheats.cs" />
+    <Compile Include="Services\DataMigration\DataMigrationProvider.cs" />
     <Compile Include="Services\Dialogs\DialogService.cs" />
     <Compile Include="Services\Feedback\FeedbackService.cs" />
     <Compile Include="Services\Files\AppDataFileService.cs" />

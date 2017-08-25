@@ -97,6 +97,8 @@
     <Compile Include="Services\Audio\SfxId.cs" />
     <Compile Include="Services\Audio\AudioFilePack.cs" />
     <Compile Include="Services\Audio\Sounds.cs" />
+    <Compile Include="Services\DataMigration\DataMigrationService.cs" />
+    <Compile Include="Services\DataMigration\IDataMigrationProvider.cs" />
     <Compile Include="Services\GameTools\GameToolServices.cs" />
     <Compile Include="Services\Files\FileContentInfo.cs" />
     <Compile Include="Services\Files\FileInfo.cs" />

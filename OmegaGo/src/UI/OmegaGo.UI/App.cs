@@ -2,10 +2,12 @@ using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using MvvmCross.Platform.IoC;
 using OmegaGo.UI.Infrastructure.Bootstrap;
+using OmegaGo.UI.Services.DataMigration;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Tsumego;
+using System.Threading.Tasks;
 
 namespace OmegaGo.UI
 {
@@ -19,6 +21,7 @@ namespace OmegaGo.UI
                 .RegisterAsLazySingleton();
 
             RegisterServices();
+            MigrateData();
 
             Mvx.RegisterType<IAsyncAppStart, OmegaGoAppStart>();
         }
@@ -64,6 +67,15 @@ namespace OmegaGo.UI
         private void RegisterTsumego()
         {
             Mvx.LazyConstructAndRegisterSingleton<ITsumegoProblemsLoader, TsumegoProblemsLoader>();
+        }
+
+        /// <summary>
+        /// Migrates user data for new versions of the App.
+        /// </summary>
+        private void MigrateData()
+        {
+            DataMigrationService dataMigrationService = Mvx.IocConstruct<DataMigrationService>();
+            dataMigrationService.MigrateData();
         }
     }
 }
